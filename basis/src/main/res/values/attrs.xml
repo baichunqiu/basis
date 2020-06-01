@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TitleBar">
+        <attr name="title" format="string" />
+        <attr name="title_color" format="color" />
+        <attr name="title_size" format="dimension" />
+
+        <attr name="left_icon" format="reference|color" />
+        <attr name="right_icon" format="reference|color" />
+
+        <attr name="right_text" format="string" />
+        <attr name="right_size" format="dimension" />
+        <attr name="right_background" format="reference|color" />
+
+        <attr name="titlebar_height_percent" format="float" />
+        <attr name="titlebar_margin_percent" format="float" />
+    </declare-styleable>
+
+</resources>
