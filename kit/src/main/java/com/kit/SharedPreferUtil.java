@@ -2,10 +2,8 @@ package com.kit;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Environment;
 import android.text.TextUtils;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -65,7 +63,7 @@ public class SharedPreferUtil {
      * @param value value
      */
     public static void set(String key, String value) {
-        set(KitConstant.SP_FILE_NAME, key, value);
+        set(KConstant.SP_FILE_NAME, key, value);
     }
 
     /**
@@ -75,7 +73,7 @@ public class SharedPreferUtil {
      * @param value value
      */
     public static void set(String key, boolean value) {
-        set(KitConstant.SP_FILE_NAME, key, value);
+        set(KConstant.SP_FILE_NAME, key, value);
     }
 
     /**
@@ -148,7 +146,7 @@ public class SharedPreferUtil {
     }
 
     public static void set(String key, int value) {
-        set(KitConstant.SP_FILE_NAME, key, value);
+        set(KConstant.SP_FILE_NAME, key, value);
     }
 
     /**
@@ -165,7 +163,7 @@ public class SharedPreferUtil {
     }
 
     public static int get(String key, int defaultValue) {
-        return get(KitConstant.SP_FILE_NAME, key, defaultValue);
+        return get(KConstant.SP_FILE_NAME, key, defaultValue);
     }
 
     /**
@@ -175,7 +173,7 @@ public class SharedPreferUtil {
      * @return value
      */
     public static String get(String key) {
-        return get(KitConstant.SP_FILE_NAME, key, "");
+        return get(KConstant.SP_FILE_NAME, key, "");
     }
 
     /**
@@ -185,7 +183,7 @@ public class SharedPreferUtil {
      * @return value
      */
     public static boolean getBoolean(String key) {
-        return get(KitConstant.SP_FILE_NAME, key, false);
+        return get(KConstant.SP_FILE_NAME, key, false);
     }
 
     /**

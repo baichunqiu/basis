@@ -1,7 +1,7 @@
 package com.oklib.core;
 
-import android.util.Log;
-
+import com.business.OkHelper;
+import com.kit.Logger;
 import com.oklib.callback.CallBack;
 
 import org.jetbrains.annotations.Nullable;
@@ -26,6 +26,9 @@ public class ReQuest<T> implements CallBack<T, Object> {
     }
 
     public ReQuest request() {
+        if (OkHelper.debug()) {
+            logParams(url, method.name(), param);
+        }
         if (Method.post == method) {
             Core.core().post(url, param, this);
         } else if (Method.get == method) {
@@ -42,17 +45,17 @@ public class ReQuest<T> implements CallBack<T, Object> {
      * @param params
      */
     private static void logParams(String url, String method, Map<String, Object> params) {
-        Log.i(TAG, " : ------------- start --------------------");
-        Log.i(TAG, " : url = " + url + "  method = " + method);
+        Logger.e(TAG, " : ------------- start --------------------");
+        Logger.e(TAG, " : url = " + url + "  method = " + method);
         int size = null == params ? 0 : params.size();
         if (size > 0) {
             for (Map.Entry<String, Object> entry : params.entrySet()) {
-                Log.i(TAG, " : " + entry.getKey() + " = " + entry.getValue());
+                Logger.e(TAG, " : " + entry.getKey() + " = " + entry.getValue());
             }
         } else {
-            Log.i(TAG, " : 参数【无】");
+            Logger.e(TAG, " : 参数【无】");
         }
-        Log.i(TAG, " : -------------   end --------------------");
+        Logger.e(TAG, " : -------------   end --------------------");
     }
 
     @Override

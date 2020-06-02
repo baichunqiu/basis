@@ -29,7 +29,7 @@
             android:layout_marginTop="@dimen/dimens_20px"
             android:text="@string/pull_down_refresh"
             android:textColor="@color/color_blue"
-            android:textSize="@dimen/font_size_12sp" />
+            android:textSize="@dimen/font_12sp" />
 
         <TextView
             android:id="@+id/head_lastUpdatedTextView"
@@ -38,7 +38,7 @@
             android:layout_marginBottom="@dimen/dimens_20px"
             android:text="@string/last_update"
             android:textColor="@color/color_blue"
-            android:textSize="@dimen/font_size_12sp" />
+            android:textSize="@dimen/font_12sp" />
     </LinearLayout>
 
 

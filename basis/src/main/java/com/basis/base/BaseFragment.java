@@ -18,7 +18,7 @@ import com.bcq.net.enums.NetType;
  * @date: 2018/8/17
  * @Description: Fragment 的基类
  */
-public abstract class BaseFragment extends Fragment implements IBase, AppHelper.OnNetChangeListeren {
+public abstract class BaseFragment extends Fragment implements IBase{
     protected final String TAG = this.getClass().getSimpleName();
     protected BaseActivity mActivity;
     private View layout;
@@ -27,15 +27,14 @@ public abstract class BaseFragment extends Fragment implements IBase, AppHelper.
     public final void onAttach(Context context) {
         super.onAttach(context);
         mActivity = (BaseActivity) context;
-        AppHelper.getInstance().addOnNetChangeListeren(this);
+        AppHelper.getInstance().add(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        AppHelper.getInstance().removeOnNetChangeListeren(this);
+        AppHelper.getInstance().remove(this);
     }
-
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (null != layout) {

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--    <item android:state_pressed="true">-->
+    <!--        <shape>-->
+    <!--            &lt;!&ndash; 半径 &ndash;&gt;-->
+    <!--            <corners android:radius="2px" />-->
+    <!--            <solid android:color="#ebebeb" />-->
+    <!--            <stroke android:width="@dimen/dimens_2px" android:color="#178af4" />-->
+    <!--        </shape>-->
+    <!--    </item>-->
+    <item android:state_pressed="true">
+        <shape>
+            <corners android:radius="2px" />
+            <solid android:color="#33ebebeb" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/transparent" />
+        </shape>
+    </item>
+
+</selector>

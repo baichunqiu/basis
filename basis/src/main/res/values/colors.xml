@@ -2,4 +2,28 @@
 <resources>
     <color name="color_bg">#efeff4</color>
     <color name="color_blue">#178af4</color>
+    <color name="color_basis_bg">#efeff4</color>
+    <color name="color_white_bg">#F6F6F6</color>
+    <color name="color_divide">#dddddd</color>
+    <!-- 黑色字体层级-->
+    <color name="color_font_black0">#333333</color>
+    <color name="color_font_black1">#666666</color>
+    <color name="color_font_black2">#999999</color>
+    <color name="color_font_black3">#cccccc</color>
+
+    <!--额外标准色-->
+    <color name="transparent">#00ffffff</color>
+    <color name="yellow">#FFFF00</color> <!--黄色 -->
+    <color name="lightBlue">#87CEEB</color> <!--浅蓝色 -->
+    <color name="darkblue">#00008B</color> <!--深蓝色 -->
+    <color name="orange">#FFA500</color> <!--橙色 -->
+    <color name="olive">#808000</color> <!--橄榄色 -->
+    <color name="green">#008000</color> <!--绿色 -->
+    <color name="blue">#0000FF</color> <!--蓝色 -->
+    <color name="red">#ff0000</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="violet">#800080</color>
+    <color name="gray">#999999</color>
+    <color name="brown">#802A2A</color>
 </resources>

@@ -5,5 +5,6 @@
     <!--有数据显示的所有控件根布局id -->
     <item name="bsi_v_show_data" type="id" />
     <item name="bsi_v_no_data" type="id" />
-    <!--<item name="bsi_v_load_fail" type="id" />-->
+    <!--titleBar-->
+    <item name="bsi_v_titleBar" type="id" />
 </resources>

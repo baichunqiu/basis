@@ -23,9 +23,11 @@ import java.util.Map;
 public abstract class Controller<T> implements IPage {
     public final static String TAG = "Controller";
     private Class<T> tClass;
-    private ReQuest<List<T>> request;
+    private ReQuest<List<T>> reQuest;
     protected int currentPage = PAGE_FIRST;//当前页的索引
-
+    //由于使用request.request() 此处在回调callback不能配置死，由控制器动态维护
+    //和最后一次请求绑定
+    protected boolean refresh = false;//是否刷新标识
     public Controller(Class<T> clazz) {
         this.tClass = clazz;
     }
@@ -36,22 +38,14 @@ public abstract class Controller<T> implements IPage {
      * @param refresh
      */
     protected void requestAgain(boolean refresh) {
-        if (null != request) {
-            Map<String, Object> params = request.param();
+        if (null != reQuest) {
+            Map<String, Object> params = reQuest.param();
             if (null != params && params.containsKey(KEY_PAGE_INDEX)) {
                 currentPage = refresh ? PAGE_FIRST : Integer.valueOf(params.get(KEY_PAGE_INDEX).toString()) + 1;
                 params.put(KEY_PAGE_INDEX, currentPage + "");
             }
-            request = request.request();
+            reQuest = reQuest.request();
         }
-    }
-
-    public void postArr(String url, Map<String, Object> params, LoadTag loadBar) {
-        request(true, url, params, null, loadBar, Method.post, null, null);
-    }
-
-    public void getArr(String url, Map<String, Object> params, LoadTag loadBar) {
-        request(true, url, params, null, loadBar, Method.get, null, null);
     }
 
     /**
@@ -72,7 +66,7 @@ public abstract class Controller<T> implements IPage {
                                  Method method,
                                  final IOperate operator,
                                  IRefreshView refreshView) {
-        Logger.e(TAG, "request");
+        this.refresh = isRefresh;
         if (null != operator) {//operator 不为空 需要分页处理
             if (isRefresh) currentPage = PAGE_FIRST;
             if (null == params) params = new HashMap<>(2);
@@ -101,7 +95,8 @@ public abstract class Controller<T> implements IPage {
             @Override
             public void onAfter(int status, String msg) {
                 super.onAfter(status, msg);
-                onRefreshData(tempData, isRefresh);
+                //注意此处没有使用isRefresh 而是使用 控制器维护的最后一次状态
+                onRefreshData(tempData, refresh);
                 if (null == tempData && null != operator) operator.onError(status, msg);
             }
 
@@ -110,7 +105,7 @@ public abstract class Controller<T> implements IPage {
                 return tClass;
             }
         };
-        request = NetApi.request(dialog, url, params, parser, method, baseListCallback);
+        reQuest = NetApi.request(dialog, url, params, parser, method, baseListCallback);
     }
 
 

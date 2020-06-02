@@ -1,58 +1,89 @@
 package com.qunli.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
 
-import android.os.Bundle;
-import android.util.Log;
-
+import com.basis.adapter.BsiAdapter;
+import com.basis.adapter.SampleAdapter;
+import com.basis.adapter.ViewHolder;
+import com.basis.base.AbsListActivity;
+import com.bcq.net.NetApi;
+import com.bcq.net.callback.base.BaseListCallback;
+import com.bcq.net.view.LoadTag;
+import com.business.OkHelper;
+import com.kit.KToast;
 import com.kit.Logger;
-import com.oklib.OkApi;
-import com.oklib.callback.StringCallBack;
+import com.oklib.core.Method;
 
-import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import okhttp3.Request;
+public class MainActivity extends AbsListActivity<WorkDetails> {
+    private String TAG = "MainActivity";
+    private final static String HOST = "https://api.workvideo.qunlivideo.com";
+    private final static String WORKS = HOST + "/api/w/project/list";
+    private final static String LOGIN = HOST + "/api/w/app/login";
+    private String HIS_WORKS = HOST + "/api/w/task/list";
+    private BsiAdapter adapter;
 
-public class MainActivity extends AppCompatActivity {
-    private String TAG = "TestActivity";
-    private String MEET_ID = "7554318394910745345";//1-5号
-    String url = "http://mindoc.qunlivideo.com/uploads/201906/flutter/attach_15a8ee63790b1e01.png";
-    private int count = 1;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getMeetDetails(MEET_ID,"test001");
+    public View setContentView() {
+        return LayoutInflater.from(mActivity).inflate(R.layout.activity_main, null);
     }
 
-    private void getMeetDetails(String meetId, String userid) {
-        final String uri = "/v1/meetings/" + meetId + "?userid=" + userid + "&instanceid=3";
-        String url = Signaturer.HOST + uri;
-        final String timestamp = String.valueOf(new Date().getTime() / 1000);
-        final String nonce = String.valueOf(count++);
-        final String signature = Signaturer.signForGet(nonce, timestamp, uri);
-        Log.e(TAG, "timestamp = " + timestamp);
-        Log.e(TAG, "uri = " + uri);
-        Log.e(TAG, "signature = " + signature);
-        OkApi.get(url, null, new StringCallBack() {
+
+    @Override
+    public void initView(View view) {
+        setTitle("测试");
+        login("zhixingyuan", "12345678");
+    }
+
+    private void login(String username, String pswd) {
+        Map<String, Object> params = new HashMap<>(2);
+        params.put("username", username);
+        params.put("password", pswd);
+        final LoadTag tag = new LoadTag(mActivity, "登录...");
+        NetApi.request(tag, LOGIN, params, null, Method.post, new BaseListCallback<TokenBean>() {
+
             @Override
-            public void onBefore(Request.Builder request) {
-                request.addHeader("X-TC-Signature", signature);
-                request.addHeader("X-TC-Nonce", nonce);
-                request.addHeader("AppId", Signaturer.APP_ID);
-                request.addHeader("X-TC-Key", Signaturer.SECRET_ID);
-                request.addHeader("X-TC-Timestamp", timestamp);
+            public void onSuccess(List<TokenBean> tokenBeans, Boolean loadFull) {
+                super.onSuccess(tokenBeans, loadFull);
+                //登录成功 获取信息
+                int len = null == tokenBeans ? 0 : tokenBeans.size();
+                if (1 == len) {
+                    KToast.show("登录成功！");
+                    Map<String, Object> params = new HashMap<>(2);
+                    params.put("include", "parent_project,video,story");//parent_project作业   story操作记录   video视频   creater创建人 room房间
+                    params.put("status", "stop");//搜索字段
+                    getNetData(true, HIS_WORKS, params, "正在加载联系人", Method.get);
+                }
             }
 
             @Override
-            public void onResponse(String result) {
-                Logger.e("TestActivity", "result = " + result);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                Logger.e("TestActivity", "error = " + e.getMessage());
+            public void onError(int code, String message) {
+                super.onError(code, message);
+                KToast.show("登录失败：" + message);
             }
         });
+    }
+
+    @Override
+    public BsiAdapter<WorkDetails> setAdapter() {
+        if (null == adapter) {
+            adapter = new SampleAdapter<WorkDetails>(mActivity, R.layout.item_history_task) {
+//            adapter = new SampleAdapter<WorkDetails>(mActivity, R.layout.item_task) {
+                @Override
+                protected void convert(final ViewHolder viewHolder, final WorkDetails item, final int position) {
+//                    viewHolder.setText(R.id.tv_task, item.getParent_project().getName());
+                    viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                        }
+                    });
+                }
+            };
+        }
+        return adapter;
     }
 }

@@ -6,12 +6,8 @@ import com.oklib.callback.CallBack;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 import okhttp3.Call;
-import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -31,7 +27,7 @@ public class Core {
 
     private OkHttpClient client() {
         if (null == mClient) {
-            mClient = null == mBuilder ? new OkHttpClient() : mBuilder.build();
+             mClient = null == mBuilder ? new OkHttpClient() : mBuilder.build();
         }
         return mClient;
     }
@@ -70,14 +66,6 @@ public class Core {
      * @param callBack 回调
      */
     protected <T> void post(String url, RequestBody body, CallBack<T, Object> callBack) {
-        try {
-            long len = body.contentLength();
-            String b = body.toString();
-            Log.e("core", "post:len = " + len);
-            Log.e("core", "post:b = " + b);
-        } catch (Exception e) {
-        }
-
         Request.Builder builder = new Request.Builder()
                 .url(url)
                 .post(body);

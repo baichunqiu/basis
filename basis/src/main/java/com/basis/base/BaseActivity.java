@@ -1,6 +1,7 @@
 package com.basis.base;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,7 +24,7 @@ public abstract class BaseActivity extends FragmentActivity implements IBase {
     private View layout;
 
     protected boolean setFullScreen() {
-        return false;
+        return true;
     }
 
     @Override
@@ -61,5 +62,18 @@ public abstract class BaseActivity extends FragmentActivity implements IBase {
 
     @Override
     public void onNetChange(NetType netType) {
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        onBackCode();
+    }
+
+    /**
+     * 统一处理activity 返回事件
+     */
+    public void onBackCode() {
+        finish();
     }
 }

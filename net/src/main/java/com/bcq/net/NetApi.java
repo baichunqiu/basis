@@ -112,7 +112,7 @@ public class NetApi {
      */
     public static <T> boolean checkOK(String url) {
         if (TextUtils.isEmpty(url)) {
-            Logger.e(TAG, "you net request url is null ，please check it！");
+            Logger.e(TAG, "you net request url is null ，please check it ");
             return false;
         }
         return isNetworkConnected();

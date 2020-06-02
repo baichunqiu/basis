@@ -16,4 +16,100 @@
         <item name="android:maxHeight">25dp</item>
     </style>
 
+    <!--  ****************  自定义 文字相关style  **************** -->
+    <style name="main_white">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="main_black0">
+        <item name="android:textColor">@color/color_font_black0</item>
+    </style>
+
+    <style name="main_black1">
+        <item name="android:textColor">@color/color_font_black1</item>
+    </style>
+
+    <style name="main_black2">
+        <item name="android:textColor">@color/color_font_black2</item>
+    </style>
+
+    <style name="main_blue">
+        <item name="android:textColor">@color/color_blue</item>
+    </style>
+
+    <!--white 白色字体 style-->
+    <style name="main_text_white_18" parent="main_white">
+        <item name="android:textSize">@dimen/font_18sp</item>
+    </style>
+
+    <style name="main_text_white_17" parent="main_white">
+        <item name="android:textSize">@dimen/font_17sp</item>
+    </style>
+
+    <style name="main_text_white_16" parent="main_white">
+        <item name="android:textSize">@dimen/font_16sp</item>
+    </style>
+
+    <style name="main_text_white_15" parent="main_white">
+        <item name="android:textSize">@dimen/font_15sp</item>
+    </style>
+
+    <style name="main_text_white_14" parent="main_white">
+        <item name="android:textSize">@dimen/font_14sp</item>
+    </style>
+
+    <style name="main_text_white_13" parent="main_white">
+        <item name="android:textSize">@dimen/font_13sp</item>
+    </style>
+
+    <style name="main_text_white_12" parent="main_white">
+        <item name="android:textSize">@dimen/font_12sp</item>
+    </style>
+
+    <!--black 黑色字体 style-->
+    <style name="main_text_black_16" parent="main_black0">
+        <item name="android:textSize">@dimen/font_16sp</item>
+    </style>
+
+    <style name="main_text_black_15" parent="main_black0">
+        <item name="android:textSize">@dimen/font_15sp</item>
+    </style>
+
+    <style name="main_text_black_14" parent="main_black0">
+        <item name="android:textSize">@dimen/font_14sp</item>
+    </style>
+
+    <style name="main_text_black_13" parent="main_black0">
+        <item name="android:textSize">@dimen/font_13sp</item>
+    </style>
+
+    <!--gray 灰色字体 style-->
+    <style name="main_text_gray_16" parent="main_black2">
+        <item name="android:textSize">@dimen/font_16sp</item>
+    </style>
+
+    <style name="main_text_gray_14" parent="main_black2">
+        <item name="android:textSize">@dimen/font_14sp</item>
+    </style>
+
+    <style name="main_text_gray_12" parent="main_black2">
+        <item name="android:textSize">@dimen/font_12sp</item>
+    </style>
+
+    <!--blue_green 蓝绿色字体 style-->
+    <style name="main_text_blue_14" parent="main_blue">
+        <item name="android:textSize">@dimen/font_14sp</item>
+    </style>
+
+    <!--分割线的style -->
+    <style name="main_divide_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/color_divide</item>
+        <item name="android:layout_height">@dimen/main_divide</item>
+    </style>
+
+    <style name="main_divide_line_30px" parent="@style/main_divide_line">
+        <item name="android:layout_marginLeft">@dimen/dimens_30px</item>
+        <item name="android:layout_marginRight">@dimen/dimens_30px</item>
+    </style>
 </resources>

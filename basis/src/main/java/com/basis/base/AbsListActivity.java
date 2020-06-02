@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.basis.R;
+import com.basis.widget.TitleBar;
 import com.bcq.net.view.LoadTag;
 import com.business.parse.Parser;
 import com.kit.Logger;
@@ -26,6 +27,7 @@ public abstract class AbsListActivity<T> extends BaseActivity implements UIContr
     private Class<T> tClass;
     private UIController<T> mController;
     private View contentView;
+    private TitleBar titleBar;
 
     @Override
     public int setLayoutId() {
@@ -41,6 +43,7 @@ public abstract class AbsListActivity<T> extends BaseActivity implements UIContr
     }
 
     private void resetLayoutView() {
+        initTitleBar();
         FrameLayout ll_content = getView(R.id.ll_content);
         contentView = setContentView();
         ll_content.addView(contentView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
@@ -48,6 +51,25 @@ public abstract class AbsListActivity<T> extends BaseActivity implements UIContr
         View show_data = UIKit.getView(contentView, R.id.bsi_v_show_data);
         ViewGroup extraParent = null != show_data ? (ViewGroup) show_data.getParent() : ll_content;
         extraParent.addView(UIKit.inflate(R.layout.no_data), FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+    }
+
+    private void initTitleBar() {
+        titleBar = getView(R.id.bsi_v_titleBar);
+        if (titleBar == null) {
+            Logger.e(TAG, "init title_bar error for titleBar is null, " +
+                    "are you set id of the view is 'bsi_v_show_data' !");
+            return;
+        }
+        titleBar.setOnLeftListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackCode();
+            }
+        });
+    }
+
+    public void setTitle(String title) {
+        if (null != titleBar) titleBar.setTitle(title, R.color.white);
     }
 
     public void getNetData(boolean isRefresh, String mUrl, Map<String, Object> params, String mDialogMsg, Method method) {

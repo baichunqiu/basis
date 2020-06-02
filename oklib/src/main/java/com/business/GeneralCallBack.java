@@ -1,7 +1,6 @@
 package com.business;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.business.parse.Parser;
 import com.kit.Logger;
@@ -11,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Request;
 import okhttp3.Response;
 
 /**
@@ -60,6 +60,7 @@ public abstract class GeneralCallBack<R, E> extends BaseCallBack<R> {
                     if (!value.startsWith("Bearer")) {
                         value = "Bearer " + value;
                     }
+                    OkHelper.setToken(value);
                 }
                 //有值才存储 避免因某次数据识别导致token没有
                 cacheHeaders.put(key, value);
@@ -68,9 +69,12 @@ public abstract class GeneralCallBack<R, E> extends BaseCallBack<R> {
         }
     }
 
-    @Override
-    public void onBefore(okhttp3.Request.Builder builder) {
-        if (null != tTag) tTag.show();
+    /**
+     * 在请求前统一添加公共header
+     *
+     * @param builder
+     */
+    private void addHeader(Request.Builder builder) {
         String[] headerKeys = parser.headers();
         for (String key : headerKeys) {
             String value = cacheHeaders.get(key);
@@ -80,15 +84,20 @@ public abstract class GeneralCallBack<R, E> extends BaseCallBack<R> {
             }
             if (!TextUtils.isEmpty(value)) {
                 builder.addHeader(key, value);
-                Logger.e(TAG, "addHeader: key@ " + key + ": value@ " + value);
-            } else {
-                Logger.e(TAG, "no addHeader: key@ " + key + " null");
+                Logger.e(TAG, "addHeader  key：" + key + " value:" + value);
             }
         }
     }
 
     @Override
+    public void onBefore(Request.Builder builder) {
+        if (null != tTag) tTag.show();
+        addHeader(builder);
+    }
+
+    @Override
     public R onParse(Response response) throws Exception {
+        cacheHeader(response);
         String res = response.body().string();
         DataInfo dataInfo = null;
         Logger.e(TAG, "res = " + res);
@@ -99,7 +108,7 @@ public abstract class GeneralCallBack<R, E> extends BaseCallBack<R> {
                     message = dataInfo.getMessage();
                     code = dataInfo.getCode();
                     extra = parseExtra(dataInfo);
-                    Logger.e(TAG, "code = " + code);
+                    //Logger.e(TAG, "code = " + code);
                     if (!parser.success(code)) {//错误
                         if (null != reQuest) OkHelper.getProcessor().process(code, reQuest);
                     }
@@ -124,11 +133,10 @@ public abstract class GeneralCallBack<R, E> extends BaseCallBack<R> {
                 }
             }
         }
-        Logger.e(TAG, "success = " + success);
+        Logger.e(TAG, "success = " + success + "  nodata = " + nodata);
         if (success) {
             iBusiCallback.onSuccess(result, extra);
         } else {
-            Logger.e(TAG, "nodata = " + nodata);
             //error 有两种情况:1.nodata 2.error
             if (nodata) {
                 iBusiCallback.onError(code, _noData_error);

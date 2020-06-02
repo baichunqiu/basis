@@ -41,14 +41,13 @@ public class GeneralListCallback<R> extends GeneralCallBack<List<R>, Boolean> {
         }
         IListCallback<R> iListCallback = (IListCallback<R>) iCallback;
         if (!TextUtils.isEmpty(netInfo.getBody())) {
-            Logger.e(TAG, "body = " + netInfo.getBody());
             List<R> resultData = GsonUtil.json2List(netInfo.getBody(), iListCallback.setType());
             //预处理数据
             resultData = iListCallback.onPreprocess(resultData);
-            Logger.e(TAG, "parseResult : " + resultData.size());
+            Logger.e(TAG, "parseResult len = " + resultData.size());
             return resultData;
         } else {//请求成功，但没有数据
-            Logger.e(TAG, "parseResult : 0");
+            Logger.e(TAG, "parseResult len = 0");
             return new ArrayList<>();
         }
     }

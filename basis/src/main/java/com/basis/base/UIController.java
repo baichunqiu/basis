@@ -80,7 +80,6 @@ public class UIController<T> extends Controller<T> {
      */
     @Override
     public void onRefreshData(List<T> netData, boolean isRefresh) {
-        Logger.e(TAG, "onRefreshData");
         //设置适配器前  数据处理
         List preData = operator.onPreRefreshData(netData, isRefresh);
         if (isRefresh) {
@@ -91,7 +90,6 @@ public class UIController<T> extends Controller<T> {
         }
         if (!adapterList.isEmpty()) {
             showViewType(ShowType.Data);
-            Logger.e(TAG, "onPreSetData");
             mAdapter.setData(operator.onPreSetData(adapterList));
         } else {
             showViewType(ShowType.None);
@@ -124,5 +122,11 @@ public class UIController<T> extends Controller<T> {
         List<T> onPreSetData(List<T> netData);
 
         BsiAdapter<T> setAdapter();
+
+        @Override
+        List<T> onPreprocess(List<T> rawData);
+
+        @Override
+        void onError(int status, String errMsg);
     }
 }

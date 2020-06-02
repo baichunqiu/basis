@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bcq.net.R;
 import com.business.ILoadTag;
+import com.net.R;
 import com.spinkit.SpinKitView;
 
 
@@ -35,9 +35,10 @@ public class LoadTag implements ILoadTag {
         progressBar.setStyleByIndex(styleIndex);
         TextView textView = (TextView) rootView.findViewById(R.id.tv_load_msg);
         if (TextUtils.isEmpty(dialogMsg)) {
-            this.loadMsg = activity.getString(R.string.net_loading);
+            dialogMsg = activity.getString(R.string.net_loading);
         }
-        textView.setText(this.loadMsg);
+        this.loadMsg = dialogMsg;
+        textView.setText(loadMsg);
         // 允许点返回键取消
         dialog.setCancelable(true);
         // 触碰其他地方不消失

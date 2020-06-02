@@ -6,16 +6,16 @@ import java.io.File;
 
 /**
  * @author: BaiCQ
- * @ClassName: KitConstant
+ * @ClassName: KConstant
  * @date: 2018/8/17
- * @Description: KitConstant 公共常量
+ * @Description: KConstant 公共常量
  */
-public class KitConstant {
+public class KConstant {
     /*****************存储路径 path*****************/
     //SD卡根目录[/storage/sdcard0]
-    public final static String SD_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+    protected final static String SD_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
     //应用缓存目录[/data/data/应用包名/cache]
-    public final static String CACHE_PATH = UIKit.getContext().getCacheDir().getAbsolutePath() + File.separator;
+    protected final static String CACHE_PATH = UIKit.getContext().getCacheDir().getAbsolutePath() + File.separator;
 
     //应用根目录名称 sd/0/kit
     protected static String SD_ROOT_NAME = "kit";
