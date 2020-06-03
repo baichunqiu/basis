@@ -17,8 +17,10 @@ import android.widget.TextView;
 
 import com.basis.R;
 import com.bcq.net.callback.base.IRefreshView;
+import com.kit.Logger;
 import com.spinkit.SpinKitView;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,7 +31,8 @@ import java.util.Date;
  * @className: PullToRefreshListView
  * @Description: 上拉刷新下拉加载更多
  */
-public class PullToRefreshListView extends ListView implements OnScrollListener,IRefreshView{
+public class PullToRefreshListView extends ListView implements OnScrollListener, IRefreshView {
+    private final static long TIME_OUT = 5 * 1000;//动画超时时间
     private final static int styleIndex = 2;//动画样式
     private final static int RELEASE_To_REFRESH = 0;//松开立即刷新
     public final static int PULL_To_REFRESH = 1;//下拉刷新
@@ -96,6 +99,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener,
         isRefreshable = false;
         progressBar.setStyleByIndex(styleIndex);
         loading.setStyleByIndex(styleIndex);
+        autoComplete = new CompleteTask(this);
     }
 
     public void onScroll(AbsListView arg0, int firstVisiableItem, int arg2, int arg3) {
@@ -240,6 +244,8 @@ public class PullToRefreshListView extends ListView implements OnScrollListener,
         state = DONE;
         lastUpdatedTextView.setText(getResources().getString(R.string.last_update) + ":" + formatDate2String(new Date()));
         changeHeaderViewByState();
+        //remove task
+        getHandler().removeCallbacks(autoComplete);
     }
 
     private void showFooter() {
@@ -248,9 +254,30 @@ public class PullToRefreshListView extends ListView implements OnScrollListener,
         more.setVisibility(View.VISIBLE);
     }
 
+
+    public static class CompleteTask implements Runnable {
+        private WeakReference<IRefreshView> reference;
+
+        protected CompleteTask(IRefreshView refreshView) {
+            reference = new WeakReference<>(refreshView);
+        }
+
+        @Override
+        public void run() {
+            IRefreshView refreshView = reference.get();
+            if (null != refreshView) {
+                Logger.e("refresh time_out !");
+                refreshView.onRefreshComplete();
+            }
+        }
+    }
+
+    private CompleteTask autoComplete;
+
     private void onRefresh() {
         if (refreshListener != null) {
             refreshListener.onRefresh();
+            postDelayed(autoComplete, TIME_OUT);
             if (removeFirst) {//已移除 添加
                 addFooterView(footer);
                 removeFirst = false;
@@ -261,18 +288,15 @@ public class PullToRefreshListView extends ListView implements OnScrollListener,
     private void measureView(View child) {
         ViewGroup.LayoutParams p = child.getLayoutParams();
         if (p == null) {
-            p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
         int childWidthSpec = ViewGroup.getChildMeasureSpec(0, 0 + 0, p.width);
         int lpHeight = p.height;
         int childHeightSpec;
         if (lpHeight > 0) {
-            childHeightSpec = MeasureSpec.makeMeasureSpec(lpHeight,
-                    MeasureSpec.EXACTLY);
+            childHeightSpec = MeasureSpec.makeMeasureSpec(lpHeight, MeasureSpec.EXACTLY);
         } else {
-            childHeightSpec = MeasureSpec.makeMeasureSpec(0,
-                    MeasureSpec.UNSPECIFIED);
+            childHeightSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
         }
         child.measure(childWidthSpec, childHeightSpec);
     }

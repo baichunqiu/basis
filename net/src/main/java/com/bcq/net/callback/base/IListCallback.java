@@ -13,7 +13,6 @@ public interface IListCallback<R> extends IBusiCallback<List<R>, Boolean> {
 
     /**
      * 数据预处理
-     *
      * @param rawData
      * @return
      */
@@ -21,6 +20,12 @@ public interface IListCallback<R> extends IBusiCallback<List<R>, Boolean> {
 
     @Override
     void onSuccess(List<R> rs, Boolean loadFull);
+
+    @Override
+    void onError(int code, String errMsg);
+
+    @Override
+    void onAfter(int code, String msg);
 
     Class<R> setType();
 }

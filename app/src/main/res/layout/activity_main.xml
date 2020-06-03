@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.basis.widget.PullToRefreshListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/bsi_lv_base"
+<com.basis.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:cacheColorHint="@android:color/transparent"
-    android:divider="@null"
-    android:dividerHeight="0dp"
-    android:fadingEdge="none"
-    android:listSelector="@android:color/transparent"
-    android:scrollbars="none" />
+    android:orientation="vertical">
+
+    <com.basis.widget.SearchLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_basis_bg"/>
+
+    <com.basis.widget.PullToRefreshListView
+        android:id="@+id/bsi_lv_base"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"
+        android:listSelector="@android:color/transparent"
+        android:scrollbars="none" />
+</com.basis.percent.PercentLinearLayout>

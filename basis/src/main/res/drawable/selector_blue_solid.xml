@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true">
+        <shape>
+            <corners android:radius="@dimen/main_corner" />
+            <solid android:color="#178af4" />
+        </shape>
+    </item>
+    <item android:state_enabled="true">
+        <shape>
+            <corners android:radius="@dimen/main_corner" />
+            <solid android:color="#d2178af4" />
+        </shape>
+    </item>
+    <item android:state_enabled="false">
+        <shape>
+            <corners android:radius="@dimen/main_corner" />
+            <solid android:color="#99178af4" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <!-- 半径 -->
+            <corners android:radius="@dimen/main_corner" />
+            <!-- 填充的颜色 -->
+            <solid android:color="#d2178af4" />
+        </shape>
+    </item>
+
+</selector>

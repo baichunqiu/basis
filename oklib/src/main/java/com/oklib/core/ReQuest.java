@@ -25,7 +25,7 @@ public class ReQuest<T> implements CallBack<T, Object> {
         return param;
     }
 
-    public ReQuest request() {
+    public ReQuest<T> request() {
         if (OkHelper.debug()) {
             logParams(url, method.name(), param);
         }
@@ -75,7 +75,7 @@ public class ReQuest<T> implements CallBack<T, Object> {
 
     @Override
     public T onParse(Response response, @Nullable Object extra) throws Exception {
-        //注意：此处extra未null
+        //注意：此处extra为null
         return null != callBack ? callBack.onParse(response, this) : null;
     }
 

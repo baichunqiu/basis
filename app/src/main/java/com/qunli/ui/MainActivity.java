@@ -7,12 +7,11 @@ import com.basis.adapter.BsiAdapter;
 import com.basis.adapter.SampleAdapter;
 import com.basis.adapter.ViewHolder;
 import com.basis.base.AbsListActivity;
+import com.basis.widget.WXDialog;
 import com.bcq.net.NetApi;
 import com.bcq.net.callback.base.BaseListCallback;
 import com.bcq.net.view.LoadTag;
-import com.business.OkHelper;
 import com.kit.KToast;
-import com.kit.Logger;
 import com.oklib.core.Method;
 
 import java.util.HashMap;
@@ -37,6 +36,12 @@ public class MainActivity extends AbsListActivity<WorkDetails> {
     public void initView(View view) {
         setTitle("测试");
         login("zhixingyuan", "12345678");
+        WXDialog.showDefaultDialog(mActivity, "什么情况?", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                KToast.show("确定");
+            }
+        });
     }
 
     private void login(String username, String pswd) {

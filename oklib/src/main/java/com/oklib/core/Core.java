@@ -1,7 +1,5 @@
 package com.oklib.core;
 
-import android.util.Log;
-
 import com.oklib.callback.CallBack;
 
 import java.io.IOException;
@@ -70,7 +68,6 @@ public class Core {
                 .url(url)
                 .post(body);
         callBack.onBefore(builder);
-        builder.addHeader("content-type", "application/json");
         request(builder.build(), callBack);
     }
 
@@ -81,12 +78,6 @@ public class Core {
      * @param callback 回调
      */
     private final <T> void request(Request request, final CallBack<T, Object> callback) {
-//        if (request != null) {
-//            Headers headers = request.headers();
-//            for (String name : headers.names()) {
-//                Log.e("request", "name = " + name + " value = " + headers.get(name));
-//            }
-//        }
         client().newCall(request).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {

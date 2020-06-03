@@ -32,4 +32,6 @@
 
     <!--分割线的高/宽-->
     <dimen name="main_divide">0.3dp</dimen>
+    <!--shape or corner -->
+    <dimen name="main_corner">8px</dimen>
 </resources>
