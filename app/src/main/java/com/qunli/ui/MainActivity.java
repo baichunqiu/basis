@@ -1,5 +1,6 @@
 package com.qunli.ui;
 
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -11,9 +12,14 @@ import com.basis.widget.WXDialog;
 import com.bcq.net.NetApi;
 import com.bcq.net.callback.base.BaseListCallback;
 import com.bcq.net.view.LoadTag;
+import com.kit.DateUtil;
+import com.kit.DateUtil.TimeFt;
+import com.kit.DateUtil.DateFt;
 import com.kit.KToast;
+import com.kit.Logger;
 import com.oklib.core.Method;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,13 +41,25 @@ public class MainActivity extends AbsListActivity<WorkDetails> {
     @Override
     public void initView(View view) {
         setTitle("测试");
-        login("zhixingyuan", "12345678");
-        WXDialog.showDefaultDialog(mActivity, "什么情况?", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                KToast.show("确定");
-            }
-        });
+//        login("zhixingyuan", "12345678");
+//        WXDialog.showDefaultDialog(mActivity, "什么情况?", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                KToast.show("确定");
+//            }
+//        });
+        Date date = new Date();
+        String dateStr = DateUtil.date2String(date, DateFt.yHMHdH, TimeFt.HCmCs);
+        Logger.e("date = " + dateStr);
+        Date d = DateUtil.string2Date(dateStr,DateFt.yHMHdH, TimeFt.HCmCs);
+        dateStr = DateUtil.date2String(d, DateFt.yLMLd, TimeFt.HHmHsH);
+        Logger.e("date = " + dateStr);
+
+        String dateStr1 = DateUtil.date2String(date,"yyyy-MM-dd HH:mm:ss:SS");
+        Logger.e("date1 = " + dateStr1);
+        Date d1 = DateUtil.string2Date(dateStr1,"yyyy-MM-dd HH:mm:ss:SS");
+        dateStr1 = DateUtil.date2String(d1, "yyyy-MM-dd HH:mm:ss:SS");
+        Logger.e("date1 = " + dateStr1);
     }
 
     private void login(String username, String pswd) {
@@ -77,7 +95,7 @@ public class MainActivity extends AbsListActivity<WorkDetails> {
     public BsiAdapter<WorkDetails> setAdapter() {
         if (null == adapter) {
             adapter = new SampleAdapter<WorkDetails>(mActivity, R.layout.item_history_task) {
-//            adapter = new SampleAdapter<WorkDetails>(mActivity, R.layout.item_task) {
+                //            adapter = new SampleAdapter<WorkDetails>(mActivity, R.layout.item_task) {
                 @Override
                 protected void convert(final ViewHolder viewHolder, final WorkDetails item, final int position) {
 //                    viewHolder.setText(R.id.tv_task, item.getParent_project().getName());
