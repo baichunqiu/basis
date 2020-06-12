@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.basis.R;
+import com.basis.base.AppHelper;
+import com.basis.base.BaseActivity;
 
 /**
  * @author: BaiCQ
@@ -48,6 +50,7 @@ public class TitleBar extends RelativeLayout {
     private float titleSize, rightSize;
     private ImageView leftIconView/*,rightIconView*/;
     private Drawable rightIcon, leftIcon;
+    private boolean leftHind = false;
     private Drawable rightBg;
     private String rightText;
     private int pressDrawable = -1;
@@ -94,6 +97,7 @@ public class TitleBar extends RelativeLayout {
         rightSize = ta.getDimension(R.styleable.TitleBar_right_size, 0);
         heightP = ta.getFloat(R.styleable.TitleBar_titlebar_height_percent, 0) / 100;
         marginP = ta.getFloat(R.styleable.TitleBar_titlebar_margin_percent, 0) / 100;
+        leftHind = ta.getBoolean(R.styleable.TitleBar_left_hind,false);
         leftIcon = ta.getDrawable(R.styleable.TitleBar_left_icon);
         rightIcon = ta.getDrawable(R.styleable.TitleBar_right_icon);
         rightText = ta.getString(R.styleable.TitleBar_right_text);
@@ -136,14 +140,26 @@ public class TitleBar extends RelativeLayout {
         //add right
         addView(ll_right, right_Param);
 
-        buildLeft(ll_left);
+        if (!leftHind)buildLeft(ll_left);
         buildRight();
         buildTitle();
 
         ll_left.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != onLeftClickListener) onLeftClickListener.onClick(v);
+                if (null != onLeftClickListener) {
+                    onLeftClickListener.onClick(v);
+                } else {
+                    //todo 默认获取top activity finish
+                    if (context instanceof BaseActivity) {
+                        ((BaseActivity) context).onBackCode();
+                    } else {
+                        BaseActivity top = AppHelper.getInstance().getTopActivity();
+                        if (null != top) {
+                            top.onBackCode();
+                        }
+                    }
+                }
             }
         });
 
@@ -154,6 +170,7 @@ public class TitleBar extends RelativeLayout {
             }
         });
         ll_right.setClickable(false);
+        ll_left.setClickable(!leftHind);
     }
 
     private void buildLeft(ViewGroup leftLayout) {
@@ -181,9 +198,9 @@ public class TitleBar extends RelativeLayout {
     /**
      * 根据右侧显示mode：text/icon 刷新右侧控件的LayoutParams
      */
-    private void refreshMode(){
+    private void refreshMode() {
         if (null != ll_right) {
-            LayoutParams lrp = (LayoutParams)ll_right.getLayoutParams();
+            LayoutParams lrp = (LayoutParams) ll_right.getLayoutParams();
             lrp.width = textMode ? rightWidth : height;
             ll_right.setLayoutParams(lrp);
             if (!textMode && pressDrawable > 0) {
@@ -192,8 +209,8 @@ public class TitleBar extends RelativeLayout {
                 ll_right.setBackground(null);
             }
         }
-        if (null != rightTextView){
-            LinearLayout.LayoutParams rtvp = (LinearLayout.LayoutParams)rightTextView.getLayoutParams();
+        if (null != rightTextView) {
+            LinearLayout.LayoutParams rtvp = (LinearLayout.LayoutParams) rightTextView.getLayoutParams();
             rtvp.width = textMode ? rightWidth * 11 / 16 : ViewGroup.LayoutParams.WRAP_CONTENT;
             rtvp.height = textMode ? height * 11 / 20 : ViewGroup.LayoutParams.WRAP_CONTENT;
             rightTextView.setLayoutParams(rtvp);
@@ -252,7 +269,7 @@ public class TitleBar extends RelativeLayout {
         if (null != rightTextView) {
             textMode = false;
             refreshMode();
-            if (rightIconId > 0)rightTextView.setBackgroundResource(rightIconId);
+            if (rightIconId > 0) rightTextView.setBackgroundResource(rightIconId);
         }
         return this;
     }

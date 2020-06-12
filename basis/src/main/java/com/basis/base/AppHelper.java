@@ -41,7 +41,7 @@ public class AppHelper {
 
     public void add(IBase iBase) {
         iBases.add(iBase);
-        Logger.e(TAG, "IBase size = " + iBases.size());
+        Logger.e(TAG, "add : size = " + iBases.size());
     }
 
     public void remove(IBase remove) {
@@ -53,6 +53,18 @@ public class AppHelper {
                 bdReceiver = null;
             }
         }
+        Logger.e(TAG, "remove : size = " + iBases.size());
+    }
+
+    public BaseActivity getTopActivity() {
+        int len = iBases.size();
+        for (int i = len - 1; i >= 0; i--) {
+            IBase base = iBases.get(i);
+            if (base instanceof Activity) {
+                return (BaseActivity) base;
+            }
+        }
+        return null;
     }
 
     public void exit() {

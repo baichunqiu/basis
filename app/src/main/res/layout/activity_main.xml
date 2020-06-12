@@ -2,22 +2,29 @@
 <com.basis.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.basis.widget.SearchLayout
+    <com.basis.widget.TitleBar
+        android:id="@+id/bsi_v_titleBar"
+        android:layout_width="match_parent"
+        app:title="UI"
+        app:left_hind="true"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/listActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_basis_bg"/>
+        android:layout_marginLeft="@dimen/dimens_60px"
+        android:layout_marginRight="@dimen/dimens_60px"
+        android:text="list activity" />
 
-    <com.basis.widget.PullToRefreshListView
-        android:id="@+id/bsi_lv_base"
+    <Button
+        android:id="@+id/widgetActivity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:fadingEdge="none"
-        android:listSelector="@android:color/transparent"
-        android:scrollbars="none" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimens_60px"
+        android:layout_marginRight="@dimen/dimens_60px"
+        android:text="widget activity" />
 </com.basis.percent.PercentLinearLayout>
