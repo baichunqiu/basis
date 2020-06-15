@@ -38,7 +38,7 @@
                 android:layout_height="match_parent"
                 android:gravity="left|top"
                 android:minLines="2"
-                android:text="什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况什么情况"
+                android:text="什么情况"
                 android:visibility="visible" />
         </com.basis.percent.PercentLinearLayout>
     </com.basis.percent.PercentLinearLayout>

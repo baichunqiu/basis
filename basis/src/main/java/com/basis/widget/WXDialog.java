@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
@@ -21,6 +22,7 @@ import com.basis.R;
 import com.basis.percent.PercentLinearLayout;
 import com.kit.ResUtil;
 import com.kit.ScreenUtil;
+import com.kit.UIKit;
 
 
 /**
@@ -274,20 +276,6 @@ public class WXDialog {
         return this;
     }
 
-    public enum Style {
-        sure,
-        cacel,
-        delete,
-        defalut
-    }
-
-//    public WXDialog style(Style style, boolean notitle) {
-//        if (style == Style.cacel) {
-//            cancelStyle()
-//        }
-//        return this;
-//    }
-
     public WXDialog defalutStyle(boolean title, View.OnClickListener sureClick) {
         return title ? setTitle(R.string.tip)
                 .setCancelButton(R.string.cancle)
@@ -348,6 +336,13 @@ public class WXDialog {
         new WXDialog(activity)
                 .setMessage(message)
                 .defalutStyle(true, sureClick)
+                .show();
+    }
+
+    public static void showCustomDialog(Activity activity, View custom,View.OnClickListener sureClick) {
+        new WXDialog(activity)
+                .defalutStyle(true, sureClick)
+                .addCustomContentView(custom)
                 .show();
     }
 }
