@@ -4,13 +4,15 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import androidx.appcompat.widget.AppCompatEditText;
 
 /**
  * 带键盘监听的search的编辑框
+ * 注意：此处不能extends AppCompatEditText，原因：会导致软件判弹起失败
  */
-public class SearchEditText extends AppCompatEditText {
+public class SearchEditText extends EditText {
 
     private Context context;
     private OnSearchListener mSearch;//实现搜索接口子类的实例对象
