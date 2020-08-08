@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import com.basis.R;
 import com.basis.base.AppHelper;
 import com.basis.base.BaseActivity;
+import com.kit.ScreenUtil;
+import com.kit.UIKit;
 
 /**
  * @author: BaiCQ
@@ -113,6 +116,7 @@ public class TitleBar extends RelativeLayout {
             if (null == getBackground() && null != defaultBuild.defBgDrawable) {
                 setBackground(defaultBuild.defBgDrawable);
             }
+            textMode = TextUtils.isEmpty(rightText);
             pressDrawable = defaultBuild.defPressDrawable;
         }
     }
@@ -175,8 +179,15 @@ public class TitleBar extends RelativeLayout {
 
     private void buildLeft(ViewGroup leftLayout) {
         leftIconView = new ImageView(context);
-        leftIconView.setBackground(leftIcon);
-        leftLayout.addView(leftIconView);
+        leftIconView.setImageDrawable(leftIcon);
+//        leftIconView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        int margin = height/4;
+        layoutParams.bottomMargin  = margin;
+        layoutParams.topMargin  = margin;
+        layoutParams.leftMargin  = margin;
+        layoutParams.rightMargin  = margin;
+        leftLayout.addView(leftIconView,layoutParams);
     }
 
     private void buildRight() {

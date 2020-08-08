@@ -43,9 +43,40 @@ public class WXDialog {
     private TextView tvMessage;
     //确认按钮
     private TextView confirmBtn, cancelBtn;
+    //消失回调
+    private DialogInterface.OnDismissListener dismissListener;
 
-    interface CustomBuilder {
+    public interface CustomBuilder {
         View onBuild();
+    }
+
+    /**
+     * 自定义布局构建
+     */
+    public WXDialog(Activity activity) {
+        this.context = activity;
+    }
+
+    /**
+     * 默认布局构建，微信风格
+     */
+    public WXDialog defaultBuilder() {
+        View content = LayoutInflater.from(context).inflate(R.layout.layout_wx_dialog, null);
+        buildByWXStyle(content);
+        initView();
+        return this;
+    }
+
+    /**
+     * 自定义布局构建
+     *
+     * @param builder
+     * @return
+     */
+    public WXDialog customBuilder(CustomBuilder builder) {
+        View content = null == builder ? null : builder.onBuild();
+        buildByWXStyle(content);
+        return this;
     }
 
     /**
@@ -61,7 +92,7 @@ public class WXDialog {
         dialog = new Dialog(context, R.style.CustomProgressDialog);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         dialog.addContentView(contentView, params);
-        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCanceledOnTouchOutside(true);
         dialog.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
         dialog.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK));
         Window window = dialog.getWindow();
@@ -72,31 +103,22 @@ public class WXDialog {
         wl.y = 0;
         wl.width = (int) (ScreenUtil.getScreemWidth() * 0.74);
         dialog.onWindowAttributesChanged(wl);
-    }
-
-    /**
-     * 自定义布局构建
-     *
-     * @param activity
-     * @param builder
-     */
-    public WXDialog(Activity activity, CustomBuilder builder) {
-        this.context = activity;
-        View content = null == builder ? null : builder.onBuild();
-        buildByWXStyle(content);
-    }
-
-
-    /**
-     * 默认布局构建
-     *
-     * @param activity
-     */
-    public WXDialog(final Activity activity) {
-        this.context = activity;
-        View contentView = LayoutInflater.from(context).inflate(R.layout.layout_wx_dialog, null);
-        buildByWXStyle(contentView);
-        initView();
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (null != dismissListener) dismissListener.onDismiss(dialog);
+            }
+        });
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (KeyEvent.KEYCODE_BACK == keyCode) {
+                    if (null != dismissListener) dismissListener.onDismiss(dialog);
+                }
+                //back 只是回调 不做额外处理
+                return false;
+            }
+        });
     }
 
     private void initView() {
@@ -125,10 +147,8 @@ public class WXDialog {
         }
     }
 
-    public WXDialog setOnDismissListener(DialogInterface.OnCancelListener dismissListener) {
-        if (null != dialog) {
-            dialog.setOnCancelListener(dismissListener);
-        }
+    public WXDialog setOnDismissListener(DialogInterface.OnDismissListener dismissListener) {
+        this.dismissListener = dismissListener;
         return this;
     }
 
@@ -309,6 +329,7 @@ public class WXDialog {
      */
     public static void showCancelDialog(Activity activity, String message) {
         new WXDialog(activity)
+                .defaultBuilder()
                 .setMessage(message)
                 .cancelStyle(true)
                 .show(true);
@@ -320,6 +341,7 @@ public class WXDialog {
      */
     public static void showSureDialog(Activity activity, String message, View.OnClickListener sureClick) {
         new WXDialog(activity)
+                .defaultBuilder()
                 .setMessage(message)
                 .sureStyle(true, sureClick)
                 .show();
@@ -327,6 +349,7 @@ public class WXDialog {
 
     public static void showDeleteDialog(Activity activity, String message, View.OnClickListener sureClick) {
         new WXDialog(activity)
+                .defaultBuilder()
                 .setMessage(message)
                 .deleteStyle(false, sureClick)
                 .show();
@@ -334,15 +357,49 @@ public class WXDialog {
 
     public static void showDefaultDialog(Activity activity, String message, View.OnClickListener sureClick) {
         new WXDialog(activity)
+                .defaultBuilder()
                 .setMessage(message)
                 .defalutStyle(true, sureClick)
                 .show();
     }
 
-    public static void showCustomDialog(Activity activity, View custom,View.OnClickListener sureClick) {
+    /**
+     * 默认微信风格，显示内容自定义的弹框
+     *
+     * @param activity
+     * @param custom
+     * @param sureClick
+     */
+    public static void showCustomViewDialog(Activity activity, View custom, View.OnClickListener sureClick) {
         new WXDialog(activity)
+                .defaultBuilder()
                 .defalutStyle(true, sureClick)
                 .addCustomContentView(custom)
+                .show();
+    }
+
+    /**
+     * 完全自定义风格的弹框 示例
+     *
+     * @param activity
+     * @param customBuilder
+     * @param onDismissListener
+     */
+    public static void showCustomDialog(Activity activity, CustomBuilder customBuilder, DialogInterface.OnDismissListener onDismissListener) {
+        // TODO: 2020/8/8  自定义风格的弹框示例
+        //  new WXDialog(activity)
+        //                .customBuilder(new CustomBuilder() {
+        //                    @Override
+        //                    public View onBuild() {
+        //                        View view = LayoutInflater.from(mActivity).inflate(R.layout.layout_custom_select_dialog, null);
+        //                        initView();
+        //                        return view;
+        //                    }
+        //                }).setOnDismissListener(onDismissListener)
+        //                .show();
+        new WXDialog(activity)
+                .customBuilder(customBuilder)
+                .setOnDismissListener(onDismissListener)
                 .show();
     }
 }

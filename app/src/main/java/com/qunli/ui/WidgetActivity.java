@@ -1,7 +1,9 @@
 package com.qunli.ui;
 
+import android.content.DialogInterface;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.viewpager.widget.ViewPager;
 
@@ -16,6 +18,8 @@ import com.kit.DateUtil.DateFt;
 import com.kit.DateUtil.TimeFt;
 import com.kit.KToast;
 import com.kit.Logger;
+
+import org.w3c.dom.Text;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -69,12 +73,28 @@ public class WidgetActivity extends BaseActivity {
             @Override
             public boolean onTabClick(int position) {
                 if (position == 3)
-                WXDialog.showCustomDialog(mActivity, new EditText(mActivity), new View.OnClickListener() {
+                WXDialog.showCustomViewDialog(mActivity, new EditText(mActivity), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         KToast.show("ok ");
                     }
                 });
+                if (position == 0){
+                    WXDialog.CustomBuilder builder = new WXDialog.CustomBuilder() {
+                        @Override
+                        public View onBuild() {
+                            TextView textView = new TextView(mActivity);
+                            textView.setText("完全自定义风格的弹框");
+                            return textView;
+                        }
+                    };
+                    WXDialog.showCustomDialog(mActivity, builder, new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            KToast.show("弹框消失！");
+                        }
+                    });
+                }
                 return true;
             }
         });

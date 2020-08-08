@@ -1,4 +1,16 @@
 <resources>
+    <!--  ****************  bottom dialog  style  **************** -->
+    <style name="transparentFrameWindowStyle" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="bottom_menu_windown_animstyle">
+        <item name="android:windowEnterAnimation">@anim/bottom_menu_window_in_anim</item>
+        <item name="android:windowExitAnimation">@anim/bottom_menu_window_out_anim</item>
+    </style>
+
     <!--  ****************  Progressbar  style  **************** -->
     <style name="progressbar_refresh_style">
         <item name="android:indeterminateOnly">true</item>
