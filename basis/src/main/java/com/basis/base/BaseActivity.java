@@ -67,31 +67,6 @@ public abstract class BaseActivity extends FragmentActivity implements IBase {
     }
 
     @Override
-    public void onGlass(boolean connected) {
-        Logger.e(TAG, "connected = " + connected);
-    }
-
-    @Override
-    public void onCmdMsg(String cmd, String msgJson) {
-        Logger.e(TAG, "cmd = " + cmd + " msgJson = " + msgJson);
-    }
-
-    @Override
-    public void onTrtcOff() {
-        new WXDialog(mActivity)
-                .setMessage("您被强制下线!")
-                .sureStyle(true, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getApplicationInfo().packageName + ".login");
-                        intent.addCategory("android.intent.category.DEFAULT");
-                        UIStack.getInstance().exit();
-                        startActivity(intent);
-                    }
-                }).show(false);
-    }
-
-    @Override
     public void onBackPressed() {
         onBackCode();
     }

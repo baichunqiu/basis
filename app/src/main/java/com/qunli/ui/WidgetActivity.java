@@ -17,6 +17,7 @@ import com.kit.DateFt;
 import com.kit.DateUtil;
 import com.kit.KToast;
 import com.kit.Logger;
+import com.kit.ResUtil;
 import com.kit.TimeFt;
 
 import java.util.Arrays;
@@ -65,32 +66,37 @@ public class WidgetActivity extends BaseActivity {
         SpringIndicator springIndicator = getView(R.id.indicator);
         viewPager.setAdapter(new GuidPagerAdapter(titles, Arrays.asList(R.mipmap.bg1, R.mipmap.bg2, R.mipmap.bg3, R.mipmap.bg4)));
         springIndicator.setViewPager(viewPager);
-        springIndicator.setOnTabClickListener(new TabClickListener(){
+        springIndicator.setOnTabClickListener(new TabClickListener() {
             @Override
             public boolean onTabClick(int position) {
-                if (position == 3)
-                WXDialog.showCustomDialog(mActivity, new EditText(mActivity), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        KToast.show("ok ");
-                    }
-                });
-                if (position == 0){
+                if (position == 3) {
+                    WXDialog.showCustomDialog(mActivity, new EditText(mActivity), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            KToast.show("ok ");
+                        }
+                    });
+                }
+                if (position == 0) {
+                    WXDialog wxDialog = new WXDialog();
                     WXDialog.CustomBuilder builder = new WXDialog.CustomBuilder() {
                         @Override
                         public View onBuild() {
                             TextView textView = new TextView(mActivity);
+                            textView.setWidth(100);
+                            textView.setHeight(50);
+                            textView.setBackgroundColor(ResUtil.getColor(R.color.white));
                             textView.setText("完全自定义风格的弹框");
                             return textView;
                         }
                     };
-                    WXDialog.s
-//                    WXDialog.showCustomDialog(mActivity, builder, new DialogInterface.OnDismissListener() {
-//                        @Override
-//                        public void onDismiss(DialogInterface dialog) {
-//                            KToast.show("弹框消失！");
-//                        }
-//                    });
+                    wxDialog.setCustomBuilder(mActivity, builder)
+                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            KToast.show("弹框消失！");
+                        }
+                    }).show();
                 }
                 return true;
             }

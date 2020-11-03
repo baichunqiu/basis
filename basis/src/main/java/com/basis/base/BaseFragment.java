@@ -73,20 +73,6 @@ public abstract class BaseFragment extends Fragment implements IBase {
         Logger.e(TAG, "onRefresh");
     }
 
-    @Override
-    public void onGlass(boolean connected) {
-        Logger.e(TAG, "connected = " + connected);
-    }
-
-    @Override
-    public void onCmdMsg(String cmd, String msgJson) {
-//        Logger.e(TAG, "cmd = " + cmd + " msgJson = "+msgJson);
-    }
-
-    @Override
-    public void onTrtcOff() {
-
-    }
 
     @Override
     public void onNetChange(NetType netType) {
