@@ -1,6 +1,7 @@
 package com.qunli.ui;
 
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -92,16 +93,19 @@ public class WidgetActivity extends BaseActivity {
                     };
                     wxDialog.setCustomBuilder(mActivity, builder)
                             .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            KToast.show("弹框消失！");
-                        }
-                    }).show();
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    KToast.show("弹框消失！");
+                                }
+                            }).show();
                 }
                 return true;
             }
         });
 
+        for (int i = 0; i < 50; i++) {
+            Logger.e("date= " + dateStr+"----"+i);
+        }
     }
 
     private final static String[] titles = new String[]{"标题1", "标题2", "标题3", "标题4"};

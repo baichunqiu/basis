@@ -23,7 +23,7 @@ import java.util.Map;
  * @className: UIController
  * @Description: 供列表显示页面使用的控制器
  */
-public class UIController<T> extends Controller<T> implements BsiAdapter.OnNoDataListeren {
+public class UIController<V, T> extends Controller<T> implements BsiAdapter.OnNoDataListeren {
     private final String TAG = "UIController";
     private IOperator operator;
     //适配器使用功能集合 泛型不能使用 T 接口返回类型有可能和适配器使用的不一致
@@ -39,7 +39,7 @@ public class UIController<T> extends Controller<T> implements BsiAdapter.OnNoDat
         None
     }
 
-    public UIController(View parent, Class<T> tclazz, IOperator<T> operator) {
+    public UIController(View parent, Class<T> tclazz, IOperator<V, T> operator) {
         super(tclazz);
         this.layout = parent;
         this.operator = operator;
@@ -125,23 +125,42 @@ public class UIController<T> extends Controller<T> implements BsiAdapter.OnNoDat
 
     /**
      * Model 处理抽象接口
+     *
+     * @param <V> 适配器数据类型
+     * @param <T> 接口数据类型
      */
-    public interface IOperator<T> extends IOperate<T> {
-        /**
-         * adapter设置数据前,数据处理。
-         * 此处没使用泛型，特殊情况需要可能修改类型
-         */
-        List onPreRefreshData(List<T> netData, boolean isRefresh);
+    public interface IOperator<V, T> extends IOperate<T> {
 
         /**
-         * 设置Data to Adapter前 一般分页排序功能
+         * 预处理数据
+         *
+         * @param rawData 原始数据
+         * @return
          */
-        List<T> onPreSetData(List<T> netData);
-
-        BsiAdapter<T> setAdapter();
-
         @Override
         List<T> onPreprocess(List<T> rawData);
+
+
+        /**
+         * 刷新数据前回调
+         * 此处没使用泛型，特殊情况需要可能修改类型
+         *
+         * @param netData   当次（当前页）网络数据
+         * @param isRefresh 刷新标识
+         * @return
+         */
+        List<V> onPreRefreshData(List<T> netData, boolean isRefresh);
+
+        /**
+         * 设置adapter数据前回调
+         * 一般分页排序功能获取拼接数据时使用
+         *
+         * @param netData 设置给adapter的所有（包含所有页码）数据
+         * @return 返回数据集合直接设置给adapter，会执行showViewType()修改ui
+         */
+        List<V> onPreSetData(List<V> netData);
+
+        BsiAdapter<V> setAdapter();
 
         @Override
         void onError(int status, String errMsg);

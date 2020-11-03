@@ -17,15 +17,18 @@ import com.oklib.core.Method;
 import java.util.List;
 import java.util.Map;
 
+
 /**
+ * @param <V> 适配器数据类型
+ * @param <T> 接口数据类型
  * @author: BaiCQ
  * @createTime: 2017/1/13 11:38
  * @className: AbsListActivity
- * @Description:
+ * @Description: 正常情况下 V T 的类型是一致的
  */
-public abstract class AbsListActivity<T> extends BaseActivity implements UIController.IOperator<T> {
+public abstract class AbsListActivity<V, T> extends BaseActivity implements UIController.IOperator<V, T> {
     private Class<T> tClass;
-    private UIController<T> mController;
+    private UIController<V, T> mController;
     private View contentView;
     private TitleBar titleBar;
 
@@ -36,9 +39,9 @@ public abstract class AbsListActivity<T> extends BaseActivity implements UIContr
 
     @Override
     public final void init() {
-        tClass = (Class<T>) ObjUtil.getTType(getClass())[0];
+        tClass = (Class<T>) ObjUtil.getTType(getClass())[1];
         resetLayoutView();
-        mController = new UIController<T>(getLayout(), tClass, this);
+        mController = new UIController(getLayout(), tClass, this);
         initView(contentView);
     }
 
@@ -115,15 +118,15 @@ public abstract class AbsListActivity<T> extends BaseActivity implements UIContr
      * @param netData 此次请求的数据
      */
     @Override
-    public List onPreRefreshData(List<T> netData, boolean isRefresh) {
-        return netData;
+    public List<V> onPreRefreshData(List<T> netData, boolean isRefresh) {
+        return (List<V>) netData;
     }
 
     /**
      * @param netData 设置给适配器的数据
      */
     @Override
-    public List<T> onPreSetData(List<T> netData) {
+    public List<V> onPreSetData(List<V> netData) {
         return netData;
     }
 

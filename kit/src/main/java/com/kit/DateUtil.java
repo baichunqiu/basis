@@ -62,7 +62,6 @@ public class DateUtil {
      * @return
      */
     public static String date2String(Date date, String format) {
-        // 接收待返回的时间字符串
         String resultTimeStr = "";
         if (date != null) {
             try {
@@ -209,10 +208,5 @@ public class DateUtil {
                 59);//设置当月的结束时间
         startAndEndDate[1] = calendar.getTime();//存放到数组中
         return startAndEndDate;
-    }
-
-    public static String getDifferenceDate(Date start, Date end) {
-        long diff = end.getTime() - start.getTime();
-        return diff % N_DAY / N_HOUR + ":" + diff % N_HOUR / N_MIN + ":" + diff % N_MIN / N_SECOND;
     }
 }

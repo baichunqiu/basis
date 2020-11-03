@@ -38,7 +38,7 @@ public abstract class Controller<T> implements IPage {
      *
      * @param refresh
      */
-    protected void requestAgain(boolean refresh) {
+    protected final void requestAgain(boolean refresh) {
         if (null != reQuest) {
             Map<String, Object> params = reQuest.param();
             if (null != params && params.containsKey(KEY_PAGE_INDEX)) {
@@ -103,8 +103,10 @@ public abstract class Controller<T> implements IPage {
             public void onAfter(int status, String msg) {
                 super.onAfter(status, msg);
                 //注意此处没有使用isRefresh 而是使用 控制器维护的最后一次状态
+                if (null == tempData && null != operator){
+                    operator.onError(status, msg);
+                }
                 onRefreshData(tempData, refresh);
-                if (null == tempData && null != operator) operator.onError(status, msg);
             }
 
             @Override

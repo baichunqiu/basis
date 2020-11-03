@@ -18,14 +18,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * @param <V> 适配器数据类型
+ * @param <T> 接口数据类型
  * @author: BaiCQ
  * @createTime: 2017/1/13 11:38
  * @className: AbsListFragment
- * @Description:
+ * @Description: 正常情况下 V T 的类型是一致的
  */
-public abstract class AbsListFragment<T> extends BaseFragment implements UIController.IOperator<T> {
+public abstract class AbsListFragment<V, T> extends BaseFragment implements UIController.IOperator<V, T> {
     private Class<T> tClass;
-    private UIController<T> mController;
+    private UIController<V, T> mController;
     private View contentView;
 
     @Override
@@ -35,8 +37,8 @@ public abstract class AbsListFragment<T> extends BaseFragment implements UIContr
 
     public final void init() {
         resetLayoutView();
-        tClass = (Class<T>) ObjUtil.getTType(getClass())[0];
-        mController = new UIController<T>(getLayout(), tClass, this);
+        tClass = (Class<T>) ObjUtil.getTType(getClass())[1];
+        mController = new UIController(getLayout(), tClass, this);
         initView(contentView);
     }
 
@@ -90,12 +92,12 @@ public abstract class AbsListFragment<T> extends BaseFragment implements UIContr
      * @param netData
      */
     @Override
-    public List onPreRefreshData(List<T> netData, boolean isRefresh) {
-        return netData;
+    public List<V> onPreRefreshData(List<T> netData, boolean isRefresh) {
+        return (List<V>) netData;
     }
 
     @Override
-    public List<T> onPreSetData(List<T> netData) {
+    public List<V> onPreSetData(List<V> netData) {
         return netData;
     }
 

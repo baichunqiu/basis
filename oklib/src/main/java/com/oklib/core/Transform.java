@@ -17,7 +17,7 @@ import okhttp3.RequestBody;
  * ok core 转换工具类
  */
 public class Transform {
-
+    public final static boolean mediaJson = true;
     public final static MediaType json = MediaType.parse("application/json; charset=utf-8");
 
     private static MultipartBody.Builder param2Builder(Map<String, Object> params) {
@@ -56,8 +56,11 @@ public class Transform {
      * @return RequestBody
      */
     public static RequestBody param2Body(Map<String, Object> params) {
-//        MultipartBody.Builder builder = param2Builder(params);
-        return RequestBody.Companion.create(GsonUtil.obj2Json(params), json);
+        if (mediaJson) {
+            return RequestBody.Companion.create(GsonUtil.obj2Json(params), json);
+        } else {
+            return param2Builder(params).build();
+        }
     }
 
     /**
@@ -82,8 +85,6 @@ public class Transform {
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             builder.appendQueryParameter(entry.getKey(), entry.getValue().toString());
         }
-//        Logger.e("URL = builder.build().toString() = "+ builder.build().toString());
-//        Logger.e("URL = builder.build() = "+ builder.build());
         return builder.build().toString();
     }
 

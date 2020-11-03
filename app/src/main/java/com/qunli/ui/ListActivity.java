@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ListActivity extends AbsListActivity<WorkDetails> {
+public class ListActivity extends AbsListActivity<WorkDetails,WorkDetails> {
     private String TAG = "ListActivity";
     private final static String HOST = "https://api.workvideo.qunlivideo.com";
     private final static String WORKS = HOST + "/api/w/project/list";
