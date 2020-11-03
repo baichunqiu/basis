@@ -4,19 +4,19 @@
     <item android:state_pressed="true">
         <shape>
             <corners android:radius="@dimen/main_corner" />
-            <solid android:color="#02479C" />
+            <solid android:color="#00C570" />
         </shape>
     </item>
     <item android:state_enabled="true">
         <shape>
             <corners android:radius="@dimen/main_corner" />
-            <solid android:color="#d202479C" />
+            <solid android:color="#d200C570" />
         </shape>
     </item>
     <item android:state_enabled="false">
         <shape>
             <corners android:radius="@dimen/main_corner" />
-            <solid android:color="#9902479C" />
+            <solid android:color="#9900C570" />
         </shape>
     </item>
     <item>
@@ -24,7 +24,7 @@
             <!-- 半径 -->
             <corners android:radius="@dimen/main_corner" />
             <!-- 填充的颜色 -->
-            <solid android:color="#d202479C" />
+            <solid android:color="#d200C570" />
         </shape>
     </item>
 

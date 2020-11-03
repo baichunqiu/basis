@@ -1,12 +1,9 @@
 package com.qunli.ui;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.annotation.LayoutRes;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.kit.UIKit;

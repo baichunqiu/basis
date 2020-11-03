@@ -12,10 +12,10 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/shape_toast_bg"
-        android:paddingBottom="6dp"
+        android:paddingBottom="7dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="6dp"
+        android:paddingTop="7dp"
         android:text="message"
         android:textColor="@android:color/white"
         android:textSize="14sp" />

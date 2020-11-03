@@ -2,23 +2,19 @@
 <com.basis.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="horizontal"
-    android:paddingLeft="@dimen/dimens_20px"
-    android:paddingTop="@dimen/dimens_12px"
-    android:paddingRight="@dimen/dimens_20px"
-    android:paddingBottom="@dimen/dimens_12px">
+    android:layout_gravity="center"
+    android:orientation="horizontal">
 
     <com.basis.percent.PercentLinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/shape_wx_dialog_bg"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/dimens_20px"
-        android:paddingRight="@dimen/dimens_10px"
-        app:layout_heightPercent="8.5%w">
+        android:paddingRight="@dimen/dimens_10px">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -63,7 +59,7 @@
             style="@style/main_text_white_13"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/selector_blue_solid"
+            android:background="@drawable/selector_mainblue_solid"
             android:gravity="center"
             android:text="@string/search" />
     </FrameLayout>

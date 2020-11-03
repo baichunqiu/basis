@@ -1,7 +1,7 @@
 package com.basis.base;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -9,7 +9,9 @@ import android.view.WindowManager;
 import androidx.annotation.IdRes;
 import androidx.fragment.app.FragmentActivity;
 
+import com.basis.widget.WXDialog;
 import com.bcq.net.enums.NetType;
+import com.kit.Logger;
 import com.kit.UIKit;
 
 /**
@@ -29,8 +31,8 @@ public abstract class BaseActivity extends FragmentActivity implements IBase {
 
     @Override
     protected void onDestroy() {
+        UIStack.getInstance().remove(mActivity);
         super.onDestroy();
-        AppHelper.getInstance().remove(mActivity);
     }
 
     @Override
@@ -42,7 +44,7 @@ public abstract class BaseActivity extends FragmentActivity implements IBase {
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
-        AppHelper.getInstance().add(mActivity);
+        UIStack.getInstance().add(mActivity);
         layout = UIKit.inflate(setLayoutId());
         setContentView(layout);
         init();
@@ -65,8 +67,32 @@ public abstract class BaseActivity extends FragmentActivity implements IBase {
     }
 
     @Override
+    public void onGlass(boolean connected) {
+        Logger.e(TAG, "connected = " + connected);
+    }
+
+    @Override
+    public void onCmdMsg(String cmd, String msgJson) {
+        Logger.e(TAG, "cmd = " + cmd + " msgJson = " + msgJson);
+    }
+
+    @Override
+    public void onTrtcOff() {
+        new WXDialog(mActivity)
+                .setMessage("您被强制下线!")
+                .sureStyle(true, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationInfo().packageName + ".login");
+                        intent.addCategory("android.intent.category.DEFAULT");
+                        UIStack.getInstance().exit();
+                        startActivity(intent);
+                    }
+                }).show(false);
+    }
+
+    @Override
     public void onBackPressed() {
-        super.onBackPressed();
         onBackCode();
     }
 

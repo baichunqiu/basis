@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author: BaiCQ
@@ -82,11 +83,7 @@ public class ResUtil {
     public static String readStringFromAssets(String fileName) {
         String result = "";
         byte[] buffer = readBytesFromAssets(fileName);
-        try {
-            result = new String(buffer, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        result = new String(buffer, StandardCharsets.UTF_8);
         return result;
     }
 
@@ -122,11 +119,7 @@ public class ResUtil {
     public static String readStringFromRaw(int rawId) {
         String result = null;
         byte[] buffer = readBytesFromRaw(rawId);
-        try {
-            result = new String(buffer, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        result = new String(buffer, StandardCharsets.UTF_8);
         return result;
     }
 

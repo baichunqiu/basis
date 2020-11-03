@@ -43,7 +43,7 @@ public class BaseListCallback<R> implements IListCallback<R> {
      * @param errMsg 错误信息
      */
     public void onError(int code, String errMsg) {
-        Logger.e("BaseListCallback", "onError:" + errMsg);
+        Logger.e("BaseListCallback", "onError:["+code+"] " + errMsg);
     }
 
     @Override

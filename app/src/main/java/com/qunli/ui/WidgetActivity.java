@@ -13,18 +13,14 @@ import com.basis.widget.WXDialog;
 import com.basis.widget.indicator.GuidPagerAdapter;
 import com.basis.widget.indicator.SpringIndicator;
 import com.basis.widget.indicator.TabClickListener;
+import com.kit.DateFt;
 import com.kit.DateUtil;
-import com.kit.DateUtil.DateFt;
-import com.kit.DateUtil.TimeFt;
 import com.kit.KToast;
 import com.kit.Logger;
-
-import org.w3c.dom.Text;
+import com.kit.TimeFt;
 
 import java.util.Arrays;
 import java.util.Date;
-
-import github.chenupt.multiplemodel.viewpager.ModelPagerAdapter;
 
 public class WidgetActivity extends BaseActivity {
     private String TAG = "WidgetActivity";
@@ -73,7 +69,7 @@ public class WidgetActivity extends BaseActivity {
             @Override
             public boolean onTabClick(int position) {
                 if (position == 3)
-                WXDialog.showCustomViewDialog(mActivity, new EditText(mActivity), new View.OnClickListener() {
+                WXDialog.showCustomDialog(mActivity, new EditText(mActivity), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         KToast.show("ok ");
@@ -88,12 +84,13 @@ public class WidgetActivity extends BaseActivity {
                             return textView;
                         }
                     };
-                    WXDialog.showCustomDialog(mActivity, builder, new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            KToast.show("弹框消失！");
-                        }
-                    });
+                    WXDialog.s
+//                    WXDialog.showCustomDialog(mActivity, builder, new DialogInterface.OnDismissListener() {
+//                        @Override
+//                        public void onDismiss(DialogInterface dialog) {
+//                            KToast.show("弹框消失！");
+//                        }
+//                    });
                 }
                 return true;
             }

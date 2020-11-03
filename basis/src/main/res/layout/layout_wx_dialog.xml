@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/tv_title"
-            style="@style/main_text_black_15"
+            style="@style/main_text_black_17"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
@@ -33,7 +33,7 @@
 
             <TextView
                 android:id="@+id/tv_message"
-                style="@style/main_text_gray_14"
+                style="@style/main_text_gray_15"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="left|top"
@@ -56,7 +56,7 @@
 
         <TextView
             android:id="@+id/btn_cancel"
-            style="@style/main_text_gray_14"
+            style="@style/main_text_gray_15"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="@drawable/selector_cancel_pressed_bg"
@@ -67,7 +67,7 @@
 
         <TextView
             android:id="@+id/btn_confirm"
-            style="@style/main_text_white_14"
+            style="@style/main_text_white_15"
             android:layout_height="match_parent"
             android:background="@drawable/selector_blue_solid"
             android:gravity="center"

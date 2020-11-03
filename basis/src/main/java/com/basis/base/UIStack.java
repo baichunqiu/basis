@@ -10,50 +10,48 @@ import com.bcq.net.NetApi;
 import com.bcq.net.enums.NetType;
 import com.kit.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * @Author: BaiCQ
- * @ClassName: AppHelper
+ * @ClassName: UI实例栈 包含activity 和 fragment
  * @CreateDate: 2019/3/29 16:43
  * @Description: AppHelper
  */
-public class AppHelper {
+public class UIStack {
     private final static String TAG = "AppHelper";
-    private final static AppHelper instance = new AppHelper();
-    // 退出应用的广播接受者
+    private final static UIStack instance = new UIStack();
+    //全局广播
     private BroadcastReceiver bdReceiver;
-    private List<IBase> iBases = new ArrayList<>(16);
+    private LinkedList<IBase> iBases = new LinkedList<>();
 
-    private AppHelper() {
-        registBroadcast(new String[]{ConnectivityManager.CONNECTIVITY_ACTION});
+    private String[] actions = new String[]{ConnectivityManager.CONNECTIVITY_ACTION};
+
+    private UIStack() {
     }
 
-    private void registBroadcast(String[] actions) {
-        bdReceiver = new BasisReceiver();
-        BroadcastUtil.registerReceiver(bdReceiver, actions);
-    }
-
-    public static AppHelper getInstance() {
+    public static UIStack getInstance() {
         return instance;
     }
 
     public void add(IBase iBase) {
         iBases.add(iBase);
-        Logger.e(TAG, "add : size = " + iBases.size());
+        if (null == bdReceiver) {//说明释放啦
+            bdReceiver = new UIReceiver();
+            BroadcastUtil.registerReceiver(bdReceiver, actions);
+        }
+        Logger.e(TAG, "add : size = " + iBases.size() + " ibase:" + iBase.getClass().getSimpleName());
     }
 
     public void remove(IBase remove) {
         iBases.remove(remove);
         if (iBases.isEmpty()) {
-            //没有activity或者fragment 则注销广播
             if (null != bdReceiver) {
                 BroadcastUtil.unregisterReceiver(bdReceiver);
                 bdReceiver = null;
             }
         }
-        Logger.e(TAG, "remove : size = " + iBases.size());
+        Logger.e(TAG, "remove : size = " + iBases.size() + " ibase:" + remove.getClass().getSimpleName());
     }
 
     public BaseActivity getTopActivity() {
@@ -67,12 +65,29 @@ public class AppHelper {
         return null;
     }
 
+    public boolean isTaskTop(BaseActivity activity) {
+        int len = iBases.size();
+        BaseActivity baseActivity = null;
+        for (int i = len - 1; i >= 0; i--) {
+            IBase base = iBases.get(i);
+            if (base instanceof Activity) {
+                baseActivity = (BaseActivity) base;
+                break;
+            }
+        }
+        boolean isTaskTop = null != activity && activity == baseActivity;
+        Logger.e(TAG, "isTaskTop:" + isTaskTop);
+        return isTaskTop;
+    }
+
     public void exit() {
         if (null != bdReceiver) {
             BroadcastUtil.unregisterReceiver(bdReceiver);
             bdReceiver = null;
         }
-        for (IBase base : iBases) {
+        int len = iBases.size();
+        for (int i = len - 1; i >= 0; i--) {
+            IBase base = iBases.get(i);
             if (base instanceof Activity) {
                 Activity act = (Activity) base;
                 if (!act.isFinishing()) {
@@ -82,20 +97,21 @@ public class AppHelper {
         }
     }
 
-    public class BasisReceiver extends BroadcastReceiver {
+    public static class UIReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
-                setResultForTop(NetApi.getNetWorkState());
+                instance.setResultForAll(NetApi.getNetWorkState());
             }
         }
     }
 
-
     private void setResultForAll(NetType netType) {
         for (IBase a : iBases) {
-            a.onNetChange(netType);
+            if (a instanceof Activity) {
+                a.onNetChange(netType);
+            }
         }
     }
 

@@ -6,21 +6,20 @@ import java.util.concurrent.CountDownLatch;
  * @author: BaiCQ
  * @ClassName: SynUtil
  * @date: 2018/8/17
- * @Description: 异步执行变同步的工具类 避免在原有异步执行的代码中添加回调
+ * @Description: 异步执行变同步的工具类
  */
 public class SynUtil {
 
     public interface OnExecuteListeren<T> {
         /**
          * 任务执行子线回调
-         * 注意:在执行结束（成功或失败时）执行latch.countDown();
          *
          * @param latch
          */
         T onExecute(CountDownLatch latch);
 
         /**
-         * 任务结束子线程回调
+         * 任务结束主线程回调
          */
         void onEnd(T t);
     }
@@ -44,7 +43,13 @@ public class SynUtil {
                 } catch (Exception e) {
                 }
                 if (null != onExecuteListeren) {
-                    onExecuteListeren.onEnd(t);
+                    final T result = t;
+                    UIKit.runOnUiTherad(new Runnable() {
+                        @Override
+                        public void run() {
+                            onExecuteListeren.onEnd(result);
+                        }
+                    });
                 }
             }
         }).start();

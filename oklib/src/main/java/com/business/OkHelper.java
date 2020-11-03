@@ -34,9 +34,7 @@ public class OkHelper {
      * @param token
      */
     public static void setToken(String token) {
-        if (!token.startsWith("Bearer")) {
-            token = "Bearer " + token;
-        }
+        if (token == null) token = "";
         OkHelper.TOKEN = token;
     }
 

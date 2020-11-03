@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.basis.R;
 import com.kit.ImageLoader;
 
 /**
@@ -94,7 +95,7 @@ public class ViewHolder {
 
     public ViewHolder setImageUrl(int viewId, String imageUrl, int defaultResouce) {
         ImageView intoView = getView(viewId);
-        ImageLoader.loadUrl(intoView, imageUrl);
+        ImageLoader.loadUrl(intoView, imageUrl, defaultResouce);
         return this;
     }
 

@@ -63,10 +63,10 @@ public class Logger {
                 String show = log.substring(0, showCount);
                 Log.i(tag, show + "");
                 if ((log.length() - showCount) > showCount) {// 剩下的文本还是大于规定长度
-                    String partLog = log.substring(showCount, log.length());
+                    String partLog = log.substring(showCount);
                     showLogInfo(tag, partLog, showCount);
                 } else {
-                    String surplusLog = log.substring(showCount, log.length());
+                    String surplusLog = log.substring(showCount);
                     Log.i(tag, surplusLog + "");
                 }
             } else {

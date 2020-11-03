@@ -2,6 +2,7 @@ package com.business.process;
 
 import android.util.Log;
 
+import com.kit.Logger;
 import com.oklib.core.ReQuest;
 
 /**
@@ -18,21 +19,26 @@ public abstract class BaseProcessor implements Processor {
     private int repeat = 1;
     //缓存上次code
     private int lastCode = 0;
-
+    private String lastUrl ="";
     @Override
     public final void process(int code, ReQuest reQuest) {
-        if (code != lastCode) {
-            repeat = 1;
-        } else {
+        if (code == lastCode && lastUrl.equals(reQuest.url)) {
+            //同一次请求同样的错误¬
             repeat++;
+        }else {
+            lastCode = code;
+            lastUrl = reQuest.url;
+            repeat = 1;
         }
         if (repeat > MAX_REPEAT) {
-            Log.e(TAG, "The maximum limit of repeat is " + MAX_REPEAT + " . current repeat = " + repeat);
+            Logger.e(TAG, "The maximum limit of repeat is " + MAX_REPEAT + " . current repeat = " + repeat);
             return;
         }
+        Logger.e(TAG, "**************************** start process code error = "+code +" and request ****************************");
         if (processCode(code)) {
             reQuest.request();
         }
+        Logger.e(TAG, "**************************** end   process code error = "+code +" and request ****************************");
     }
 
     /**

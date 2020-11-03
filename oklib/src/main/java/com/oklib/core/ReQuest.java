@@ -1,6 +1,7 @@
 package com.oklib.core;
 
 import com.business.OkHelper;
+import com.kit.GsonUtil;
 import com.kit.Logger;
 import com.oklib.callback.CallBack;
 
@@ -33,6 +34,8 @@ public class ReQuest<T> implements CallBack<T, Object> {
             Core.core().post(url, param, this);
         } else if (Method.get == method) {
             Core.core().get(url, param, this);
+        } else if (Method.delete == method) {
+            Core.core().delete(url, param, this);
         }
         return this;
     }
@@ -50,7 +53,7 @@ public class ReQuest<T> implements CallBack<T, Object> {
         int size = null == params ? 0 : params.size();
         if (size > 0) {
             for (Map.Entry<String, Object> entry : params.entrySet()) {
-                Logger.e(TAG, " : " + entry.getKey() + " = " + entry.getValue());
+                Logger.e(TAG, " : " + entry.getKey() + " = " + GsonUtil.obj2Json(entry.getValue()));
             }
         } else {
             Logger.e(TAG, " : 参数【无】");
@@ -113,6 +116,12 @@ public class ReQuest<T> implements CallBack<T, Object> {
         private Builder() {
         }
 
+        public static Builder method(Method method) {
+            Builder builder = new Builder();
+            builder.method = method;
+            return builder;
+        }
+
         public static Builder get() {
             Builder builder = new Builder();
             builder.method = Method.get;
@@ -122,6 +131,12 @@ public class ReQuest<T> implements CallBack<T, Object> {
         public static Builder post() {
             Builder builder = new Builder();
             builder.method = Method.post;
+            return builder;
+        }
+
+        public static Builder delete() {
+            Builder builder = new Builder();
+            builder.method = Method.delete;
             return builder;
         }
 

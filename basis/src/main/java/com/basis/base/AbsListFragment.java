@@ -1,6 +1,7 @@
 package com.basis.base;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -28,7 +29,7 @@ public abstract class AbsListFragment<T> extends BaseFragment implements UIContr
     private View contentView;
 
     @Override
-    public int setLayoutId() {
+    public final int setLayoutId() {
         return R.layout.fragment_abs_list;
     }
 
@@ -45,8 +46,11 @@ public abstract class AbsListFragment<T> extends BaseFragment implements UIContr
         ll_content.addView(contentView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         //添加no_data到show_data同级
         View show_data = UIKit.getView(contentView, R.id.bsi_v_show_data);
+        //未设置show_data布局 使用lv替代
+        if (null == show_data) show_data = UIKit.getView(contentView, R.id.bsi_lv_base);
         ViewGroup extraParent = null != show_data ? (ViewGroup) show_data.getParent() : ll_content;
-        extraParent.addView(UIKit.inflate(R.layout.no_data), FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        View nodata = UIKit.inflate(R.layout.no_data);
+        extraParent.addView(nodata, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
     }
 
     public void getNetData(boolean isRefresh, String mUrl, Map<String, Object> params, String mDialogMsg, Method method) {

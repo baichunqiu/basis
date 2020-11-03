@@ -3,7 +3,8 @@ package com.business.parse;
 import com.business.DataInfo;
 
 public interface Parser {
-    String TOKEN_KEY = "authorization";
+    String TOKEN_KEY = "X-Access-Token";
+    int CODE_OK = 200;
     /**
      * 统一解析字段
      *

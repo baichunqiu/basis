@@ -23,7 +23,7 @@ import java.util.Map;
  * @className: UIController
  * @Description: 供列表显示页面使用的控制器
  */
-public class UIController<T> extends Controller<T> {
+public class UIController<T> extends Controller<T> implements BsiAdapter.OnNoDataListeren {
     private final String TAG = "UIController";
     private IOperator operator;
     //适配器使用功能集合 泛型不能使用 T 接口返回类型有可能和适配器使用的不一致
@@ -52,6 +52,7 @@ public class UIController<T> extends Controller<T> {
         refreshView = UIKit.getView(layout, R.id.bsi_lv_base);
         if (null == showData) showData = (View) refreshView;
         mAdapter = operator.setAdapter();
+        mAdapter.setOnNoDataListeren(this);
         ((ListView) refreshView).setAdapter(mAdapter);
         refreshView.setOnRefreshListener(new IRefreshView.OnRefreshListener() {
             @Override
@@ -63,6 +64,12 @@ public class UIController<T> extends Controller<T> {
             @Override
             public void onLoad() {
                 requestAgain(false);
+            }
+        });
+        noData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestAgain(true);
             }
         });
     }
@@ -88,20 +95,30 @@ public class UIController<T> extends Controller<T> {
         if (null != preData) {
             adapterList.addAll(preData);
         }
-        if (!adapterList.isEmpty()) {
+        List<T> temp = operator.onPreSetData(adapterList);
+        if (null != temp && !temp.isEmpty()) {
             showViewType(ShowType.Data);
-            mAdapter.setData(operator.onPreSetData(adapterList));
+            mAdapter.setData(temp);
         } else {
             showViewType(ShowType.None);
         }
     }
 
+    /**
+     * 因适配器 removeItem 导致数据从有到无是回调
+     * BsiAdapter.OnNoDataListeren 接口
+     */
+    @Override
+    public void onNoData() {
+        showViewType(ShowType.None);
+    }
+
     public final void showViewType(ShowType showType) {
-        showData.setVisibility(View.GONE);
-        noData.setVisibility(View.GONE);
         if (ShowType.Data == showType) {
             showData.setVisibility(View.VISIBLE);
+            noData.setVisibility(View.GONE);
         } else {
+            showData.setVisibility(View.GONE);
             noData.setVisibility(View.VISIBLE);
         }
     }

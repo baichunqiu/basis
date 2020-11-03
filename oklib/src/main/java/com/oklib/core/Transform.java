@@ -4,10 +4,10 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.kit.GsonUtil;
+import com.kit.Logger;
 import com.oklib.body.IBody;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -18,7 +18,7 @@ import okhttp3.RequestBody;
  */
 public class Transform {
 
-    final static MediaType json = MediaType.parse("application/json; charset=utf-8");
+    public final static MediaType json = MediaType.parse("application/json; charset=utf-8");
 
     private static MultipartBody.Builder param2Builder(Map<String, Object> params) {
         if (null != params && !params.isEmpty()) {
@@ -50,14 +50,14 @@ public class Transform {
         }
         return builder;
     }
+
     /**
      * @param params Map参数
      * @return RequestBody
      */
     public static RequestBody param2Body(Map<String, Object> params) {
 //        MultipartBody.Builder builder = param2Builder(params);
-//        return RequestBody.create(json, GsonUtil.obj2Json(params));
-        return RequestBody.Companion.create(GsonUtil.obj2Json(params),json);
+        return RequestBody.Companion.create(GsonUtil.obj2Json(params), json);
     }
 
     /**
@@ -82,6 +82,8 @@ public class Transform {
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             builder.appendQueryParameter(entry.getKey(), entry.getValue().toString());
         }
+//        Logger.e("URL = builder.build().toString() = "+ builder.build().toString());
+//        Logger.e("URL = builder.build() = "+ builder.build());
         return builder.build().toString();
     }
 

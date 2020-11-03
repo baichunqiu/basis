@@ -25,10 +25,15 @@
     <dimen name="dimens_20px">10.0dp</dimen>
     <dimen name="dimens_25px">12.5dp</dimen>
     <dimen name="dimens_30px">15.0dp</dimen>
+    <dimen name="dimens_35px">17.5dp</dimen>
     <dimen name="dimens_40px">20.0dp</dimen>
     <dimen name="dimens_45px">22.5dp</dimen>
     <dimen name="dimens_50px">25.0dp</dimen>
     <dimen name="dimens_60px">30.0dp</dimen>
+    <dimen name="dimens_70px">35.0dp</dimen>
+    <dimen name="dimens_75px">37.5dp</dimen>
+    <dimen name="dimens_80px">40.0dp</dimen>
+    <dimen name="dimens_100px">50.0dp</dimen>
 
     <!--分割线的高/宽-->
     <dimen name="main_divide">0.3dp</dimen>

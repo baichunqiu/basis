@@ -56,7 +56,7 @@ public class KPath {
      * 外部存储可用，返回外部存储路径:/storage/emulated/0/Android/data/包名/files
      * 外部存储不可用，则返回内部存储路径：data/data/包名/files
      */
-    public String getFilesPath() {
+    public static String getFilesPath() {
         String filePath;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
                 || !Environment.isExternalStorageRemovable()) {
@@ -74,7 +74,7 @@ public class KPath {
      * 外部存储可用，返回外部存储路径:/storage/emulated/0/Android/data/包名/cache
      * 外部存储不可用，则返回内部存储路径：data/data/包名/cache
      */
-    public String getCachePath() {
+    public static String getCachePath() {
         String cachePath;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
                 || !Environment.isExternalStorageRemovable()) {

@@ -25,7 +25,7 @@ public class Core {
 
     private OkHttpClient client() {
         if (null == mClient) {
-             mClient = null == mBuilder ? new OkHttpClient() : mBuilder.build();
+            mClient = null == mBuilder ? new OkHttpClient() : mBuilder.build();
         }
         return mClient;
     }
@@ -45,6 +45,15 @@ public class Core {
         post(url, Transform.param2Body(params), callBack);
     }
 
+    /**
+     * @param url      请求地址
+     * @param params   参数
+     *                 key：String value：object（Ibody）
+     * @param callBack 回调
+     */
+    public <T> void delete(String url, Map<String, Object> params, CallBack<T, Object> callBack) {
+        delete(url, Transform.param2Body(params), callBack);
+    }
 
     /**
      * @param url      请求地址
@@ -67,6 +76,19 @@ public class Core {
         Request.Builder builder = new Request.Builder()
                 .url(url)
                 .post(body);
+        callBack.onBefore(builder);
+        request(builder.build(), callBack);
+    }
+
+    /**
+     * @param url      请求地址
+     * @param body     body
+     * @param callBack 回调
+     */
+    protected <T> void delete(String url, RequestBody body, CallBack<T, Object> callBack) {
+        Request.Builder builder = new Request.Builder()
+                .url(url)
+                .delete(body);
         callBack.onBefore(builder);
         request(builder.build(), callBack);
     }

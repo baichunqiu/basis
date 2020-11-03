@@ -76,9 +76,7 @@ public class DelegateManager<T> {
      * @return
      */
     public DelegateManager<T> removeDelegate(int itemType) {
-        if (delegates.containsKey(itemType)){
-            delegates.remove(itemType);
-        }
+        delegates.remove(itemType);
         return this;
     }
 

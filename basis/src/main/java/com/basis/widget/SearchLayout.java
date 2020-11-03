@@ -6,12 +6,15 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.basis.R;
+import com.kit.Logger;
+import com.kit.SoftBoardUtil;
 import com.kit.UIKit;
 
 /**
@@ -61,6 +64,7 @@ public class SearchLayout extends LinearLayout {
         iv_delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                Logger.e("SearchLayout", "iv_delete");
                 et_search.setText("");
                 if (null != osl) osl.onSearch("");
             }
@@ -93,7 +97,7 @@ public class SearchLayout extends LinearLayout {
         fl_search.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                hintInput();
+//                hintInput();
                 if (null != osl) {
                     osl.onSearch(et_search.getText().toString().trim());
                 }
@@ -105,9 +109,14 @@ public class SearchLayout extends LinearLayout {
      * 隐藏软键盘
      */
     private void hintInput() {
+//        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+//        // 隐藏键盘
+//        inputMethodManager.hideSoftInputFromWindow(getWindowToken(), 0); //强制隐藏键盘
         InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         // 隐藏键盘
-        inputMethodManager.hideSoftInputFromWindow(getWindowToken(), 0); //强制隐藏键盘
+        if (inputMethodManager.isActive()) {
+            inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     /**
@@ -132,5 +141,18 @@ public class SearchLayout extends LinearLayout {
         if (null != et_search)
             et_search.setHint(stringId);
         return this;
+    }
+
+    public SearchLayout clear() {
+        if (null != et_search) {
+            et_search.setText("");
+            hintInput();
+        }
+        return this;
+    }
+
+    public String getText() {
+        if (null == et_search) return "";
+        return et_search.getText().toString().trim();
     }
 }

@@ -58,5 +58,13 @@ public class OkApi {
                 .request();
     }
 
+    public static <T> ReQuest<T> delete(String url, Map<String, Object> params, CallBack<T, ReQuest<T>> callBack) {
+        return ReQuest.Builder.delete()
+                .url(url)
+                .param(params)
+                .callback(callBack)
+                .build()
+                .request();
+    }
 
 }

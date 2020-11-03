@@ -56,10 +56,6 @@ public abstract class GeneralCallBack<R, E> extends BaseCallBack<R> {
             String value = response.header(key);
             if (!TextUtils.isEmpty(value)) {
                 if (key.equalsIgnoreCase(Parser.TOKEN_KEY)) {
-                    //统一 token 的格式
-                    if (!value.startsWith("Bearer")) {
-                        value = "Bearer " + value;
-                    }
                     OkHelper.setToken(value);
                 }
                 //有值才存储 避免因某次数据识别导致token没有
@@ -123,7 +119,7 @@ public abstract class GeneralCallBack<R, E> extends BaseCallBack<R> {
         boolean success = false;
         boolean nodata = false;
         if (result instanceof Integer) {
-            success = parser.success(code);
+            success = parser.success((Integer) result);
         } else if (result instanceof List) {
             if (null != result) {//不为null：定义为no_data
                 if ((!((List) result).isEmpty())) {
@@ -156,6 +152,10 @@ public abstract class GeneralCallBack<R, E> extends BaseCallBack<R> {
     public void onAfter() {
         if (null != tTag) tTag.dismiss();
         iBusiCallback.onAfter(code, message);
+    }
+
+    public IBusiCallback<R, E> getiBusiCallback() {
+        return iBusiCallback;
     }
 
     /**

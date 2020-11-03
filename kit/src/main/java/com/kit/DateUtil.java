@@ -17,60 +17,10 @@ import java.util.Locale;
 public class DateUtil {
     public final static String TAG = "DateUtil";
     public final static String DEF_FORMAT = "yyyy-MM-dd HH:mm:ss:SSS";
-
-    /**
-     * 分割符：日期格式定义三种分割符：S、L 和 H
-     * S:  /
-     * L:  -
-     * H:汉字 年、月、日
-     */
-    public enum DateFt {
-        yMd("yyyyMMdd"),// 20160927
-        ySMSd("yyyy/MM/dd"),// 2016/09/27
-        yLMLd("yyyy-MM-dd"),// 2016-09-27
-        yHMHdH("yyyy年MM月dd日"),//2016年09月27日
-        yM("yyyyMM"),// 201609
-        ySM("yyyy/MM"),// 2016/09
-        yLM("yyyy-MM"),// 2016-09
-        yHMH("yyyy年MM月"),//2016年09月
-        Md("MMdd"),//0927
-        MSd("MM/dd"),//09/27
-        MLd("MM-dd"),//09-27
-        MHdH("MM月dd日");//09月27日
-        private String value;
-
-        DateFt(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
-    /**
-     * 分割符：时间格式定义两种分割符C和H
-     * C:  :
-     * H:汉字 年、月、日
-     */
-    public enum TimeFt {
-        Hms("HHmmss"),//150334
-        HHmHsH("HH时mm分ss秒"),//15时30分21秒
-        HCmCs("HH:mm:ss"),//15:03:34
-        Hm("HHmm"),//1503
-        HHmH("HH时mm分"),//15时30分
-        HCm("HH:mm");//15:03
-        //定义值
-        private String value;
-
-        TimeFt(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
+    public final static long N_DAY = 1000 * 24 * 60 * 60;
+    public final static long N_HOUR = 1000 * 60 * 60;
+    public final static long N_MIN = 1000 * 60;
+    public final static long N_SECOND = 1000;
 
     /**
      * 格式拼接
@@ -84,12 +34,12 @@ public class DateUtil {
             return DEF_FORMAT;
         }
         if (null == dft) {
-            return tft.value;
+            return tft.getValue();
         }
         if (null == tft) {
-            return dft.value;
+            return dft.getValue();
         }
-        return dft.value + " " + tft.value;
+        return dft.getValue() + " " + tft.getValue();
     }
 
     public static String date2String(Date date, TimeFt tft) {
@@ -227,4 +177,42 @@ public class DateUtil {
         return calendar.getTime();
     }
 
+    /**
+     * 获取指定日期所在月份的起始和结束时间：2018-09-08 16:40:00 获取到的结果：["2018-09-01 00:00:00"，"2018-09-30 23:59:59"]
+     *
+     * @param date 指定日期
+     * @return 起始时间点的数组
+     */
+    public static Date[] getMonthStartAndEndTime(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        //定义数组用于存放起始时间[0]和结束时间[1]
+        Date[] startAndEndDate = new Date[2];
+        //设置当月的起始时间
+        calendar.set(
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                1,
+                0,
+                0,
+                0);
+        startAndEndDate[0] = calendar.getTime();
+        //设置当月结束天为当月的最大天，如：9月份最大天为30，此时设置天为30
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        //设置结束时间
+        calendar.set(
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DATE),
+                23,
+                59,
+                59);//设置当月的结束时间
+        startAndEndDate[1] = calendar.getTime();//存放到数组中
+        return startAndEndDate;
+    }
+
+    public static String getDifferenceDate(Date start, Date end) {
+        long diff = end.getTime() - start.getTime();
+        return diff % N_DAY / N_HOUR + ":" + diff % N_HOUR / N_MIN + ":" + diff % N_MIN / N_SECOND;
+    }
 }

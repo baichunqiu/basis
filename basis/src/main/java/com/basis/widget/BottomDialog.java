@@ -2,6 +2,8 @@ package com.basis.widget;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -19,6 +21,7 @@ public class BottomDialog {
     protected Activity mActivity;
     private Dialog mDialog;
     private View contentView;
+    private DialogInterface.OnDismissListener onDismissListener;
 
     public BottomDialog(Activity activity) {
         mActivity = activity;
@@ -59,6 +62,22 @@ public class BottomDialog {
         mDialog.onWindowAttributesChanged(wl);
         // 点击窗口以外区域，关闭窗�?
         mDialog.setCanceledOnTouchOutside(true);
+        mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (null != onDismissListener) onDismissListener.onDismiss(dialog);
+            }
+        });
+        mDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (null != onDismissListener) onDismissListener.onDismiss(dialog);
+                }
+                return false;
+            }
+        });
+
     }
 
     public View getContentView() {
@@ -79,6 +98,11 @@ public class BottomDialog {
 
     public Dialog getDialog() {
         return mDialog;
+    }
+
+    public <T extends BottomDialog> T setOnCancelListener(DialogInterface.OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+        return (T) this;
     }
 
     public interface OnItemClick {

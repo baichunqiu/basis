@@ -28,6 +28,7 @@ public abstract class Controller<T> implements IPage {
     //由于使用request.request() 此处在回调callback不能配置死，由控制器动态维护
     //和最后一次请求绑定
     protected boolean refresh = false;//是否刷新标识
+
     public Controller(Class<T> clazz) {
         this.tClass = clazz;
     }
@@ -44,6 +45,7 @@ public abstract class Controller<T> implements IPage {
                 currentPage = refresh ? PAGE_FIRST : Integer.valueOf(params.get(KEY_PAGE_INDEX).toString()) + 1;
                 params.put(KEY_PAGE_INDEX, currentPage + "");
             }
+            this.refresh = refresh;
             reQuest = reQuest.request();
         }
     }
@@ -77,7 +79,6 @@ public abstract class Controller<T> implements IPage {
         }
         BaseListCallback<T> baseListCallback = new BaseListCallback<T>(refreshView) {
             List<T> tempData = null;
-
             @Override
             public List<T> onPreprocess(List<T> rawData) {
                 return null == operator ? rawData : operator.onPreprocess(rawData);
@@ -90,6 +91,12 @@ public abstract class Controller<T> implements IPage {
                 if (null != operator && !loadFull) {
                     currentPage++;
                 }
+            }
+
+            @Override
+            public void onError(int code, String errMsg) {
+                super.onError(code, errMsg);
+                tempData = null;
             }
 
             @Override

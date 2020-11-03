@@ -1,6 +1,7 @@
 package com.basis.widget;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -245,7 +246,8 @@ public class PullToRefreshListView extends ListView implements OnScrollListener,
         lastUpdatedTextView.setText(getResources().getString(R.string.last_update) + ":" + formatDate2String(new Date()));
         changeHeaderViewByState();
         //remove task
-        getHandler().removeCallbacks(autoComplete);
+        Handler h = getHandler();
+        if (h != null) h.removeCallbacks(autoComplete);
     }
 
     private void showFooter() {

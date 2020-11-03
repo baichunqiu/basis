@@ -1,6 +1,12 @@
 package com.kit;
 
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
+
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.zip.Inflater;
 
@@ -113,7 +119,7 @@ public class ByteUtil {
     public static byte[] unZipByte(byte[] data) {
         Inflater unzip = new Inflater();
         unzip.setInput(data);
-        byte result[] = new byte[0];
+        byte[] result = new byte[0];
         ByteArrayOutputStream o = new ByteArrayOutputStream(1);
         try {
             byte[] buf = new byte[1024];
@@ -134,5 +140,103 @@ public class ByteUtil {
             unzip.end();
         }
         return result;
+    }
+
+    public static int getCharLength(String text) {
+        int length = 0;
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) > 255) {
+                length += 2;
+            } else {
+                length++;
+            }
+        }
+        return length;
+    }
+
+    /**
+     * nv21格式的yuv数据保存jpg文件
+     *
+     * @param data    yuv数据
+     * @param mWidth
+     * @param mHeight
+     * @param picFile 保存文件路径
+     * @return
+     */
+    public static boolean saveYuvToImageFile(byte[] data, int mWidth, int mHeight, String picFile) {
+        BufferedOutputStream outYuvStream = null;
+        FileOutputStream out = null;
+        boolean flag = false;
+        try {
+            YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21, mWidth, mHeight, null);
+            out = new FileOutputStream(picFile);
+            outYuvStream = new BufferedOutputStream(out);
+            boolean success = yuvImage.compressToJpeg(new Rect(0, 0, mWidth, mHeight), 100, outYuvStream);
+            if (success) {
+                outYuvStream.flush();
+                flag = true;
+            }
+        } catch (IOException e) {
+            Logger.e(TAG, "getImageFileFromYuv：e = " + e);
+        } finally {
+            if (outYuvStream != null) {
+                try {
+                    outYuvStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return flag;
+        }
+    }
+
+    /**
+     * nv21格式的yuv数据保存jpg文件
+     *
+     * @param data    yuv数据
+     * @param mWidth
+     * @param mHeight
+     * @param picFile 保存文件路径
+     * @return
+     */
+    public static boolean saveJpegToImageFile(byte[] data, int mWidth, int mHeight, String picFile) {
+        BufferedOutputStream outYuvStream = null;
+        FileOutputStream out = null;
+        boolean flag = false;
+        try {
+            YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21, mWidth, mHeight, null);
+            out = new FileOutputStream(picFile);
+            outYuvStream = new BufferedOutputStream(out);
+            boolean success = yuvImage.compressToJpeg(new Rect(0, 0, mWidth, mHeight), 100, outYuvStream);
+            if (success) {
+                outYuvStream.flush();
+                flag = true;
+            }
+        } catch (IOException e) {
+            Logger.e(TAG, "getImageFileFromYuv：e = " + e);
+        } finally {
+            if (outYuvStream != null) {
+                try {
+                    outYuvStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return flag;
+        }
     }
 }

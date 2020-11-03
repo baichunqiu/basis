@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 
 import java.io.Serializable;
@@ -18,9 +20,11 @@ import java.io.Serializable;
  */
 public class UIKit {
     public final static String KEY_BASE = "key_basis";
+    public final static String KEY_BASE1 = "key_basis1";
     public final static String KEY_OBJ = "key_obj";
 
     private static Application mBaseContext;
+    private final static Handler mainHand = new Handler(Looper.getMainLooper());
 
     public static Context getContext() {
         if (null == mBaseContext) {
@@ -31,6 +35,18 @@ public class UIKit {
 
     public static Resources getResources() {
         return getContext().getResources();
+    }
+
+    public static void postDelayed(Runnable r, long delay) {
+        mainHand.postDelayed(r, delay);
+    }
+
+    public static void removeTask(Runnable r) {
+        if (null != r) mainHand.removeCallbacks(r);
+    }
+
+    public static void runOnUiTherad(Runnable r) {
+        if (null != r) mainHand.post(r);
     }
 
     public static AssetManager getAssets() {
@@ -53,7 +69,6 @@ public class UIKit {
         if (null == t) return;
         t.setVisibility(visiable ? View.VISIBLE : View.GONE);
     }
-
 
     public static <T extends Activity> void startActivity(Activity actx, Class<T> activityClass) {
         actx.startActivity(new Intent(actx, activityClass));

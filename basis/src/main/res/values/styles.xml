@@ -79,6 +79,10 @@
     </style>
 
     <!--black 黑色字体 style-->
+    <style name="main_text_black_17" parent="main_black0">
+        <item name="android:textSize">@dimen/font_17sp</item>
+    </style>
+
     <style name="main_text_black_16" parent="main_black0">
         <item name="android:textSize">@dimen/font_16sp</item>
     </style>
@@ -95,9 +99,17 @@
         <item name="android:textSize">@dimen/font_13sp</item>
     </style>
 
+    <style name="main_text_black_12" parent="main_black0">
+        <item name="android:textSize">@dimen/font_12sp</item>
+    </style>
+
     <!--gray 灰色字体 style-->
     <style name="main_text_gray_16" parent="main_black2">
         <item name="android:textSize">@dimen/font_16sp</item>
+    </style>
+
+    <style name="main_text_gray_15" parent="main_black2">
+        <item name="android:textSize">@dimen/font_15sp</item>
     </style>
 
     <style name="main_text_gray_14" parent="main_black2">
@@ -113,6 +125,10 @@
         <item name="android:textSize">@dimen/font_14sp</item>
     </style>
 
+    <style name="main_text_blue_13" parent="main_blue">
+        <item name="android:textSize">@dimen/font_13sp</item>
+    </style>
+
     <!--分割线的style -->
     <style name="main_divide_line">
         <item name="android:layout_width">match_parent</item>
@@ -123,5 +139,10 @@
     <style name="main_divide_line_30px" parent="@style/main_divide_line">
         <item name="android:layout_marginLeft">@dimen/dimens_30px</item>
         <item name="android:layout_marginRight">@dimen/dimens_30px</item>
+    </style>
+
+    <style name="main_divide_line_15px" parent="@style/main_divide_line">
+        <item name="android:layout_marginLeft">@dimen/dimens_15px</item>
+        <item name="android:layout_marginRight">@dimen/dimens_15px</item>
     </style>
 </resources>

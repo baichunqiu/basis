@@ -18,10 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.basis.R;
-import com.basis.base.AppHelper;
+import com.basis.base.UIStack;
 import com.basis.base.BaseActivity;
-import com.kit.ScreenUtil;
-import com.kit.UIKit;
 
 /**
  * @author: BaiCQ
@@ -158,7 +156,7 @@ public class TitleBar extends RelativeLayout {
                     if (context instanceof BaseActivity) {
                         ((BaseActivity) context).onBackCode();
                     } else {
-                        BaseActivity top = AppHelper.getInstance().getTopActivity();
+                        BaseActivity top = UIStack.getInstance().getTopActivity();
                         if (null != top) {
                             top.onBackCode();
                         }
@@ -179,15 +177,8 @@ public class TitleBar extends RelativeLayout {
 
     private void buildLeft(ViewGroup leftLayout) {
         leftIconView = new ImageView(context);
-        leftIconView.setImageDrawable(leftIcon);
-//        leftIconView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        int margin = height/4;
-        layoutParams.bottomMargin  = margin;
-        layoutParams.topMargin  = margin;
-        layoutParams.leftMargin  = margin;
-        layoutParams.rightMargin  = margin;
-        leftLayout.addView(leftIconView,layoutParams);
+        leftIconView.setBackground(leftIcon);
+        leftLayout.addView(leftIconView);
     }
 
     private void buildRight() {

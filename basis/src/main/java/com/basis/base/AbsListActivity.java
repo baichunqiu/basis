@@ -49,6 +49,8 @@ public abstract class AbsListActivity<T> extends BaseActivity implements UIContr
         ll_content.addView(contentView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         //添加no_data到show_data同级
         View show_data = UIKit.getView(contentView, R.id.bsi_v_show_data);
+        //未设置show_data布局 使用lv替代
+        if (null == show_data) show_data = UIKit.getView(contentView, R.id.bsi_lv_base);
         ViewGroup extraParent = null != show_data ? (ViewGroup) show_data.getParent() : ll_content;
         extraParent.addView(UIKit.inflate(R.layout.no_data), FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
     }
@@ -68,7 +70,7 @@ public abstract class AbsListActivity<T> extends BaseActivity implements UIContr
         });
     }
 
-    public void setTitle(String title) {
+    public void setQlTitle(String title) {
         if (null != titleBar) titleBar.setTitle(title, R.color.white);
     }
 

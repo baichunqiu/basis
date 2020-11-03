@@ -18,6 +18,7 @@ import com.kit.UIKit;
 import com.oklib.core.Method;
 import com.oklib.core.ReQuest;
 
+import java.io.IOException;
 import java.util.Map;
 
 
@@ -32,6 +33,7 @@ import java.util.Map;
  */
 public class NetApi {
     public final static String TAG = "NetApi";
+    private final static int CODE_CHECK_ERROR = -1;
 
     /**
      * @param tag           load视图
@@ -95,12 +97,17 @@ public class NetApi {
      * @return ReQuest 请求封装体
      */
     public static <R, E> ReQuest request(String url, Map<String, Object> params, Method method, GeneralCallBack<R, E> generalCallBack) {
-        ReQuest.Builder builder = method == Method.post ? ReQuest.Builder.post() : ReQuest.Builder.get();
-        ReQuest reQuest = builder.url(url)
+        ReQuest reQuest = ReQuest.Builder.method(method).url(url)
                 .param(params)
                 .callback(generalCallBack)
                 .build();
-        if (checkOK(url)) reQuest.request();
+        if (checkOK(url)) {
+            reQuest.request();
+        } else {
+            if (null != generalCallBack) {
+                generalCallBack.getiBusiCallback().onError(CODE_CHECK_ERROR,"设备未连接网络");
+            }
+        }
         return reQuest;
     }
 

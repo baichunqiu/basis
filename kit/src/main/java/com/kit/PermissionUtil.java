@@ -5,6 +5,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Size;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
@@ -30,7 +35,28 @@ public class PermissionUtil {
             Manifest.permission.SEND_SMS,
     };
 
-    public static void checkPermissions(Activity activity, String[] permissions) {
+    public static boolean hasPermissions(Context context, @Size(min = 1L) @NonNull String... var1) {
+        if (Build.VERSION.SDK_INT < 23) {
+            Log.w("EasyPermissions", "hasPermissions: API version < M, returning true by default");
+            return true;
+        } else if (context == null) {
+            throw new IllegalArgumentException("Can't check permissions for null context");
+        } else {
+            String[] var2 = var1;
+            int var3 = var1.length;
+
+            for (int var4 = 0; var4 < var3; ++var4) {
+                String var5 = var2[var4];
+                if (ContextCompat.checkSelfPermission(context, var5) != 0) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    public static boolean checkPermissions(Activity activity, String[] permissions) {
         try {
             if (Build.VERSION.SDK_INT >= 23) {
                 ArrayList<String> requestPerssions = new ArrayList<>();
@@ -43,11 +69,15 @@ public class PermissionUtil {
                 int size = requestPerssions.size();
                 if (size > 0) {
                     activity.requestPermissions(requestPerssions.toArray(new String[size]), REQUEST_CODE);
+                    return false;
                 }
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public static void checkPermission(Activity activity, String permission, int requestCode) {
@@ -64,20 +94,21 @@ public class PermissionUtil {
 
     /**
      * 获取拒绝权限
+     *
      * @param context
      * @param permissions
      * @return
      */
-    public static String[] getDeniedPermissions(Context context, String[] permissions){
+    public static String[] getDeniedPermissions(Context context, String[] permissions) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ArrayList<String> deniedPermissionList = new ArrayList<>();
-            for(String permission : permissions){
-                if(context.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED){
+            for (String permission : permissions) {
+                if (context.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
                     deniedPermissionList.add(permission);
                 }
             }
             int size = deniedPermissionList.size();
-            if(size > 0){
+            if (size > 0) {
                 return deniedPermissionList.toArray(new String[size]);
             }
         }

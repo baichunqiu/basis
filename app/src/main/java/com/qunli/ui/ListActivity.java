@@ -7,18 +7,12 @@ import com.basis.adapter.BsiAdapter;
 import com.basis.adapter.SampleAdapter;
 import com.basis.adapter.ViewHolder;
 import com.basis.base.AbsListActivity;
-import com.basis.widget.SwitchButton;
 import com.bcq.net.NetApi;
 import com.bcq.net.callback.base.BaseListCallback;
 import com.bcq.net.view.LoadTag;
-import com.kit.DateUtil;
-import com.kit.DateUtil.DateFt;
-import com.kit.DateUtil.TimeFt;
 import com.kit.KToast;
-import com.kit.Logger;
 import com.oklib.core.Method;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
