@@ -9,7 +9,7 @@ import com.bcq.net.callback.GeneralListCallback;
 import com.bcq.net.callback.GeneralStateCallback;
 import com.bcq.net.callback.base.IListCallback;
 import com.bcq.net.enums.NetType;
-import com.business.GeneralCallBack;
+import com.business.GeneralWrapperCallBack;
 import com.business.IBusiCallback;
 import com.business.ILoadTag;
 import com.business.parse.Parser;
@@ -18,7 +18,6 @@ import com.kit.UIKit;
 import com.oklib.core.Method;
 import com.oklib.core.ReQuest;
 
-import java.io.IOException;
 import java.util.Map;
 
 
@@ -96,7 +95,7 @@ public class NetApi {
      * @param <E>             extra类型 （附加数据）
      * @return ReQuest 请求封装体
      */
-    public static <R, E> ReQuest request(String url, Map<String, Object> params, Method method, GeneralCallBack<R, E> generalCallBack) {
+    public static <R, E> ReQuest request(String url, Map<String, Object> params, Method method, GeneralWrapperCallBack<R, E> generalCallBack) {
         ReQuest reQuest = ReQuest.Builder.method(method).url(url)
                 .param(params)
                 .callback(generalCallBack)

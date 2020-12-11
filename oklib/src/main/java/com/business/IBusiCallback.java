@@ -1,7 +1,7 @@
 package com.business;
 
 /**
- * 业务封装接口
+ * 业务接口回调
  *
  * @param <R> result 泛型
  * @param <E> extra信息 泛型

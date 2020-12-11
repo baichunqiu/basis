@@ -113,7 +113,7 @@ public class Core {
                         dispatchFail(new IOException("Canceled!"), callback);
                         return;
                     }
-                    T o = callback.onParse(response, null);
+                    T o = callback.onParse(response);
                     dispatchSuccess(o, callback);
                 } catch (Exception e) {
                     dispatchFail(e, callback);
@@ -146,5 +146,4 @@ public class Core {
             }
         });
     }
-
 }

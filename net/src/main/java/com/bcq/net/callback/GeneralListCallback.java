@@ -1,13 +1,13 @@
 package com.bcq.net.callback;
 
-import android.text.TextUtils;
-
 import com.bcq.net.callback.base.IListCallback;
-import com.business.DataInfo;
-import com.business.GeneralCallBack;
+import com.business.GeneralWrapperCallBack;
 import com.business.IBusiCallback;
 import com.business.ILoadTag;
 import com.business.parse.Parser;
+import com.business.parse.Processor;
+import com.business.parse.Wrapper;
+import com.business.parse.BaseProcessor;
 import com.kit.GsonUtil;
 import com.kit.Logger;
 
@@ -19,41 +19,34 @@ import java.util.List;
  * @ClassName: GeneralListCallback
  * @Description: 列表数据回调
  */
-public class GeneralListCallback<R> extends GeneralCallBack<List<R>, Boolean> {
+public class GeneralListCallback<R> extends GeneralWrapperCallBack<List<R>, Boolean> {
 
     public GeneralListCallback(ILoadTag loadTag, Parser parser, IBusiCallback<List<R>, Boolean> iBusiCallback) {
         super(loadTag, parser, iBusiCallback);
     }
 
-    /**
-     * code 或其他错误 返回null
-     * 请求成功但是没有数据返回空数组
-     *
-     * @param netInfo
-     * @param iCallback
-     * @return
-     * @throws Exception
-     */
     @Override
-    protected List<R> parseResult(DataInfo netInfo, IBusiCallback<List<R>, Boolean> iCallback) throws Exception {
-        if (!parser.success(netInfo.getCode()) || !(iCallback instanceof IListCallback)) {
-            return null;//状态错误
-        }
-        IListCallback<R> iListCallback = (IListCallback<R>) iCallback;
-        if (!TextUtils.isEmpty(netInfo.getBody())) {
-            List<R> resultData = GsonUtil.json2List(netInfo.getBody(), iListCallback.setType());
-            //预处理数据
-            resultData = iListCallback.onPreprocess(resultData);
-            Logger.e(TAG, "parseResult len = " + resultData.size());
-            return resultData;
-        } else {//请求成功，但没有数据
-            Logger.e(TAG, "parseResult len = 0");
-            return new ArrayList<>();
-        }
-    }
+    public Processor<List<R>, Boolean> onSetProcessor() {
+        return new BaseProcessor<List<R>, Boolean>() {
+            @Override
+            public List<R> transform(Wrapper wrapper) {
+                IBusiCallback iBusiCallback = getiBusiCallback();
+                if (null != wrapper.getBody() && !"".equals(wrapper.getBody()) && iBusiCallback instanceof IListCallback) {
+                    IListCallback<R> iListCallback = (IListCallback<R>) iBusiCallback;
+                    List<R> resultData = GsonUtil.json2List(wrapper.getBody(), iListCallback.setType());
+                    resultData = iListCallback.onPreprocess(resultData);
+                    Logger.e(TAG, "parseResult len = " + resultData.size());
+                    return resultData;
+                } else {//请求成功，但没有数据
+                    Logger.e(TAG, "parseResult len = 0");
+                    return new ArrayList<>();
+                }
+            }
 
-    @Override
-    protected Boolean parseExtra(DataInfo netInfo) {
-        return netInfo.getIndex() >= netInfo.getTotal();
+            @Override
+            public Boolean parseExtra(Wrapper wrapper) {
+                return wrapper.getIndex() >= wrapper.getTotal();
+            }
+        };
     }
 }

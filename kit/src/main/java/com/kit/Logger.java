@@ -22,7 +22,7 @@ public class Logger {
     public final static int MAX_LEN = 3000;
 
     private static boolean debug = true;
-    private static boolean toLocal = true;
+    private static boolean toLocal = false;
 
     static {
         map.put(Log.VERBOSE, "v");

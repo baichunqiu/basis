@@ -1,17 +1,16 @@
 package com.business.parse;
 
-import com.business.DataInfo;
-
+/**
+ * 将response的数据封装成DataInfo返回
+ */
 public interface Parser {
-    String TOKEN_KEY = "X-Access-Token";
-    int CODE_OK = 200;
     /**
      * 统一解析字段
      *
      * @param json
      * @return
      */
-    DataInfo parse(String json) throws Exception;
+    Wrapper parse(String json) throws Exception;
 
     /**
      * 状态判断
@@ -19,12 +18,7 @@ public interface Parser {
      * @param code
      * @return
      */
-    boolean success(int code);
+    boolean ok(int code);
 
-    /**
-     * 从响应结果中保存的header，并添加到下次请求header的keys
-     *
-     * @return
-     */
-    String[] headers();
+    String[] headerKeys();
 }

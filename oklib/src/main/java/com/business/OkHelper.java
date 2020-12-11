@@ -1,31 +1,17 @@
 package com.business;
 
-import com.business.parse.DefauParser;
 import com.business.parse.Parser;
-import com.business.process.DefauProcessor;
-import com.business.process.Processor;
-import com.kit.Logger;
 
 public class OkHelper {
+    private final static OkHelper instance = new OkHelper();
     //通用json解析器
-    private static Parser parser;
-    //统一错误处理
-    private static Processor processor;
-    private static boolean debug = true;
+    private Parser defaultParser;
+    private String mToken;
 
-    //格式：以'Bearer ' 开始
-    // 'Bearer' + ' ' + tokenStr
-    private static String TOKEN = null;
-
-    /**
-     * 获取token
-     * 内部使用
-     *
-     * @return
-     */
-    public static String getToken() {
-        return TOKEN;
+    public static OkHelper get() {
+        return instance;
     }
+
 
     /**
      * 缓存token
@@ -33,49 +19,24 @@ public class OkHelper {
      *
      * @param token
      */
-    public static void setToken(String token) {
-        if (token == null) token = "";
-        OkHelper.TOKEN = token;
-    }
-
-    /**
-     * 设置全局Json解析器
-     *
-     * @param defaultParser
-     */
-    public static void setParser(Parser defaultParser) {
-        OkHelper.parser = defaultParser;
-    }
-
-    public static Parser getParser() {
-        if (null == parser) {//使用默认解析器
-            parser = new DefauParser();
+    public void setToken(String token) {
+        if (null != token && "".equals(token)) {
+            mToken = token;
         }
-        return parser;
     }
 
-    /**
-     * 设置全局错误处理器
-     *
-     * @param processor
-     */
-    public static void setProcessor(Processor processor) {
-        OkHelper.processor = processor;
+    public String getToken() {
+        return mToken;
     }
 
-    public static Processor getProcessor() {
-        if (null == processor) {
-            processor = new DefauProcessor();
+    public void setParser(Parser parser) {
+        defaultParser = parser;
+    }
+
+    protected Parser getParser() {
+        if (null == defaultParser) {
+            defaultParser = new DefauParser();
         }
-        return processor;
-    }
-
-    public static void setDebug(boolean debug) {
-        OkHelper.debug = debug;
-        Logger.setDebug(debug);
-    }
-
-    public static boolean debug() {
-        return debug;
+        return defaultParser;
     }
 }

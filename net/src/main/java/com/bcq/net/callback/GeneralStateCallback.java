@@ -1,29 +1,36 @@
 package com.bcq.net.callback;
 
-import com.business.DataInfo;
-import com.business.GeneralCallBack;
+import com.business.GeneralWrapperCallBack;
 import com.business.IBusiCallback;
 import com.business.ILoadTag;
+import com.business.parse.Processor;
 import com.business.parse.Parser;
+import com.business.parse.Wrapper;
+import com.business.parse.BaseProcessor;
 
 /**
  * @author: BaiCQ
  * @ClassName: GeneralStateCallback
  * @Description: 状态回调
  */
-public class GeneralStateCallback extends GeneralCallBack<Integer, String> {
+public class GeneralStateCallback extends GeneralWrapperCallBack<Integer, String> {
 
     public GeneralStateCallback(ILoadTag loadTag, Parser parser, IBusiCallback<Integer, String> iBusiCallback) {
         super(loadTag, parser, iBusiCallback);
     }
 
     @Override
-    protected Integer parseResult(DataInfo netInfo, IBusiCallback<Integer, String> iCallback) {
-        return netInfo.getCode();
-    }
+    public Processor<Integer, String> onSetProcessor() {
+        return new BaseProcessor<Integer, String>() {
+            @Override
+            public Integer transform(Wrapper wrapper) {
+                return wrapper.getCode();
+            }
 
-    @Override
-    protected String parseExtra(DataInfo netInfo) {
-        return netInfo.getMessage();
+            @Override
+            public String parseExtra(Wrapper wrapper) {
+                return wrapper.getMessage();
+            }
+        };
     }
 }

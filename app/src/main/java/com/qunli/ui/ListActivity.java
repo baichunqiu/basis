@@ -43,7 +43,6 @@ public class ListActivity extends AbsListActivity<WorkDetails,WorkDetails> {
         params.put("password", pswd);
         final LoadTag tag = new LoadTag(mActivity, "登录...");
         NetApi.request(tag, LOGIN, params, null, Method.post, new BaseListCallback<TokenBean>() {
-
             @Override
             public void onSuccess(List<TokenBean> tokenBeans, Boolean loadFull) {
                 super.onSuccess(tokenBeans, loadFull);
@@ -51,10 +50,10 @@ public class ListActivity extends AbsListActivity<WorkDetails,WorkDetails> {
                 int len = null == tokenBeans ? 0 : tokenBeans.size();
                 if (1 == len) {
                     KToast.show("登录成功！");
-                    Map<String, Object> params = new HashMap<>(2);
-                    params.put("include", "parent_project,video,story");//parent_project作业   story操作记录   video视频   creater创建人 room房间
-                    params.put("status", "stop");//搜索字段
-                    getNetData(true, HIS_WORKS, params, "正在加载联系人", Method.get);
+//                    Map<String, Object> params = new HashMap<>(2);
+//                    params.put("include", "parent_project,video,story");//parent_project作业   story操作记录   video视频   creater创建人 room房间
+//                    params.put("status", "stop");//搜索字段
+//                    getNetData(true, HIS_WORKS, params, "正在加载联系人", Method.get);
                 }
             }
 

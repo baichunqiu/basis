@@ -1,7 +1,10 @@
 package com.oklib.callback;
 
+import com.oklib.core.ReQuest;
+
 import org.jetbrains.annotations.Nullable;
 
+import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -19,11 +22,10 @@ public interface CallBack<T, E> {
      * 非UI Thread
      *
      * @param response
-     * @param extra    该字段可能null， 接口提供向下传递字段 此字段在ReQuest中赋值
      * @return
      * @throws Exception
      */
-    T onParse(Response response, @Nullable E extra) throws Exception;
+    T onParse(Response response) throws Exception;
 
     /**
      * UI Thread
@@ -53,4 +55,7 @@ public interface CallBack<T, E> {
     void onAfter();
 
 
+    CallBack<T, E> set(E e);
+
+    E get();
 }

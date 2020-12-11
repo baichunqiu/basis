@@ -1,4 +1,4 @@
-package com.business;
+package com.business.parse;
 
 import java.io.Serializable;
 
@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @date: 2018/6/27
  * @Description: DataInfo Json解析实体
  */
-public class DataInfo implements Serializable{
+public class Wrapper implements Serializable{
     //code
     private int code;
     //net info

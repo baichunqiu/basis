@@ -1,22 +1,16 @@
 package com.oklib.core;
 
-import com.business.OkHelper;
 import com.kit.GsonUtil;
 import com.kit.Logger;
 import com.oklib.callback.CallBack;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Map;
 
-import okhttp3.Request;
-import okhttp3.Response;
-
-public class ReQuest<T> implements CallBack<T, Object> {
+public class ReQuest<T> {
     private final static String TAG = "ReQuest";
     public String url;
     public Map<String, Object> param;
-    public CallBack<T, ReQuest<T>> callBack;
+    public CallBack<T, Object> callBack;
     private Method method;
 
     private ReQuest() {
@@ -27,15 +21,13 @@ public class ReQuest<T> implements CallBack<T, Object> {
     }
 
     public ReQuest<T> request() {
-        if (OkHelper.debug()) {
-            logParams(url, method.name(), param);
-        }
+        logParams(url, method.name(), param);
         if (Method.post == method) {
-            Core.core().post(url, param, this);
+            Core.core().post(url, param, callBack.set(this));
         } else if (Method.get == method) {
-            Core.core().get(url, param, this);
+            Core.core().get(url, param, callBack.set(this));
         } else if (Method.delete == method) {
-            Core.core().delete(url, param, this);
+            Core.core().delete(url, param, callBack.set(this));
         }
         return this;
     }
@@ -69,37 +61,6 @@ public class ReQuest<T> implements CallBack<T, Object> {
                 ", callBack=" + callBack +
                 ", method='" + method + '\'' +
                 '}';
-    }
-
-    @Override
-    public void onBefore(Request.Builder builder) {
-        if (null != callBack) callBack.onBefore(builder);
-    }
-
-    @Override
-    public T onParse(Response response, @Nullable Object extra) throws Exception {
-        //注意：此处extra为null
-        return null != callBack ? callBack.onParse(response, this) : null;
-    }
-
-    @Override
-    public void onResponse(T result) {
-        if (null != callBack) callBack.onResponse(result);
-    }
-
-    @Override
-    public void onProgress(float progress, long total) {
-        if (null != callBack) callBack.onProgress(progress, total);
-    }
-
-    @Override
-    public void onError(Exception e) {
-        if (null != callBack) callBack.onError(e);
-    }
-
-    @Override
-    public void onAfter() {
-        if (null != callBack) callBack.onAfter();
     }
 
     /**

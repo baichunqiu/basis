@@ -6,15 +6,11 @@ import com.oklib.core.ReQuest;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public abstract class BaseCallBack<T> implements CallBack<T, ReQuest<T>> {
-    protected ReQuest<T> reQuest;
+public class BaseCallBack<R> implements CallBack<R, ReQuest<R>> {
+    private ReQuest<R> reQuest;
 
     @Override
     public void onBefore(Request.Builder request) {
-    }
-
-    @Override
-    public void onAfter() {
     }
 
     @Override
@@ -22,9 +18,20 @@ public abstract class BaseCallBack<T> implements CallBack<T, ReQuest<T>> {
     }
 
     @Override
-    public T onParse(Response response, ReQuest<T> extra) throws Exception {
-        this.reQuest = extra;
-        return onParse(response);
+    public R onParse(Response response) throws Exception {
+        return null;
+    }
+
+    @Override
+    public void onResponse(R result) {
+    }
+
+    @Override
+    public void onError(Exception e) {
+    }
+
+    @Override
+    public void onAfter() {
     }
 
     /**
@@ -36,5 +43,14 @@ public abstract class BaseCallBack<T> implements CallBack<T, ReQuest<T>> {
         Dispatcher.get().dispatch(run);
     }
 
-    public abstract T onParse(Response response) throws Exception;
+    @Override
+    public CallBack<R, ReQuest<R>> set(ReQuest<R> reQuest) {
+        this.reQuest = reQuest;
+        return this;
+    }
+
+    @Override
+    public ReQuest<R> get() {
+        return reQuest;
+    }
 }
