@@ -18,15 +18,17 @@ public interface Processor<R, E> {
     void process(int code, ReQuest request);
 
     /**
-     * 数据转换
+     * 数据转换：
+     * 从Wrapper中提取业务数据
      *
      * @param wrapper
      * @return
      */
-    R transform(Wrapper wrapper);
+    R parseResult(Wrapper wrapper);
 
     /**
-     * 额外数据解析
+     * 数据转换：
+     * 从Wrapper中提取额外数据
      *
      * @param wrapper
      * @return

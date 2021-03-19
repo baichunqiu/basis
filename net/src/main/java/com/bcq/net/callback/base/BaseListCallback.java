@@ -1,8 +1,8 @@
 package com.bcq.net.callback.base;
 
 
-import com.kit.Logger;
-import com.kit.ObjUtil;
+import com.kit.utils.Logger;
+import com.kit.utils.ObjUtil;
 
 import java.util.List;
 

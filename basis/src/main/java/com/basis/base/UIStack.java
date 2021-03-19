@@ -8,7 +8,7 @@ import android.net.ConnectivityManager;
 
 import com.bcq.net.NetApi;
 import com.bcq.net.enums.NetType;
-import com.kit.Logger;
+import com.kit.utils.Logger;
 
 import java.util.LinkedList;
 

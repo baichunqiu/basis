@@ -13,7 +13,7 @@ import com.business.GeneralWrapperCallBack;
 import com.business.IBusiCallback;
 import com.business.ILoadTag;
 import com.business.parse.Parser;
-import com.kit.Logger;
+import com.kit.utils.Logger;
 import com.kit.UIKit;
 import com.oklib.core.Method;
 import com.oklib.core.ReQuest;

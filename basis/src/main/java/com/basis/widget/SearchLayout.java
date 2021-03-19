@@ -6,15 +6,13 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.basis.R;
-import com.kit.Logger;
-import com.kit.SoftBoardUtil;
+import com.kit.utils.Logger;
 import com.kit.UIKit;
 
 /**

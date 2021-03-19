@@ -1,7 +1,7 @@
 package com.oklib.core;
 
-import com.kit.GsonUtil;
-import com.kit.Logger;
+import com.kit.cache.GsonUtil;
+import com.kit.utils.Logger;
 import com.oklib.callback.CallBack;
 
 import java.util.Map;

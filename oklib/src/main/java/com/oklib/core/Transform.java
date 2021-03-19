@@ -1,10 +1,8 @@
 package com.oklib.core;
 
 import android.net.Uri;
-import android.util.Log;
 
-import com.kit.GsonUtil;
-import com.kit.Logger;
+import com.kit.cache.GsonUtil;
 import com.oklib.body.IBody;
 
 import java.util.Map;
@@ -17,8 +15,12 @@ import okhttp3.RequestBody;
  * ok core 转换工具类
  */
 public class Transform {
-    public final static boolean mediaJson = true;
+    private static FormType formType = FormType.json;
     public final static MediaType json = MediaType.parse("application/json; charset=utf-8");
+
+    public static void setFormType(FormType formType) {
+        Transform.formType = formType;
+    }
 
     private static MultipartBody.Builder param2Builder(Map<String, Object> params) {
         if (null != params && !params.isEmpty()) {
@@ -56,7 +58,7 @@ public class Transform {
      * @return RequestBody
      */
     public static RequestBody param2Body(Map<String, Object> params) {
-        if (mediaJson) {
+        if (formType == FormType.json) {
             return RequestBody.Companion.create(GsonUtil.obj2Json(params), json);
         } else {
             return param2Builder(params).build();

@@ -8,8 +8,8 @@ import com.business.parse.Parser;
 import com.business.parse.Processor;
 import com.business.parse.Wrapper;
 import com.business.parse.BaseProcessor;
-import com.kit.GsonUtil;
-import com.kit.Logger;
+import com.kit.cache.GsonUtil;
+import com.kit.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class GeneralListCallback<R> extends GeneralWrapperCallBack<List<R>, Bool
     public Processor<List<R>, Boolean> onSetProcessor() {
         return new BaseProcessor<List<R>, Boolean>() {
             @Override
-            public List<R> transform(Wrapper wrapper) {
+            public List<R> parseResult(Wrapper wrapper) {
                 IBusiCallback iBusiCallback = getiBusiCallback();
                 if (null != wrapper.getBody() && !"".equals(wrapper.getBody()) && iBusiCallback instanceof IListCallback) {
                     IListCallback<R> iListCallback = (IListCallback<R>) iBusiCallback;

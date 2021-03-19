@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import androidx.annotation.LayoutRes;
 
 import com.basis.R;
-import com.kit.Logger;
-import com.kit.ScreenUtil;
+import com.kit.utils.Logger;
+import com.kit.utils.ScreenUtil;
 
 
 public class BottomDialog {

@@ -3,7 +3,7 @@ package com.basis;
 import android.app.Application;
 
 import com.basis.widget.TitleBar;
-import com.kit.Logger;
+import com.kit.utils.Logger;
 import com.kit.UIKit;
 
 

@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bcq.net.enums.NetType;
-import com.kit.Logger;
+import com.kit.utils.Logger;
 
 /**
  * @author: BaiCQ

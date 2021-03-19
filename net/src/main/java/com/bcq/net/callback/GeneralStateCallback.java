@@ -23,7 +23,7 @@ public class GeneralStateCallback extends GeneralWrapperCallBack<Integer, String
     public Processor<Integer, String> onSetProcessor() {
         return new BaseProcessor<Integer, String>() {
             @Override
-            public Integer transform(Wrapper wrapper) {
+            public Integer parseResult(Wrapper wrapper) {
                 return wrapper.getCode();
             }
 

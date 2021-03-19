@@ -3,6 +3,7 @@ package com.oklib.core;
 import com.oklib.callback.CallBack;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -17,6 +18,7 @@ public class Core {
     private OkHttpClient.Builder mBuilder;
 
     private Core() {
+        mBuilder = new OkHttpClient.Builder();
     }
 
     public static Core core() {

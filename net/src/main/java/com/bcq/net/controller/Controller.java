@@ -6,7 +6,6 @@ import com.bcq.net.callback.base.BaseListCallback;
 import com.bcq.net.callback.base.IRefreshView;
 import com.bcq.net.view.LoadTag;
 import com.business.parse.Parser;
-import com.kit.Logger;
 import com.oklib.core.Method;
 import com.oklib.core.ReQuest;
 

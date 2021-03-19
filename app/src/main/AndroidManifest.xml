@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".ListActivity" />
         <activity android:name=".WidgetActivity" />
+        <activity android:name=".CameraActivity" />
     </application>
 
 </manifest>

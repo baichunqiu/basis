@@ -10,7 +10,7 @@ import com.basis.base.AbsListActivity;
 import com.bcq.net.NetApi;
 import com.bcq.net.callback.base.BaseListCallback;
 import com.bcq.net.view.LoadTag;
-import com.kit.KToast;
+import com.kit.utils.KToast;
 import com.oklib.core.Method;
 
 import java.util.HashMap;

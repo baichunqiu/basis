@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.basis.R;
 import com.bcq.net.callback.base.IRefreshView;
-import com.kit.Logger;
+import com.kit.utils.Logger;
 import com.spinkit.SpinKitView;
 
 import java.lang.ref.WeakReference;

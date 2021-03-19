@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
@@ -20,9 +19,8 @@ import androidx.annotation.StringRes;
 
 import com.basis.R;
 import com.basis.percent.PercentLinearLayout;
-import com.kit.ResUtil;
-import com.kit.ScreenUtil;
-import com.kit.UIKit;
+import com.kit.utils.ResUtil;
+import com.kit.utils.ScreenUtil;
 
 
 /**

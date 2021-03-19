@@ -1,7 +1,6 @@
 package com.qunli.ui;
 
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,12 +13,12 @@ import com.basis.widget.WXDialog;
 import com.basis.widget.indicator.GuidPagerAdapter;
 import com.basis.widget.indicator.SpringIndicator;
 import com.basis.widget.indicator.TabClickListener;
-import com.kit.DateFt;
-import com.kit.DateUtil;
-import com.kit.KToast;
-import com.kit.Logger;
-import com.kit.ResUtil;
-import com.kit.TimeFt;
+import com.kit.utils.DateFt;
+import com.kit.utils.DateUtil;
+import com.kit.utils.KToast;
+import com.kit.utils.Logger;
+import com.kit.utils.ResUtil;
+import com.kit.utils.TimeFt;
 
 import java.util.Arrays;
 import java.util.Date;

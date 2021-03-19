@@ -9,7 +9,6 @@ import com.bcq.net.callback.base.IRefreshView;
 import com.bcq.net.controller.Controller;
 import com.bcq.net.view.LoadTag;
 import com.business.parse.Parser;
-import com.kit.Logger;
 import com.kit.UIKit;
 import com.oklib.core.Method;
 

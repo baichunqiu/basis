@@ -1,6 +1,5 @@
 package com.basis.base;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -9,9 +8,7 @@ import android.view.WindowManager;
 import androidx.annotation.IdRes;
 import androidx.fragment.app.FragmentActivity;
 
-import com.basis.widget.WXDialog;
 import com.bcq.net.enums.NetType;
-import com.kit.Logger;
 import com.kit.UIKit;
 
 /**

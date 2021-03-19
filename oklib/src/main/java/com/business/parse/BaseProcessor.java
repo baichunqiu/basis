@@ -1,8 +1,6 @@
 package com.business.parse;
 
-import com.business.parse.Processor;
-import com.business.parse.Wrapper;
-import com.kit.Logger;
+import com.kit.utils.Logger;
 import com.oklib.core.ReQuest;
 
 /**
@@ -52,7 +50,7 @@ public abstract class BaseProcessor<R, E> implements Processor<R, E> {
         return false;
     }
 
-    public abstract R transform(Wrapper wrapper);
+    public abstract R parseResult(Wrapper wrapper);
 
     public abstract E parseExtra(Wrapper wrapper);
 }

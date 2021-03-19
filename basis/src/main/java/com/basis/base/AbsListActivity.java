@@ -9,8 +9,8 @@ import com.basis.R;
 import com.basis.widget.TitleBar;
 import com.bcq.net.view.LoadTag;
 import com.business.parse.Parser;
-import com.kit.Logger;
-import com.kit.ObjUtil;
+import com.kit.utils.Logger;
+import com.kit.utils.ObjUtil;
 import com.kit.UIKit;
 import com.oklib.core.Method;
 

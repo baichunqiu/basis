@@ -19,8 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.basis.R;
-import com.kit.ImageLoader;
+import com.kit.utils.ImageLoader;
 
 /**
  * @author: BaiCQ

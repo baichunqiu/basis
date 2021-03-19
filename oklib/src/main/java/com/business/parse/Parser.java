@@ -1,16 +1,21 @@
 package com.business.parse;
 
 /**
- * 将response的数据封装成DataInfo返回
+ * @author: BaiCQ
+ * @ClassName: Processor
+ * @date: 2018/6/27
+ * @Description: 数据解析：统一数据格式，将response的数据封装成Wrapper返回
  */
+
 public interface Parser {
     /**
      * 统一解析字段
      *
-     * @param json
+     * @param httpcode http状态码
+     * @param json     body
      * @return
      */
-    Wrapper parse(String json) throws Exception;
+    Wrapper parse(int httpcode, String json) throws Exception;
 
     /**
      * 状态判断
@@ -20,5 +25,10 @@ public interface Parser {
      */
     boolean ok(int code);
 
+    /**
+     * 需要header的keys数组
+     *
+     * @return
+     */
     String[] headerKeys();
 }

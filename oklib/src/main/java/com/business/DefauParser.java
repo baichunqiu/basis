@@ -2,10 +2,9 @@ package com.business;
 
 import com.business.parse.Parser;
 import com.business.parse.Wrapper;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.kit.Logger;
+import com.kit.utils.Logger;
 
 /**
  * @author: BaiCQ
@@ -16,7 +15,7 @@ import com.kit.Logger;
 public class DefauParser implements Parser {
     //    {"code":1,"time":"2020-12-11 18:02:25","message":"success","data":{"access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.}
     @Override
-    public Wrapper parse(String json) {
+    public Wrapper parse(int httpcode,String json) {
         Wrapper info = new Wrapper();
         Logger.e("DefauParser", "json = " + json);
         JsonObject resulObj = (JsonObject) JsonParser.parseString(json);

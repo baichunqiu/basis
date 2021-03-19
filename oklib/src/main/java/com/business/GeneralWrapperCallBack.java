@@ -3,8 +3,8 @@ package com.business;
 import com.business.parse.Parser;
 import com.business.parse.Processor;
 import com.business.parse.Wrapper;
-import com.kit.GsonUtil;
-import com.kit.Logger;
+import com.kit.cache.GsonUtil;
+import com.kit.utils.Logger;
 import com.oklib.callback.BaseCallBack;
 
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public abstract class GeneralWrapperCallBack<R, E> extends BaseCallBack<Object[]
             String key = headerKeys[i];
             headers.put(key, response.header(key));
         }
-        onReceiveHeader(headers);
+        onParseHeaders(headers);
     }
 
     /**
@@ -65,7 +65,7 @@ public abstract class GeneralWrapperCallBack<R, E> extends BaseCallBack<Object[]
      *
      * @param headers
      */
-    protected void onReceiveHeader(Map<String, String> headers) {
+    protected void onParseHeaders(Map<String, String> headers) {
     }
 
     @Override
@@ -73,7 +73,7 @@ public abstract class GeneralWrapperCallBack<R, E> extends BaseCallBack<Object[]
         onResponseHeader(response);
         String res = response.body().string();
         int httpCode = response.code();
-        Logger.e(TAG, "res = " + res);
+        Logger.e(TAG, "httpCode = " + httpCode + " res = " + res);
         if (null == res || "".equals(res)) {
             Logger.e(TAG, "未知错误：Response No Body ！");
             return null;
@@ -82,7 +82,7 @@ public abstract class GeneralWrapperCallBack<R, E> extends BaseCallBack<Object[]
             Logger.e(TAG, "No Set Parser ！");
             return null;
         }
-        wrapper = parser.parse(res);
+        wrapper = parser.parse(httpCode, res);
         Logger.e(TAG, "wrapper = " + GsonUtil.obj2Json(wrapper));
         if (null == processor) {
             Logger.e(TAG, "No Set Processor ！");
@@ -92,7 +92,7 @@ public abstract class GeneralWrapperCallBack<R, E> extends BaseCallBack<Object[]
             if (null != processor) processor.process(wrapper.getCode(), get());
             return null;
         }
-        return new Object[]{processor.transform(wrapper),
+        return new Object[]{processor.parseResult(wrapper),
                 processor.parseExtra(wrapper)};
     }
 
@@ -101,7 +101,7 @@ public abstract class GeneralWrapperCallBack<R, E> extends BaseCallBack<Object[]
         if (null != result && 2 == result.length) {
             if (null != iBusiCallback) iBusiCallback.onSuccess((R) result[0], (E) result[1]);
         } else {
-            if (null != iBusiCallback) iBusiCallback.onError(-1,"No Result！");
+            if (null != iBusiCallback) iBusiCallback.onError(-1, "No Result！");
         }
     }
 

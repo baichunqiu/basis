@@ -1,7 +1,6 @@
 package com.basis.base;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -9,8 +8,8 @@ import android.widget.FrameLayout;
 import com.basis.R;
 import com.bcq.net.view.LoadTag;
 import com.business.parse.Parser;
-import com.kit.Logger;
-import com.kit.ObjUtil;
+import com.kit.utils.Logger;
+import com.kit.utils.ObjUtil;
 import com.kit.UIKit;
 import com.oklib.core.Method;
 
