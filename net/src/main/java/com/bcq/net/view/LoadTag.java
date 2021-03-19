@@ -2,6 +2,7 @@ package com.bcq.net.view;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ public class LoadTag implements ILoadTag {
     private String loadMsg;
     private SpinKitView progressBar;
     private int styleIndex = 2;
+    private DialogInterface.OnDismissListener dismissListener;
 
     public LoadTag(Activity activity) {
         this(activity, activity.getString(R.string.net_loading));
@@ -45,6 +47,23 @@ public class LoadTag implements ILoadTag {
         dialog.setCanceledOnTouchOutside(false);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.addContentView(rootView, params);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (null != dismissListener) dismissListener.onDismiss(dialog);
+            }
+        });
+    }
+
+    @Override
+    public ILoadTag setOnDismissListener(DialogInterface.OnDismissListener onDismiss) {
+        this.dismissListener = onDismiss;
+        return this;
+    }
+
+    @Override
+    public String getTagMsg() {
+        return loadMsg;
     }
 
     @Override
@@ -63,9 +82,5 @@ public class LoadTag implements ILoadTag {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public String getLoadMsg() {
-        return loadMsg;
     }
 }
