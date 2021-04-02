@@ -73,7 +73,8 @@ public class GsonUtil {
         }
         List<T> lst = new ArrayList<T>();
         try {
-            JsonElement jsonElement = new JsonParser().parse(json);
+//            JsonElement jsonElement = new JsonParser().parse(json);
+            JsonElement jsonElement = JsonParser.parseString(json);
             if (jsonElement instanceof JsonArray) {//兼融list
                 JsonArray array = jsonElement.getAsJsonArray();
                 for (JsonElement elem : array) {
