@@ -1,10 +1,11 @@
 package com.oklib.core;
 
-import com.kit.cache.GsonUtil;
-import com.kit.utils.Logger;
+import com.business.OkUtil;
 import com.oklib.callback.CallBack;
 
 import java.util.Map;
+
+//import com.kit.utils.Logger;
 
 public class ReQuest<T> {
     private final static String TAG = "ReQuest";
@@ -40,17 +41,17 @@ public class ReQuest<T> {
      * @param params
      */
     private static void logParams(String url, String method, Map<String, Object> params) {
-        Logger.e(TAG, " : ------------- start --------------------");
-        Logger.e(TAG, " : url = " + url + "  method = " + method);
+        OkUtil.e(TAG, " : ------------- start --------------------");
+        OkUtil.e(TAG, " : url = " + url + "  method = " + method);
         int size = null == params ? 0 : params.size();
         if (size > 0) {
             for (Map.Entry<String, Object> entry : params.entrySet()) {
-                Logger.e(TAG, " : " + entry.getKey() + " = " + GsonUtil.obj2Json(entry.getValue()));
+                OkUtil.e(TAG, " : " + entry.getKey() + " = " + OkUtil.obj2Json(entry.getValue()));
             }
         } else {
-            Logger.e(TAG, " : 参数【无】");
+            OkUtil.e(TAG, " : 参数【无】");
         }
-        Logger.e(TAG, " : -------------   end --------------------");
+        OkUtil.e(TAG, " : -------------   end --------------------");
     }
 
     @Override

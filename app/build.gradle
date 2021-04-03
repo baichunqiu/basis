@@ -32,7 +32,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation project(path: ':basis')
-    implementation project(path: ':library')
     implementation 'com.github.chenupt.android:multiplemodel:1.1.0@aar'
+    implementation project(path: ':basis')
+//    implementation project(path: ':library')
+//    implementation project(path: ':oklib')
+//    implementation project(path: ':xrecycle')
+//    implementation project(path: ':refresh')
+//    implementation project(path: ':ukit')
 }

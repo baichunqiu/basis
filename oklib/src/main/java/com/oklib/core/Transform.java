@@ -2,7 +2,7 @@ package com.oklib.core;
 
 import android.net.Uri;
 
-import com.kit.cache.GsonUtil;
+import com.business.OkUtil;
 import com.oklib.body.IBody;
 
 import java.util.Map;
@@ -59,7 +59,7 @@ public class Transform {
      */
     public static RequestBody param2Body(Map<String, Object> params) {
         if (formType == FormType.json) {
-            return RequestBody.Companion.create(GsonUtil.obj2Json(params), json);
+            return RequestBody.Companion.create(OkUtil.obj2Json(params), json);
         } else {
             return param2Builder(params).build();
         }

@@ -4,7 +4,6 @@ import com.business.parse.Parser;
 import com.business.parse.Wrapper;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.kit.utils.Logger;
 
 /**
  * @author: BaiCQ
@@ -17,18 +16,18 @@ public class DefauParser implements Parser {
     @Override
     public Wrapper parse(int httpcode,String json) {
         Wrapper info = new Wrapper();
-        Logger.e("DefauParser", "json = " + json);
+        OkUtil.e("DefauParser", "json = " + json);
         JsonObject resulObj = (JsonObject) JsonParser.parseString(json);
         if (null != resulObj) {
             int code = resulObj.get("code").getAsInt();
-            Logger.e("DefauParser", "code = " + code);
+            OkUtil.e("DefauParser", "code = " + code);
             info.setCode(code);
             String message = resulObj.get("message").getAsString();
             info.setMessage(message);
             JsonObject data = resulObj.get("data").getAsJsonObject();
             info.setBody(data.toString());
         } else {
-            Logger.e("DefauParser", "resulObj = null ");
+            OkUtil.e("DefauParser", "resulObj = null ");
         }
         return info;
     }

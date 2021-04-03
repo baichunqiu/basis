@@ -24,7 +24,7 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar','*.aar'], dir: 'libs')
-    api project(':kit')
+    api project(':ukit')
     api project(':oklib')
 }
 

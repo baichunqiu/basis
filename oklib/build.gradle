@@ -27,5 +27,5 @@ dependencies {
     api("com.squareup.okhttp3:okhttp:4.2.2")
     //处理 new OkHttpClient 的时候报错"org.conscrypt.ConscryptHostnameVerifier" 需依赖ndk
     implementation 'org.conscrypt:conscrypt-android:2.2.1'
-    api project(':kit')
+    api 'com.google.code.gson:gson:2.8.6'
 }

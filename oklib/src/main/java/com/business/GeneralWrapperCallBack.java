@@ -3,8 +3,6 @@ package com.business;
 import com.business.parse.Parser;
 import com.business.parse.Processor;
 import com.business.parse.Wrapper;
-import com.kit.cache.GsonUtil;
-import com.kit.utils.Logger;
 import com.oklib.callback.BaseCallBack;
 
 import java.util.HashMap;
@@ -73,19 +71,19 @@ public abstract class GeneralWrapperCallBack<R, E> extends BaseCallBack<Object[]
         onResponseHeader(response);
         String res = response.body().string();
         int httpCode = response.code();
-        Logger.e(TAG, "httpCode = " + httpCode + " res = " + res);
+        OkUtil.e(TAG, "httpCode = " + httpCode + " res = " + res);
         if (null == res || "".equals(res)) {
-            Logger.e(TAG, "未知错误：Response No Body ！");
+            OkUtil.e(TAG, "未知错误：Response No Body ！");
             return null;
         }
         if (null == parser) {
-            Logger.e(TAG, "No Set Parser ！");
+            OkUtil.e(TAG, "No Set Parser ！");
             return null;
         }
         wrapper = parser.parse(httpCode, res);
-        Logger.e(TAG, "wrapper = " + GsonUtil.obj2Json(wrapper));
+        OkUtil.e(TAG, "wrapper = " + OkUtil.obj2Json(wrapper));
         if (null == processor) {
-            Logger.e(TAG, "No Set Processor ！");
+            OkUtil.e(TAG, "No Set Processor ！");
             return null;
         }
         if (!parser.ok(wrapper.getCode())) {

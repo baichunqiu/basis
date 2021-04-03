@@ -1,6 +1,6 @@
 package com.business.parse;
 
-import com.kit.utils.Logger;
+import com.business.OkUtil;
 import com.oklib.core.ReQuest;
 
 /**
@@ -30,14 +30,14 @@ public abstract class BaseProcessor<R, E> implements Processor<R, E> {
             repeat = 1;
         }
         if (repeat > MAX_REPEAT) {
-            Logger.e(TAG, "The maximum limit of repeat is " + MAX_REPEAT + " . current repeat = " + repeat);
+            OkUtil.e(TAG, "The maximum limit of repeat is " + MAX_REPEAT + " . current repeat = " + repeat);
             return;
         }
-        Logger.e(TAG, "**************************** start process code error = " + code + " and request ****************************");
+        OkUtil.e(TAG, "**************************** start process code error = " + code + " and request ****************************");
         if (processCode(code)) {
             reQuest.request();
         }
-        Logger.e(TAG, "**************************** end   process code error = " + code + " and request ****************************");
+        OkUtil.e(TAG, "**************************** end   process code error = " + code + " and request ****************************");
     }
 
     /**

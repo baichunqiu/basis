@@ -12,6 +12,9 @@ public class OkHelper {
         return instance;
     }
 
+    public static void setDebug(boolean debug){
+        OkUtil.debug = debug;
+    }
 
     /**
      * 缓存token

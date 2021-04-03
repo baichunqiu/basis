@@ -1,0 +1,22 @@
+<resources>
+    <string name="listview_header_hint_normal">下拉刷新</string>
+    <string name="listview_header_hint_release">释放立即刷新</string>
+    <string name="listview_loading">正在加载...</string>
+    <string name="nomore_loading">没有了</string>
+    <string name="refreshing">正在刷新...</string>
+    <string name="refresh_done">刷新完成</string>
+    <string name="loading_done">加载完成</string>
+    <string name="listview_header_last_time">上次更新时间：</string>
+
+    <string name="net_loading">loading...</string>
+    <string name="pull_down_refresh">下拉刷新</string>
+    <string name="last_update">上次更新</string>
+    <string name="str_loading">加载中...</string>
+    <string name="str_refresh_in">正在刷新...</string>
+    <string name="str_losen_to_refresh">松开立即刷新</string>
+
+    <string name="no_data">暂无数据</string>
+    <string name="load_fail">加载失败！</string>
+    <string name="more">加载中...</string>
+
+</resources>
