@@ -15,4 +15,11 @@
         <item name="android:maxHeight">25dp</item>
     </style>
 
+    <style name="SpinKitView">
+        <item name="android:indeterminateOnly">true</item>
+        <item name="android:minWidth">40dip</item>
+        <item name="android:maxWidth">40dip</item>
+        <item name="android:minHeight">40dip</item>
+        <item name="android:maxHeight">40dip</item>
+    </style>
 </resources>

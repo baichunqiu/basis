@@ -23,20 +23,22 @@ import com.google.android.material.appbar.AppBarLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.xrecycle.BaseRefreshHeader.STATE_DONE;
+import static com.xrecycle.IRefreshHeader.STATE_DONE;
 
 public class XRecyclerView extends RecyclerView implements IRefresh {
+    private final static int DEF_STYLE_INDEX = 2;
     private boolean isLoadingData = false;
     private boolean isNoMore = false;
-    private int mRefreshProgressStyle = ProgressStyle.SysProgress;
-    private int mLoadingMoreProgressStyle = ProgressStyle.SysProgress;
+    private int mRefreshProgressStyle = DEF_STYLE_INDEX;
+    private int mLoadingMoreProgressStyle = DEF_STYLE_INDEX;
+
     private ArrayList<View> mHeaderViews = new ArrayList<>();
     private WrapAdapter mWrapAdapter;
     private float mLastY = -1;
     private float dragRate = 3;
     private CustomFooterViewCallBack footerViewCallBack;
     private LoadListener mLoadListener;
-    private ArrowRefreshHeader mRefreshHeader;
+    private RefreshHeader mRefreshHeader;
     private boolean pullRefreshEnabled = true;
         private boolean loadingMoreEnabled = true;
     //下面的ItemViewType是保留值(ReservedItemViewType),如果用户的adapter与它们重复将会强制抛出异常。不过为了简化,我们检测到重复时对用户的提示是ItemViewType必须小于10000
@@ -70,11 +72,11 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
 
     private void init() {
         if (pullRefreshEnabled) {
-            mRefreshHeader = new ArrowRefreshHeader(getContext());
-            mRefreshHeader.setProgressStyle(mRefreshProgressStyle);
+            mRefreshHeader = new RefreshHeader(getContext());
+            mRefreshHeader.setStyleIndex(mRefreshProgressStyle);
         }
-        LoadingMoreFooter footView = new LoadingMoreFooter(getContext());
-        footView.setProgressStyle(mLoadingMoreProgressStyle);
+        RefreshFooter footView = new RefreshFooter(getContext());
+        footView.setStyleIndex(mLoadingMoreProgressStyle);
         mFootView = footView;
         mFootView.setVisibility(GONE);
     }
@@ -89,8 +91,7 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
             mHeaderViews.clear();
             mHeaderViews = null;
         }
-        if (mFootView instanceof LoadingMoreFooter) {
-            ((LoadingMoreFooter) mFootView).destroy();
+        if (mFootView instanceof RefreshFooter) {
             mFootView = null;
         }
         if (mRefreshHeader != null) {
@@ -99,19 +100,19 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
         }
     }
 
-    public ArrowRefreshHeader getDefaultRefreshHeaderView() {
+    public RefreshHeader getDefaultRefreshHeaderView() {
         if (mRefreshHeader == null) {
             return null;
         }
         return mRefreshHeader;
     }
 
-    public LoadingMoreFooter getDefaultFootView() {
+    public RefreshFooter getDefaultFootView() {
         if (mFootView == null) {
             return null;
         }
-        if (mFootView instanceof LoadingMoreFooter) {
-            return ((LoadingMoreFooter) mFootView);
+        if (mFootView instanceof RefreshFooter) {
+            return ((RefreshFooter) mFootView);
         }
         return null;
     }
@@ -126,9 +127,9 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
     }
 
     public void setFootViewText(String loading, String noMore) {
-        if (mFootView instanceof LoadingMoreFooter) {
-            ((LoadingMoreFooter) mFootView).setLoadingHint(loading);
-            ((LoadingMoreFooter) mFootView).setNoMoreHint(noMore);
+        if (mFootView instanceof RefreshFooter) {
+            ((RefreshFooter) mFootView).setLoadingHint(loading);
+            ((RefreshFooter) mFootView).setNoMoreHint(noMore);
         }
     }
 
@@ -210,14 +211,14 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
     public void setRefreshProgressStyle(int style) {
         mRefreshProgressStyle = style;
         if (mRefreshHeader != null) {
-            mRefreshHeader.setProgressStyle(style);
+            mRefreshHeader.setStyleIndex(style);
         }
     }
 
     public void setLoadingMoreProgressStyle(int style) {
         mLoadingMoreProgressStyle = style;
-        if (mFootView instanceof LoadingMoreFooter) {
-            ((LoadingMoreFooter) mFootView).setProgressStyle(style);
+        if (mFootView instanceof RefreshFooter) {
+            ((RefreshFooter) mFootView).setStyleIndex(style);
         }
     }
 
@@ -364,11 +365,11 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
                             && lastVisibleItemPosition >= adjAdapterItemCount - limitNumberToCallLoadMore
                             && adjAdapterItemCount >= layoutManager.getChildCount()
                             && !isNoMore
-                            && status < ArrowRefreshHeader.STATE_REFRESHING
+                            && status < RefreshHeader.STATE_REFRESHING
             ) {
                 isLoadingData = true;
-                if (mFootView instanceof LoadingMoreFooter) {
-                    ((LoadingMoreFooter) mFootView).setState(LoadingMoreFooter.STATE_LOADING);
+                if (mFootView instanceof RefreshFooter) {
+                    ((RefreshFooter) mFootView).setState(RefreshFooter.STATE_LOADING);
                 } else {
                     if (footerViewCallBack != null) {
                         footerViewCallBack.onLoadingMore(mFootView);
@@ -395,7 +396,7 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
                     if (mRefreshHeader == null)
                         break;
                     mRefreshHeader.onMove(deltaY / dragRate);
-                    if (mRefreshHeader.getVisibleHeight() > 0 && mRefreshHeader.getState() < ArrowRefreshHeader.STATE_REFRESHING) {
+                    if (mRefreshHeader.getVisibleHeight() > 0 && mRefreshHeader.getState() < RefreshHeader.STATE_REFRESHING) {
                         return false;
                     }
                 }
@@ -480,8 +481,6 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
             mWrapAdapter.notifyItemMoved(fromPosition, toPosition);
         }
     }
-
-    ;
 
     private class WrapAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -878,8 +877,8 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
     @Override
     public void loadComplete() {
         isLoadingData = false;
-        if (mFootView instanceof LoadingMoreFooter) {
-            ((LoadingMoreFooter) mFootView).setState(LoadingMoreFooter.STATE_COMPLETE);
+        if (mFootView instanceof RefreshFooter) {
+            ((RefreshFooter) mFootView).setState(RefreshFooter.STATE_COMPLETE);
         } else {
             if (footerViewCallBack != null) {
                 footerViewCallBack.onLoadMoreComplete(mFootView);
@@ -891,8 +890,8 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
     public void setNoMore(boolean noMore) {
         isLoadingData = false;
         isNoMore = noMore;
-        if (mFootView instanceof LoadingMoreFooter) {
-            ((LoadingMoreFooter) mFootView).setState(isNoMore ? LoadingMoreFooter.STATE_NOMORE : LoadingMoreFooter.STATE_COMPLETE);
+        if (mFootView instanceof RefreshFooter) {
+            ((RefreshFooter) mFootView).setState(isNoMore ? RefreshFooter.STATE_NOMORE : RefreshFooter.STATE_COMPLETE);
         } else {
             if (footerViewCallBack != null) {
                 footerViewCallBack.onSetNoMore(mFootView, noMore);
@@ -903,7 +902,7 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
     @Override
     public void refresh() {
         if (pullRefreshEnabled && mLoadListener != null) {
-            mRefreshHeader.setState(ArrowRefreshHeader.STATE_REFRESHING);
+            mRefreshHeader.setState(RefreshHeader.STATE_REFRESHING);
             mLoadListener.onRefresh();
         }
     }
@@ -926,7 +925,7 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
         mLoadListener = listener;
     }
 
-    public void setRefreshHeader(ArrowRefreshHeader refreshHeader) {
+    public void setRefreshHeader(RefreshHeader refreshHeader) {
         mRefreshHeader = refreshHeader;
     }
 
@@ -939,8 +938,8 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
     public void enableLoad(boolean enabled) {
         loadingMoreEnabled = enabled;
         if (!enabled) {
-            if (mFootView instanceof LoadingMoreFooter) {
-                ((LoadingMoreFooter) mFootView).setState(LoadingMoreFooter.STATE_COMPLETE);
+            if (mFootView instanceof RefreshFooter) {
+                ((RefreshFooter) mFootView).setState(RefreshFooter.STATE_COMPLETE);
             }
         }
     }

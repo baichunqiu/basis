@@ -102,8 +102,8 @@ public class RefreshListView extends ListView implements OnScrollListener, IRefr
         reverseAnimation.setDuration(300);
         reverseAnimation.setFillAfter(true);
         state = DONE;
-        progressBar.setStyleByIndex(styleIndex);
-        loading.setStyleByIndex(styleIndex);
+        progressBar.setStyleIndex(styleIndex);
+        loading.setStyleIndex(styleIndex);
         autoComplete = new CompleteTask(this);
     }
 
