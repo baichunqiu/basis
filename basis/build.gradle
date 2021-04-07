@@ -25,6 +25,9 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    api project(':net')
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation project(':ukit')
+    implementation project(':oklib')
+    implementation project(':refresh')
+    implementation project(':adapter')
 }

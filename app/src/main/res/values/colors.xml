@@ -8,4 +8,5 @@
     <color name="indicator_2">#64A4A4</color>
     <color name="indicator_3">#66D7B9</color>
     <color name="indicator_4">#FDBC7D</color>
+    <color name="kit_color_back">#FDBC7D</color>
 </resources>

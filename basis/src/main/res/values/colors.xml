@@ -31,4 +31,5 @@
     <color name="color_title">#02479C</color>
     <color name="color_title_light">#2202479C</color>
 
+    <color name="color_loadtag">#FFFFFFFF</color>
 </resources>

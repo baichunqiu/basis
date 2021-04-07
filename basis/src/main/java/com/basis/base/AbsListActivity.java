@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.basis.R;
+import com.basis.net.LoadTag;
 import com.basis.widget.TitleBar;
-import com.bcq.net.view.LoadTag;
 import com.business.parse.Parser;
 import com.kit.utils.Logger;
 import com.kit.utils.ObjUtil;

@@ -3,11 +3,14 @@ package com.basis.base;
 import android.view.View;
 import android.widget.ListView;
 
+import com.IRefresh;
+import com.adapter.RefreshAdapter;
+import com.adapter.interfaces.DataObserver;
+import com.adapter.interfaces.IAdapte;
 import com.basis.R;
-import com.basis.adapter.BsiAdapter;
-import com.bcq.net.callback.base.IRefreshView;
-import com.bcq.net.controller.Controller;
-import com.bcq.net.view.LoadTag;
+import com.basis.net.LoadTag;
+import com.basis.net.callback.base.IRefreshView;
+import com.basis.net.controller.Controller;
 import com.business.parse.Parser;
 import com.kit.UIKit;
 import com.oklib.core.Method;
@@ -22,12 +25,12 @@ import java.util.Map;
  * @className: UIController
  * @Description: 供列表显示页面使用的控制器
  */
-public class UIController<V, T> extends Controller<T> implements BsiAdapter.OnNoDataListeren {
+public class UIController<V, T> extends Controller<T> implements DataObserver {
     private final String TAG = "UIController";
     private IOperator operator;
     //适配器使用功能集合 泛型不能使用 T 接口返回类型有可能和适配器使用的不一致
     private List adapterList = new ArrayList<>();
-    private BsiAdapter mAdapter;
+    private RefreshAdapter<T> mAdapter;
     private IRefreshView refreshView;
     private View showData;
     private View noData;
@@ -51,15 +54,15 @@ public class UIController<V, T> extends Controller<T> implements BsiAdapter.OnNo
         refreshView = UIKit.getView(layout, R.id.bsi_lv_base);
         if (null == showData) showData = (View) refreshView;
         mAdapter = operator.setAdapter();
-        mAdapter.setOnNoDataListeren(this);
-        ((ListView) refreshView).setAdapter(mAdapter);
-        refreshView.setOnRefreshListener(new IRefreshView.OnRefreshListener() {
+        mAdapter.setDataObserver(this);
+        mAdapter.setRefreshView(refreshView);
+//        ((ListView) refreshView).setAdapter(mAdapter);
+        refreshView.setLoadListener(new IRefresh.LoadListener() {
             @Override
             public void onRefresh() {
                 requestAgain(true);
             }
-        });
-        refreshView.setOnLoadListener(new IRefreshView.OnLoadListener() {
+
             @Override
             public void onLoad() {
                 requestAgain(false);
@@ -97,7 +100,7 @@ public class UIController<V, T> extends Controller<T> implements BsiAdapter.OnNo
         List<T> temp = operator.onPreSetData(adapterList);
         if (null != temp && !temp.isEmpty()) {
             showViewType(ShowType.Data);
-            mAdapter.setData(temp);
+            mAdapter.setData(temp,isRefresh);
         } else {
             showViewType(ShowType.None);
         }
@@ -108,8 +111,10 @@ public class UIController<V, T> extends Controller<T> implements BsiAdapter.OnNo
      * BsiAdapter.OnNoDataListeren 接口
      */
     @Override
-    public void onNoData() {
-        showViewType(ShowType.None);
+    public void onObserve(int length) {
+        if (length == 0){
+            showViewType(ShowType.None);
+        }
     }
 
     public final void showViewType(ShowType showType) {
@@ -159,7 +164,7 @@ public class UIController<V, T> extends Controller<T> implements BsiAdapter.OnNo
          */
         List<V> onPreSetData(List<V> netData);
 
-        BsiAdapter<V> setAdapter();
+        RefreshAdapter<V> setAdapter();
 
         @Override
         void onError(int status, String errMsg);

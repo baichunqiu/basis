@@ -1,7 +1,5 @@
 package com.basis.base;
 
-import com.bcq.net.enums.NetType;
-
 /**
  * @author: BaiCQ
  * @ClassName: IRefresh
@@ -27,7 +25,6 @@ public interface IBase {
 
     /**
      * 网络变化回调接口
-     * @param netType
      */
-    void onNetChange(NetType netType);
+    void onNetChange();
 }

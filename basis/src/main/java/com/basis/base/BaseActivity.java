@@ -8,7 +8,6 @@ import android.view.WindowManager;
 import androidx.annotation.IdRes;
 import androidx.fragment.app.FragmentActivity;
 
-import com.bcq.net.enums.NetType;
 import com.kit.UIKit;
 
 /**
@@ -60,7 +59,7 @@ public abstract class BaseActivity extends FragmentActivity implements IBase {
     }
 
     @Override
-    public void onNetChange(NetType netType) {
+    public void onNetChange() {
     }
 
     @Override

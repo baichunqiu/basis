@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.progress.IndicatorView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/indicator"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    app:indicator_color="#ff0000"
+    app:indicator_style="BallSpinFadeLoader" />

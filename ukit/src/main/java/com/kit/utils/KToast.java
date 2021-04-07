@@ -23,7 +23,7 @@ public class KToast {
 
 
     private KToast() {
-        tipsView = UIKit.inflate(R.layout.toast_mb);
+        tipsView = UIKit.inflate(R.layout.kit_layout_toast);
         showText = tipsView.findViewById(R.id.toast_content);
     }
 

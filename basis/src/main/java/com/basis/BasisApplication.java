@@ -18,6 +18,7 @@ public class BasisApplication extends Application {
         Logger.setDebug(true);
         TitleBar.setDefaultBuild(new TitleBar.DefaultBuild(13.5f, 0)
                 .buildTitleColor(UIKit.getResources().getColor(R.color.white))
+//                .buildLeftDrawable(UIKit.getResources().getDrawable(R.drawable.kit_ic_back))
                 .buildLeftDrawable(UIKit.getResources().getDrawable(R.mipmap.ic_back))
                 .buildBackGroundColor(getResources().getColor(R.color.color_title))
                 .buildPressDrawable(R.drawable.selector_main_pressed_bg)

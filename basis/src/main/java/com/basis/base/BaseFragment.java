@@ -10,7 +10,6 @@ import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.bcq.net.enums.NetType;
 import com.kit.utils.Logger;
 
 /**
@@ -75,7 +74,7 @@ public abstract class BaseFragment extends Fragment implements IBase {
 
 
     @Override
-    public void onNetChange(NetType netType) {
+    public void onNetChange() {
     }
 
     public boolean isInit() {

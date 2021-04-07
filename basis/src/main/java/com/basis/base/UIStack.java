@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 
-import com.bcq.net.NetApi;
-import com.bcq.net.enums.NetType;
 import com.kit.utils.Logger;
 
 import java.util.LinkedList;
@@ -102,29 +100,29 @@ public class UIStack {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
-                instance.setResultForAll(NetApi.getNetWorkState());
+                instance.setResultForAll();
             }
         }
     }
 
-    private void setResultForAll(NetType netType) {
+    private void setResultForAll() {
         for (IBase a : iBases) {
             if (a instanceof Activity) {
-                a.onNetChange(netType);
+                a.onNetChange();
             }
         }
     }
 
-    private void setResultForTop(NetType netType) {
-        //遍历直到顶部的activity
-        int len = iBases.size();
-        for (int i = len - 1; i >= 0; i--) {
-            IBase base = iBases.get(i);
-            base.onNetChange(netType);
-            if (base instanceof Activity) {
-                break;
-            }
-        }
-    }
+//    private void setResultForTop() {
+//        //遍历直到顶部的activity
+//        int len = iBases.size();
+//        for (int i = len - 1; i >= 0; i--) {
+//            IBase base = iBases.get(i);
+//            base.onNetChange();
+//            if (base instanceof Activity) {
+//                break;
+//            }
+//        }
+//    }
 
 }

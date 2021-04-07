@@ -13,12 +13,12 @@
         app:title="UI" />
 
     <Button
-        android:id="@+id/listActivity"
+        android:id="@+id/load"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimens_60px"
         android:layout_marginRight="@dimen/dimens_60px"
-        android:text="list activity" />
+        android:text="load dialog" />
 
     <Button
         android:id="@+id/widgetActivity"
