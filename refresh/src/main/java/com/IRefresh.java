@@ -1,6 +1,12 @@
 package com;
 
+import com.progress.Style;
+
 public interface IRefresh {
+    void setRefreshStyle(Style style);
+
+    void setLoadStyle(Style style);
+
     void enableRefresh(boolean enable);
 
     void enableLoad(boolean enable);

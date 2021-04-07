@@ -2,14 +2,12 @@ package com.qunli.demo;
 
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.IRefresh;
 import com.adapter.RefreshAdapter;
-import com.adapter.SampleAdapter;
 import com.adapter.interfaces.IHolder;
 import com.business.parse.Wrapper;
 import com.kit.UIKit;
@@ -18,7 +16,7 @@ import com.kit.utils.ImageLoader;
 import com.kit.utils.Logger;
 import com.oklib.OkApi;
 import com.oklib.callback.BaseCallBack;
-import com.xrecycle.ProgressStyle;
+import com.progress.Style;
 import com.xrecycle.XRecyclerView;
 
 import java.util.List;
@@ -48,8 +46,8 @@ public class AdapterActivity extends AppCompatActivity {
             XRecyclerView recyclerView = (XRecyclerView) iRefresh;
             final GridLayoutManager layoutmanager = new GridLayoutManager(this, 2);
             recyclerView.setLayoutManager(layoutmanager);
-            recyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
-            recyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
+//            recyclerView.setRefreshStyle(Style.BallSpinFadeLoader);
+//            recyclerView.setLoadStyle(Style.BallRotate);
             recyclerView
                     .getDefaultRefreshHeaderView()
                     .setRefreshTimeVisible(true);
@@ -67,14 +65,6 @@ public class AdapterActivity extends AppCompatActivity {
                 fetchGankMZ(false);
             }
         });
-//        mAdapter = new SampleAdapter<Meizi>(this, R.layout.item_mz) {
-//            @Override
-//            public void convert(IHolder holder, Meizi meizi, int position, int layoutId) {
-//                Logger.e("position = " + position);
-//                ImageView imageView = (ImageView) holder.getView(R.id.img_content);
-//                ImageLoader.loadUrl(imageView, meizi.getUrl(), R.mipmap.ic_launcher, ImageLoader.Size.SZ_250);
-//            }
-//        };
         mAdapter = new RefreshAdapter<Meizi>(this, R.layout.item_mz, R.layout.item_info) {
                 @Override
                 public int getItemLayoutId(Meizi item, int position) {

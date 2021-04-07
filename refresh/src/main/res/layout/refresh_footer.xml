@@ -7,23 +7,27 @@
     android:orientation="horizontal"
     android:padding="20px">
 
-    <com.spinkit.SpinKitView
-        android:id="@+id/loading"
-        style="@style/progressbar_refresh_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        app:SpinKit_Color="#02479C"
-        android:padding="10px" />
+    <!--    <com.progress.IndicatorView-->
+    <!--        android:id="@+id/loading"-->
+    <!--        style="@style/progress_default_style"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginRight="10dp"-->
+    <!--        android:padding="10px"-->
+    <!--        app:indicator_color="#02479C"-->
+    <!--        app:indicator_style="BallPulse" />-->
+
+
+    <include layout="@layout/default_indicator" />
 
     <TextView
         android:id="@+id/more"
-        android:textSize="14sp"
-        android:textColor="#02479C"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="5dp"
-        android:text="@string/more" />
+        android:text="@string/more"
+        android:textColor="#02479C"
+        android:textSize="14sp" />
 
 </LinearLayout>

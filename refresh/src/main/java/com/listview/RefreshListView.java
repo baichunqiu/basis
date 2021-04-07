@@ -18,7 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.IRefresh;
-import com.spinkit.SpinKitView;
+import com.progress.IndicatorView;
+import com.progress.Style;
 import com.xrecycle.R;
 
 import java.lang.ref.WeakReference;
@@ -34,7 +35,6 @@ import java.util.Date;
  */
 public class RefreshListView extends ListView implements OnScrollListener, IRefresh {
     private final static long TIME_OUT = 5 * 1000;//动画超时时间
-    private final static int styleIndex = 2;//动画样式
     private final static int RELEASE_To_REFRESH = 0;//松开立即刷新
     public final static int PULL_To_REFRESH = 1;//下拉刷新
     private final static int REFRESHING = 2;//正在刷新
@@ -45,7 +45,7 @@ public class RefreshListView extends ListView implements OnScrollListener, IRefr
     private LinearLayout headView;
     private TextView tipsTextview;
     private TextView lastUpdatedTextView;
-    private SpinKitView progressBar;
+    private IndicatorView progress_refresh;
     private RotateAnimation animation;
     private RotateAnimation reverseAnimation;
     private boolean isRecored;
@@ -61,6 +61,8 @@ public class RefreshListView extends ListView implements OnScrollListener, IRefr
     /* 加载全部标识*/
     private boolean isLoadFull;
     private boolean isLoading;// 判断是否正在加载
+    private Style refreshStyle = Style.BallSpinFadeLoader;
+    private Style loadStyle = Style.BallSpinFadeLoader;
 
     public RefreshListView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -73,12 +75,12 @@ public class RefreshListView extends ListView implements OnScrollListener, IRefr
         // 添加load more 功能
         footer = inflater.inflate(R.layout.refresh_footer, null);
         more = (TextView) footer.findViewById(R.id.more);
-        loading = (SpinKitView) footer.findViewById(R.id.loading);
+        progress_load = footer.findViewById(R.id.default_indicator);
         footer.setVisibility(View.GONE);
         headView = (LinearLayout) inflater.inflate(R.layout.refresh_header, null);
-        progressBar = (SpinKitView) headView.findViewById(R.id.head_progressBar);
-        tipsTextview = (TextView) headView.findViewById(R.id.head_tipsTextView);
-        lastUpdatedTextView = (TextView) headView.findViewById(R.id.head_lastUpdatedTextView);
+        progress_refresh = headView.findViewById(R.id.default_indicator);
+        tipsTextview = headView.findViewById(R.id.head_tipsTextView);
+        lastUpdatedTextView = headView.findViewById(R.id.head_lastUpdatedTextView);
 
         measureView(headView);
         headContentHeight = headView.getMeasuredHeight();
@@ -102,9 +104,21 @@ public class RefreshListView extends ListView implements OnScrollListener, IRefr
         reverseAnimation.setDuration(300);
         reverseAnimation.setFillAfter(true);
         state = DONE;
-        progressBar.setStyleByIndex(styleIndex);
-        loading.setStyleByIndex(styleIndex);
+        progress_refresh.setStyle(refreshStyle);
+        progress_load.setStyle(refreshStyle);
         autoComplete = new CompleteTask(this);
+    }
+
+    @Override
+    public void setRefreshStyle(Style refreshStyle) {
+        this.refreshStyle = refreshStyle;
+        if (null != progress_refresh) progress_refresh.setStyle(refreshStyle);
+    }
+
+    @Override
+    public void setLoadStyle(Style loadStyle) {
+        this.loadStyle = loadStyle;
+        if (null != progress_load) progress_load.setStyle(loadStyle);
     }
 
     public void onScroll(AbsListView arg0, int firstVisiableItem, int arg2, int arg3) {
@@ -238,7 +252,7 @@ public class RefreshListView extends ListView implements OnScrollListener, IRefr
 
     private void showFooter() {
         footer.setVisibility(View.VISIBLE);
-        loading.setVisibility(View.VISIBLE);
+        progress_load.setVisibility(View.VISIBLE);
         more.setVisibility(View.VISIBLE);
     }
 
@@ -299,7 +313,7 @@ public class RefreshListView extends ListView implements OnScrollListener, IRefr
     private int scrollStates;
 
     private TextView more;
-    private SpinKitView loading;
+    private IndicatorView progress_load;
 
     @Override
     public void onScrollStateChanged(AbsListView view1, int scrollState) {
@@ -332,7 +346,7 @@ public class RefreshListView extends ListView implements OnScrollListener, IRefr
 
     public void onLoad() {
         if (loadListener != null) {
-            loading.startAnimation(reverseAnimation);
+            progress_load.startAnimation(reverseAnimation);
             setSelection(getAdapter().getCount());
             loadListener.onLoad();
         }
@@ -394,7 +408,7 @@ public class RefreshListView extends ListView implements OnScrollListener, IRefr
 
     @Override
     public void loadComplete() {
-        loading.clearAnimation();
+        progress_load.clearAnimation();
         loadEnable = true;
         isLoading = false;
         footer.setVisibility(View.GONE);

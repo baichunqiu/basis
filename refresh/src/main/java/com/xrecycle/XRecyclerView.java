@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.IRefresh;
 import com.google.android.material.appbar.AppBarLayout;
+import com.progress.Style;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +29,8 @@ import static com.xrecycle.BaseRefreshHeader.STATE_DONE;
 public class XRecyclerView extends RecyclerView implements IRefresh {
     private boolean isLoadingData = false;
     private boolean isNoMore = false;
-    private int mRefreshProgressStyle = ProgressStyle.SysProgress;
-    private int mLoadingMoreProgressStyle = ProgressStyle.SysProgress;
+    private Style mRefreshProgressStyle = Style.BallSpinFadeLoader;
+    private Style mLoadingMoreProgressStyle = Style.BallSpinFadeLoader;
     private ArrayList<View> mHeaderViews = new ArrayList<>();
     private WrapAdapter mWrapAdapter;
     private float mLastY = -1;
@@ -207,14 +208,16 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
         }
     }
 
-    public void setRefreshProgressStyle(int style) {
+    @Override
+    public void setRefreshStyle(Style style) {
         mRefreshProgressStyle = style;
         if (mRefreshHeader != null) {
             mRefreshHeader.setProgressStyle(style);
         }
     }
 
-    public void setLoadingMoreProgressStyle(int style) {
+    @Override
+    public void setLoadStyle(Style style) {
         mLoadingMoreProgressStyle = style;
         if (mFootView instanceof LoadingMoreFooter) {
             ((LoadingMoreFooter) mFootView).setProgressStyle(style);

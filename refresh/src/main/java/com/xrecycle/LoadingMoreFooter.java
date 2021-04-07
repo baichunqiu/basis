@@ -3,6 +3,7 @@ package com.xrecycle;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -11,7 +12,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.xrecycle.progressindicator.AVLoadingIndicatorView;
+import com.progress.IndicatorView;
+import com.progress.Style;
 
 public class LoadingMoreFooter extends LinearLayout {
 
@@ -25,25 +27,25 @@ public class LoadingMoreFooter extends LinearLayout {
     private String noMoreHint;
     private String loadingDoneHint;
 
-    private AVLoadingIndicatorView progressView;
+    private IndicatorView progressView;
 
-	public LoadingMoreFooter(Context context) {
-		super(context);
-		initView();
-	}
+    public LoadingMoreFooter(Context context) {
+        super(context);
+        initView();
+    }
 
-	/**
-	 * @param context
-	 * @param attrs
-	 */
-	public LoadingMoreFooter(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		initView();
-	}
+    /**
+     * @param context
+     * @param attrs
+     */
+    public LoadingMoreFooter(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initView();
+    }
 
-	public void destroy(){
-	    progressCon = null;
-	    if(progressView != null){
+    public void destroy() {
+        progressCon = null;
+        if (progressView != null) {
             progressView.destroy();
             progressView = null;
         }
@@ -61,58 +63,60 @@ public class LoadingMoreFooter extends LinearLayout {
         loadingDoneHint = hint;
     }
 
-    public void initView(){
+    public void initView() {
         setGravity(Gravity.CENTER);
         setLayoutParams(new RecyclerView.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         progressCon = new SimpleViewSwitcher(getContext());
         progressCon.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        progressView = new  AVLoadingIndicatorView(this.getContext());
-        progressView.setIndicatorColor(0xffB5B5B5);
-        progressView.setIndicatorId(ProgressStyle.BallSpinFadeLoader);
+        createIndicator();
         progressCon.setView(progressView);
 
         addView(progressCon);
         mText = new TextView(getContext());
         mText.setText(getContext().getString(R.string.listview_loading));
 
-        if(loadingHint == null || loadingHint.equals("")){
-            loadingHint = (String)getContext().getText(R.string.listview_loading);
+        if (loadingHint == null || loadingHint.equals("")) {
+            loadingHint = (String) getContext().getText(R.string.listview_loading);
         }
-        if(noMoreHint == null || noMoreHint.equals("")){
-            noMoreHint = (String)getContext().getText(R.string.nomore_loading);
+        if (noMoreHint == null || noMoreHint.equals("")) {
+            noMoreHint = (String) getContext().getText(R.string.nomore_loading);
         }
-        if(loadingDoneHint == null || loadingDoneHint.equals("")){
-            loadingDoneHint = (String)getContext().getText(R.string.loading_done);
+        if (loadingDoneHint == null || loadingDoneHint.equals("")) {
+            loadingDoneHint = (String) getContext().getText(R.string.loading_done);
         }
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins( (int)getResources().getDimension(R.dimen.textandiconmargin),0,0,0 );
+        layoutParams.setMargins((int) getResources().getDimension(R.dimen.textandiconmargin), 0, 0, 0);
 
         mText.setLayoutParams(layoutParams);
         addView(mText);
     }
 
-    public void setProgressStyle(int style) {
-        if(style == ProgressStyle.SysProgress){
+    public void setProgressStyle(Style style) {
+        if (style == Style.Sys) {
             progressCon.setView(new ProgressBar(getContext(), null, android.R.attr.progressBarStyle));
-        }else{
-            progressView = new  AVLoadingIndicatorView(this.getContext());
-            progressView.setIndicatorColor(0xffB5B5B5);
-            progressView.setIndicatorId(style);
+        } else {
+            createIndicator();
+            progressView.setStyle(style);
             progressCon.setView(progressView);
         }
     }
 
-    public void  setState(int state) {
-        switch(state) {
+    private void createIndicator() {
+        if (progressView == null) {
+            progressView = (IndicatorView) LayoutInflater.from(getContext()).inflate(R.layout.default_indicator, null, false);
+        }
+    }
+
+    public void setState(int state) {
+        switch (state) {
             case STATE_LOADING:
                 progressCon.setVisibility(View.VISIBLE);
                 mText.setText(loadingHint);
                 this.setVisibility(View.VISIBLE);
-                    break;
+                break;
             case STATE_COMPLETE:
                 mText.setText(loadingDoneHint);
                 this.setVisibility(View.GONE);

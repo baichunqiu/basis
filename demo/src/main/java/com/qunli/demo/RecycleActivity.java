@@ -16,7 +16,7 @@ import com.kit.cache.GsonUtil;
 import com.kit.utils.ImageLoader;
 import com.oklib.OkApi;
 import com.oklib.callback.BaseCallBack;
-import com.xrecycle.ProgressStyle;
+import com.progress.Style;
 import com.xrecycle.XRecyclerView;
 
 import java.util.List;
@@ -43,8 +43,9 @@ public class RecycleActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutmanager);
         recyclerView.enableRefresh(true);
         recyclerView.enableLoad(true);
-        recyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
-        recyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
+//        recyclerView.setRefreshStyle(Style.BallSpinFadeLoader);
+//        recyclerView.setRefreshStyle(Style.BallRotate);
+//        recyclerView.setLoadStyle(Style.BallRotate);
         recyclerView
                 .getDefaultRefreshHeaderView()
                 .setRefreshTimeVisible(true);
