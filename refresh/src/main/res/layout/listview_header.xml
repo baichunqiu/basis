@@ -2,37 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:gravity="bottom" >
+    android:gravity="bottom">
 
     <RelativeLayout
         android:id="@+id/listview_header_content"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
-        android:paddingTop="10dip"
-        >
+        android:paddingTop="10dip">
 
         <LinearLayout
+            android:id="@+id/listview_header_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="100dip"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:orientation="vertical"
-            android:id="@+id/listview_header_text">
+            android:minWidth="100dip"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/refresh_status_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_default"
-                android:text="@string/listview_header_hint_normal" />
+                android:text="@string/listview_header_hint_normal"
+                android:textColor="@color/color_default" />
 
             <LinearLayout
                 android:id="@+id/header_refresh_time_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="3dp" >
+                android:layout_marginTop="3dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -64,10 +63,10 @@
             android:id="@+id/listview_header_progressbar"
             android:layout_width="30dip"
             android:layout_height="30dip"
-            android:layout_toLeftOf="@+id/listview_header_text"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="35dp"
             android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/listview_header_text"
             android:visibility="invisible" />
     </RelativeLayout>
 

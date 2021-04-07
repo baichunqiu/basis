@@ -6,21 +6,12 @@
     android:gravity="center"
     android:orientation="horizontal">
 
-    <!--    <com.progress.IndicatorView-->
-    <!--        android:id="@+id/head_progressBar"-->
-    <!--        style="@style/progress_default_style"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_gravity="center"-->
-    <!--        android:layout_marginRight="20px"-->
-    <!--        android:padding="15px"-->
-    <!--        app:indicator_style="BallPulse"-->
-    <!--        app:indicator_color="#02479C" />-->
     <include layout="@layout/default_indicator" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
