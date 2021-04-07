@@ -19,12 +19,10 @@ import android.widget.TextView;
 import com.progress.IndicatorView;
 import com.progress.Style;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeader {
-
-    private static final String XR_REFRESH_KEY = "XR_REFRESH_KEY";
-    private static final String XR_REFRESH_TIME_KEY = "XR_REFRESH_TIME_KEY";
     private LinearLayout mContainer;
     private ImageView mArrowImageView;
     private SimpleViewSwitcher mProgressBar;
@@ -41,8 +39,6 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
 
     public int mMeasuredHeight;
     private IndicatorView progressView;
-
-    private String customRefreshPsKey = null;
 
     public void destroy() {
         mProgressBar = null;
@@ -79,16 +75,10 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
             mHeaderRefreshTimeContainer.setVisibility(show ? VISIBLE : GONE);
     }
 
-    public void setXrRefreshTimeKey(String keyName) {
-        if (keyName != null) {
-            customRefreshPsKey = keyName;
-        }
-    }
-
     private void initView() {
         // 初始情况，设置下拉刷新view高度为0
         mContainer = (LinearLayout) LayoutInflater.from(getContext()).inflate(
-                R.layout.listview_header, null);
+                R.layout.re_listview_header, null);
 
         mHeaderRefreshTimeContainer
                 = (LinearLayout) mContainer.findViewById(R.id.header_refresh_time_container);
@@ -140,7 +130,7 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
 
     private void createIndicator(){
         if (progressView == null){
-            progressView = (IndicatorView) LayoutInflater.from(getContext()).inflate(R.layout.default_indicator,null,false);
+            progressView = (IndicatorView) LayoutInflater.from(getContext()).inflate(R.layout.re_default_indicator,null,false);
         }
     }
     public void setArrowImageView(int resid) {
@@ -166,7 +156,7 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
         }
-        mHeaderTimeView.setText(friendlyTime(getLastRefreshTime()));
+        mHeaderTimeView.setText(formatDate2String());
         switch (state) {
             case STATE_NORMAL:
                 if (mState == STATE_RELEASE_TO_REFRESH) {
@@ -175,20 +165,20 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
                 if (mState == STATE_REFRESHING) {
                     mArrowImageView.clearAnimation();
                 }
-                mStatusTextView.setText(R.string.listview_header_hint_normal);
+                mStatusTextView.setText(R.string.re_pull_down_refresh);
                 break;
             case STATE_RELEASE_TO_REFRESH:
                 if (mState != STATE_RELEASE_TO_REFRESH) {
                     mArrowImageView.clearAnimation();
                     mArrowImageView.startAnimation(mRotateUpAnim);
-                    mStatusTextView.setText(R.string.listview_header_hint_release);
+                    mStatusTextView.setText(R.string.re_losen_to_refresh);
                 }
                 break;
             case STATE_REFRESHING:
-                mStatusTextView.setText(R.string.refreshing);
+                mStatusTextView.setText(R.string.re_refreshing);
                 break;
             case STATE_DONE:
-                mStatusTextView.setText(R.string.refresh_done);
+                mStatusTextView.setText(R.string.re_refresh_done);
                 break;
             default:
         }
@@ -200,34 +190,11 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
         return mState;
     }
 
-    private long getLastRefreshTime() {
-        String spKeyName = XR_REFRESH_KEY;
-        if (customRefreshPsKey != null) {
-            spKeyName = customRefreshPsKey;
-        }
-        SharedPreferences s =
-                getContext()
-                        .getSharedPreferences(spKeyName, Context.MODE_APPEND);
-        return s.getLong(XR_REFRESH_TIME_KEY, new Date().getTime());
-    }
-
-    private void saveLastRefreshTime(long refreshTime) {
-        String spKeyName = XR_REFRESH_KEY;
-        if (customRefreshPsKey != null) {
-            spKeyName = customRefreshPsKey;
-        }
-        SharedPreferences s =
-                getContext()
-                        .getSharedPreferences(spKeyName, Context.MODE_APPEND);
-        s.edit().putLong(XR_REFRESH_TIME_KEY, refreshTime).commit();
-    }
-
     @Override
     public void refreshComplete() {
-        mHeaderTimeView.setText(friendlyTime(getLastRefreshTime()));
-        saveLastRefreshTime(System.currentTimeMillis());
+        mHeaderTimeView.setText(formatDate2String());
         setState(STATE_DONE);
-        new Handler().postDelayed(new Runnable() {
+        postDelayed(new Runnable() {
             public void run() {
                 reset();
             }
@@ -278,18 +245,16 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
         if (mState != STATE_REFRESHING) {
             smoothScrollTo(0);
         }
-
         if (mState == STATE_REFRESHING) {
             int destHeight = mMeasuredHeight;
             smoothScrollTo(destHeight);
         }
-
         return isOnRefresh;
     }
 
     public void reset() {
         smoothScrollTo(0);
-        new Handler().postDelayed(new Runnable() {
+        postDelayed(new Runnable() {
             public void run() {
                 setState(STATE_NORMAL);
             }
@@ -308,36 +273,10 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
         animator.start();
     }
 
-
-    public static String friendlyTime(Date time) {
-        return friendlyTime(time.getTime());
-    }
-
-    public static String friendlyTime(long time) {
-        //获取time距离当前的秒数
-        int ct = (int) ((System.currentTimeMillis() - time) / 1000);
-
-        if (ct == 0) {
-            return "刚刚";
-        }
-
-        if (ct > 0 && ct < 60) {
-            return ct + "秒前";
-        }
-
-        if (ct >= 60 && ct < 3600) {
-            return Math.max(ct / 60, 1) + "分钟前";
-        }
-        if (ct >= 3600 && ct < 86400)
-            return ct / 3600 + "小时前";
-        if (ct >= 86400 && ct < 2592000) { //86400 * 30
-            int day = ct / 86400;
-            return day + "天前";
-        }
-        if (ct >= 2592000 && ct < 31104000) { //86400 * 30
-            return ct / 2592000 + "月前";
-        }
-        return ct / 31104000 + "年前";
+    public String formatDate2String() {
+        SimpleDateFormat formatPattern = new SimpleDateFormat("HH:mm:ss");
+        String resultTimeStr = formatPattern.format(new Date());
+        return resultTimeStr;
     }
 
 }

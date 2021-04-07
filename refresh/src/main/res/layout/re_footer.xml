@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:padding="20px">
 
-    <include layout="@layout/default_indicator" />
+    <include layout="@layout/re_default_indicator" />
 
     <TextView
         android:id="@+id/more"
@@ -15,8 +15,8 @@
         android:gravity="center"
         android:padding="5dp"
         android:layout_marginLeft="10dp"
-        android:text="@string/more"
-        android:textColor="@color/color_refresh_default"
+        android:text="@string/re_loading"
+        android:textColor="@color/re_color_default"
         android:textSize="14sp" />
 
 </LinearLayout>

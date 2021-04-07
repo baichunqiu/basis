@@ -10,5 +10,5 @@
     <color name="indicator_4">#FDBC7D</color>
 
     <!--    覆盖refresh的默认颜色-->
-    <color name="color_refresh_default">#E91E63</color>
+    <color name="re_color_default">#E91E63</color>
 </resources>

@@ -1,11 +1,9 @@
 <resources>
-
-    <style name="progress_default_style">
+    <style name="re_progress_default_style">
         <item name="android:indeterminateOnly">true</item>
         <item name="android:minWidth">25dp</item>
         <item name="android:maxWidth">25dp</item>
         <item name="android:minHeight">25dp</item>
         <item name="android:maxHeight">25dp</item>
     </style>
-
 </resources>

@@ -75,16 +75,16 @@ public class LoadingMoreFooter extends LinearLayout {
 
         addView(progressCon);
         mText = new TextView(getContext());
-        mText.setText(getContext().getString(R.string.listview_loading));
+        mText.setText(getContext().getString(R.string.re_loading));
 
         if (loadingHint == null || loadingHint.equals("")) {
-            loadingHint = (String) getContext().getText(R.string.listview_loading);
+            loadingHint = (String) getContext().getText(R.string.re_loading);
         }
         if (noMoreHint == null || noMoreHint.equals("")) {
-            noMoreHint = (String) getContext().getText(R.string.nomore_loading);
+            noMoreHint = (String) getContext().getText(R.string.re_nomore);
         }
         if (loadingDoneHint == null || loadingDoneHint.equals("")) {
-            loadingDoneHint = (String) getContext().getText(R.string.loading_done);
+            loadingDoneHint = (String) getContext().getText(R.string.re_load_done);
         }
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -106,7 +106,7 @@ public class LoadingMoreFooter extends LinearLayout {
 
     private void createIndicator() {
         if (progressView == null) {
-            progressView = (IndicatorView) LayoutInflater.from(getContext()).inflate(R.layout.default_indicator, null, false);
+            progressView = (IndicatorView) LayoutInflater.from(getContext()).inflate(R.layout.re_default_indicator, null, false);
         }
     }
 

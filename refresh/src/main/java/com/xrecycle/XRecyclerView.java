@@ -201,13 +201,6 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
         this.footerViewCallBack = footerViewCallBack;
     }
 
-    // Fix issues (多个地方使用该控件的时候，所有刷新时间都相同 #359)
-    public void setRefreshTimeSpKeyName(String keyName) {
-        if (mRefreshHeader != null) {
-            mRefreshHeader.setXrRefreshTimeKey(keyName);
-        }
-    }
-
     @Override
     public void setRefreshStyle(Style style) {
         mRefreshProgressStyle = style;

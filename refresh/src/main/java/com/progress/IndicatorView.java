@@ -83,15 +83,15 @@ public class IndicatorView extends View implements Indicator{
     private boolean mHasAnimation;
 
     public IndicatorView(Context context) {
-        this(context, null, R.attr.indicator_style, R.style.progress_default_style);
+        this(context, null, R.attr.indicator_style, R.style.re_progress_default_style);
     }
 
     public IndicatorView(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.indicator_style, R.style.progress_default_style);
+        this(context, attrs, R.attr.indicator_style, R.style.re_progress_default_style);
     }
 
     public IndicatorView(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.progress_default_style);
+        this(context, attrs, defStyleAttr, R.style.re_progress_default_style);
     }
 
     public void destroy() {

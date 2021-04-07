@@ -73,11 +73,11 @@ public class RefreshListView extends ListView implements OnScrollListener, IRefr
         setCacheColorHint(context.getResources().getColor(android.R.color.transparent));
         inflater = LayoutInflater.from(context);
         // 添加load more 功能
-        footer = inflater.inflate(R.layout.refresh_footer, null);
+        footer = inflater.inflate(R.layout.re_footer, null);
         more = (TextView) footer.findViewById(R.id.more);
         progress_load = footer.findViewById(R.id.default_indicator);
         footer.setVisibility(View.GONE);
-        headView = (LinearLayout) inflater.inflate(R.layout.refresh_header, null);
+        headView = (LinearLayout) inflater.inflate(R.layout.re_header, null);
         progress_refresh = headView.findViewById(R.id.default_indicator);
         tipsTextview = headView.findViewById(R.id.head_tipsTextView);
         lastUpdatedTextView = headView.findViewById(R.id.head_lastUpdatedTextView);
@@ -223,7 +223,7 @@ public class RefreshListView extends ListView implements OnScrollListener, IRefr
             case RELEASE_To_REFRESH:
                 tipsTextview.setVisibility(View.VISIBLE);
                 lastUpdatedTextView.setVisibility(View.VISIBLE);
-                tipsTextview.setText(R.string.str_losen_to_refresh);
+                tipsTextview.setText(R.string.re_losen_to_refresh);
                 break;
             case PULL_To_REFRESH:
                 tipsTextview.setVisibility(View.VISIBLE);
@@ -231,20 +231,20 @@ public class RefreshListView extends ListView implements OnScrollListener, IRefr
                 // 是由RELEASE_To_REFRESH状态转变来的
                 if (isBack) {
                     isBack = false;
-                    tipsTextview.setText(R.string.pull_down_refresh);
+                    tipsTextview.setText(R.string.re_pull_down_refresh);
                 } else {
-                    tipsTextview.setText(R.string.pull_down_refresh);
+                    tipsTextview.setText(R.string.re_pull_down_refresh);
                 }
                 break;
 
             case REFRESHING:
                 headView.setPadding(0, 0, 0, 0);
-                tipsTextview.setText(R.string.str_refresh_in);
+                tipsTextview.setText(R.string.re_refreshing);
                 lastUpdatedTextView.setVisibility(View.VISIBLE);
                 break;
             case DONE:
                 headView.setPadding(0, -1 * headContentHeight, 0, 0);
-                tipsTextview.setText(R.string.pull_down_refresh);
+                tipsTextview.setText(R.string.re_pull_down_refresh);
                 lastUpdatedTextView.setVisibility(View.VISIBLE);
                 break;
         }
@@ -429,7 +429,7 @@ public class RefreshListView extends ListView implements OnScrollListener, IRefr
     public String formatDate2String() {
         SimpleDateFormat formatPattern = new SimpleDateFormat("HH:mm:ss");
         String resultTimeStr = formatPattern.format(new Date());
-        String last = getResources().getString(R.string.last_update);
-        return null == resultTimeStr ? last + ":" : last + ":" + resultTimeStr;
+        String last = getResources().getString(R.string.re_last_update);
+        return null == resultTimeStr ? last : last+ resultTimeStr;
     }
 }
