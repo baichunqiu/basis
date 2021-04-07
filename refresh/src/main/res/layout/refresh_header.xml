@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20px"
             android:text="@string/pull_down_refresh"
-            android:textColor="@color/color_default"
+            android:textColor="@color/color_refresh_default"
             android:textSize="12sp" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20px"
             android:text="@string/last_update"
-            android:textColor="@color/color_default"
+            android:textColor="@color/color_refresh_default"
             android:textSize="12sp" />
     </LinearLayout>
 
