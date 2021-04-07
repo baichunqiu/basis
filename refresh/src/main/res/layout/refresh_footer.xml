@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal"
     android:padding="20px">
-
-    <!--    <com.progress.IndicatorView-->
-    <!--        android:id="@+id/loading"-->
-    <!--        style="@style/progress_default_style"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginRight="10dp"-->
-    <!--        android:padding="10px"-->
-    <!--        app:indicator_color="#02479C"-->
-    <!--        app:indicator_style="BallPulse" />-->
-
 
     <include layout="@layout/default_indicator" />
 
@@ -27,7 +15,7 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="@string/more"
-        android:textColor="#02479C"
+        android:textColor="@color/color_default"
         android:textSize="14sp" />
 
 </LinearLayout>

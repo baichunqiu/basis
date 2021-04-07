@@ -6,5 +6,5 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginRight="10dp"
-    app:indicator_color="#02479C"
+    app:indicator_color="@color/color_default"
     app:indicator_style="BallSpinFadeLoader" />
