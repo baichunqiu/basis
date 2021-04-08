@@ -46,14 +46,13 @@ public class UIController<V, T> extends Controller<T> implements DataObserver {
     }
 
     private void initialize() {
-        showData = UIKit.getView(layout, R.id.bsi_v_show_data);
-        noData = UIKit.getView(layout, R.id.bsi_v_no_data);
-        refreshView = UIKit.getView(layout, R.id.bsi_lv_base);
+        showData = UIKit.getView(layout, R.id.bsi_show_data);
+        noData = UIKit.getView(layout, R.id.bsi_no_data);
+        refreshView = UIKit.getView(layout, R.id.bsi_refresh);
         if (null == showData) showData = (View) refreshView;
-        mAdapter = operator.setAdapter();
+        mAdapter = operator.onSetAdapter();
         mAdapter.setDataObserver(this);
         mAdapter.setRefreshView(refreshView);
-//        ((ListView) refreshView).setAdapter(mAdapter);
         refreshView.setLoadListener(new IRefresh.LoadListener() {
             @Override
             public void onRefresh() {
@@ -151,7 +150,7 @@ public class UIController<V, T> extends Controller<T> implements DataObserver {
          */
         List<V> onPreSetData(List<V> netData);
 
-        RefreshAdapter<V> setAdapter();
+        RefreshAdapter<V> onSetAdapter();
 
         @Override
         void onError(int status, String errMsg);

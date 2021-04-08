@@ -51,15 +51,15 @@ public abstract class AbsListActivity<V, T> extends BaseActivity implements UICo
         contentView = setContentView();
         ll_content.addView(contentView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         //添加no_data到show_data同级
-        View show_data = UIKit.getView(contentView, R.id.bsi_v_show_data);
+        View show_data = UIKit.getView(contentView, R.id.bsi_show_data);
         //未设置show_data布局 使用lv替代
-        if (null == show_data) show_data = UIKit.getView(contentView, R.id.bsi_lv_base);
+        if (null == show_data) show_data = UIKit.getView(contentView, R.id.bsi_refresh);
         ViewGroup extraParent = null != show_data ? (ViewGroup) show_data.getParent() : ll_content;
         extraParent.addView(UIKit.inflate(R.layout.no_data), FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
     }
 
     private void initTitleBar() {
-        titleBar = getView(R.id.bsi_v_titleBar);
+        titleBar = getView(R.id.bsi_titleBar);
         if (titleBar == null) {
             Logger.e(TAG, "init title_bar error for titleBar is null, " +
                     "are you set id of the view is 'bsi_v_show_data' !");

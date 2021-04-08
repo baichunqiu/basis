@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <com.basis.widget.TitleBar
-        android:id="@+id/bsi_v_titleBar"
+        android:id="@+id/bsi_titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="Widget" />

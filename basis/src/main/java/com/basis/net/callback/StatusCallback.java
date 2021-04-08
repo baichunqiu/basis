@@ -1,4 +1,4 @@
-package com.basis.net.callback.base;
+package com.basis.net.callback;
 
 import com.business.BsiCallback;
 

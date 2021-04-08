@@ -46,9 +46,9 @@ public abstract class AbsListFragment<V, T> extends BaseFragment implements UICo
         contentView = setContentView();
         ll_content.addView(contentView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         //添加no_data到show_data同级
-        View show_data = UIKit.getView(contentView, R.id.bsi_v_show_data);
+        View show_data = UIKit.getView(contentView, R.id.bsi_show_data);
         //未设置show_data布局 使用lv替代
-        if (null == show_data) show_data = UIKit.getView(contentView, R.id.bsi_lv_base);
+        if (null == show_data) show_data = UIKit.getView(contentView, R.id.bsi_refresh);
         ViewGroup extraParent = null != show_data ? (ViewGroup) show_data.getParent() : ll_content;
         View nodata = UIKit.inflate(R.layout.no_data);
         extraParent.addView(nodata, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);

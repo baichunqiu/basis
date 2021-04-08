@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--listview的id-->
-    <item name="bsi_lv_base" type="id" />
+    <!--refreshView的id-->
+    <item name="bsi_refresh" type="id" />
     <!--有数据显示的所有控件根布局id -->
-    <item name="bsi_v_show_data" type="id" />
-    <item name="bsi_v_no_data" type="id" />
+    <item name="bsi_show_data" type="id" />
+    <item name="bsi_no_data" type="id" />
     <!--titleBar-->
-    <item name="bsi_v_titleBar" type="id" />
+    <item name="bsi_titleBar" type="id" />
 </resources>
