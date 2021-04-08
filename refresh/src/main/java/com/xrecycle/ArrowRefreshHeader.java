@@ -194,7 +194,7 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
     public void refreshComplete() {
         mHeaderTimeView.setText(formatDate2String());
         setState(STATE_DONE);
-        postDelayed(new Runnable() {
+        Dispatcher.get().postDelayed(new Runnable() {
             public void run() {
                 reset();
             }
@@ -254,7 +254,7 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
 
     public void reset() {
         smoothScrollTo(0);
-        postDelayed(new Runnable() {
+        Dispatcher.get().postDelayed(new Runnable() {
             public void run() {
                 setState(STATE_NORMAL);
             }

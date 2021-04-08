@@ -1,4 +1,4 @@
-package com.business.parse;
+package com.business.interfaces;
 
 import com.google.gson.JsonElement;
 

@@ -7,9 +7,8 @@ import com.adapter.RefreshAdapter;
 import com.adapter.interfaces.DataObserver;
 import com.basis.R;
 import com.basis.net.LoadTag;
-import com.basis.net.callback.base.IRefreshView;
 import com.basis.net.controller.Controller;
-import com.business.parse.IParse;
+import com.business.interfaces.IParse;
 import com.kit.UIKit;
 import com.oklib.Method;
 
@@ -29,7 +28,7 @@ public class UIController<V, T> extends Controller<T> implements DataObserver {
     //适配器使用功能集合 泛型不能使用 T 接口返回类型有可能和适配器使用的不一致
     private List adapterList = new ArrayList<>();
     private RefreshAdapter<T> mAdapter;
-    private IRefreshView refreshView;
+    private IRefresh refreshView;
     private View showData;
     private View noData;
     private View layout;
@@ -132,16 +131,6 @@ public class UIController<V, T> extends Controller<T> implements DataObserver {
      * @param <T> 接口数据类型
      */
     public interface IOperator<V, T> extends IOperate<T> {
-
-        /**
-         * 预处理数据
-         *
-         * @param rawData 原始数据
-         * @return
-         */
-        @Override
-        List<T> onPreprocess(List<T> rawData);
-
 
         /**
          * 刷新数据前回调

@@ -2,6 +2,8 @@ package com.qunli.demo;
 
 import android.view.View;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.basis.base.BaseActivity;
 import com.basis.net.LoadTag;
 import com.kit.UIKit;
@@ -18,7 +20,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void init() {
         getView(R.id.load).setOnClickListener(this);
         getView(R.id.widgetActivity).setOnClickListener(this);
-        getView(R.id.camera).setOnClickListener(this);
+        getView(R.id.recycle).setOnClickListener(this);
         StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < 600; i++) {
             buffer.append("#123456789");
@@ -37,6 +39,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 loadTag = new LoadTag(mActivity);
                 loadTag.show();
               break;
+          case R.id.recycle:
+            UIKit.startActivity(mActivity, RecycleActivity.class);
+          break;
         }
     }
 }

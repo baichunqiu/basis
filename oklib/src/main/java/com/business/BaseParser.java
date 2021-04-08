@@ -1,8 +1,6 @@
 package com.business;
 
-import com.business.parse.IPage;
-import com.business.parse.IParse;
-import com.business.parse.IWrap;
+import com.business.interfaces.IParse;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -12,7 +10,7 @@ import com.google.gson.JsonParser;
  * @date: 2018/8/17
  * @Description: 默认解析器
  */
-public class DefaultParser implements IParse<Wrapper> {
+public class BaseParser implements IParse<Wrapper> {
     @Override
     public Wrapper parse(int httpcode, String json) {
         //{"code":1,"time":"2020-12-11 18:02:25","message":"success","data":{"access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.}

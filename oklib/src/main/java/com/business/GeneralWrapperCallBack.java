@@ -1,8 +1,8 @@
 package com.business;
 
-import com.business.parse.IParse;
-import com.business.parse.IWrap;
-import com.business.parse.IProcess;
+import com.business.interfaces.IParse;
+import com.business.interfaces.IWrap;
+import com.business.interfaces.IProcess;
 import com.oklib.OCallBack;
 
 import java.util.Map;
@@ -16,32 +16,32 @@ import okhttp3.Response;
  * @Description: 实现基本数据处理回调
  * IBusiCallback与CallBack的转换器
  */
-public abstract class GeneralWrapperCallBack<R, E> extends OCallBack<Object[]> {
+public class GeneralWrapperCallBack<R, E, T> extends OCallBack<Object[]> {
     protected final String TAG = this.getClass().getSimpleName();
     private IParse parser;
-    private IProcess<R, E> processor;
-    public IBusiCallback<R, E> callback;
+    private IProcess<R, E,T> processor;
+    public BsiCallback<R, E,T> bsiCallback;
     private IWrap wrapper;
     private ILoadTag iLoadTag;
 
     /**
      * @param iLoadTag      loadTag
      * @param parser        解析器
-     * @param iBusiCallback 业务回调
+     * @param bsiCallback 业务回调
      */
-    public GeneralWrapperCallBack(ILoadTag iLoadTag, IParse parser, IBusiCallback iBusiCallback) {
-        this.callback = iBusiCallback;
+    public GeneralWrapperCallBack(ILoadTag iLoadTag, IParse parser, BsiCallback bsiCallback) {
+        this.bsiCallback = bsiCallback;
         this.iLoadTag = iLoadTag;
-        this.processor = onSetProcessor();
-        this.parser = null == parser ? OkHelper.get().getDefaultParser() : parser;
+        this.processor = OkHelper.get().getProcessor();
+        this.parser = null == parser ? OkHelper.get().getParser() : parser;
     }
 
     @Override
     public void onBefore(Request.Builder builder) {
         wrapper = null;
         if (null != iLoadTag) iLoadTag.show();
-        if (null != OkHelper.get().getCacheHeader()) { //添加header
-            Map<String, String> hs = OkHelper.get().getCacheHeader().onAddHeader();
+        if (null != OkHelper.get().getHeadCacher()) { //添加header
+            Map<String, String> hs = OkHelper.get().getHeadCacher().onAddHeader();
             if (null == hs || hs.isEmpty()) return;
             for (Map.Entry<String, String> en : hs.entrySet()) {
                 builder.addHeader(en.getKey(), en.getValue());
@@ -51,8 +51,8 @@ public abstract class GeneralWrapperCallBack<R, E> extends OCallBack<Object[]> {
 
     @Override
     public final Object[] onParse(Response response) throws Exception {
-        if (null != OkHelper.get().getCacheHeader()) {//缓存header
-            OkHelper.get().getCacheHeader().onCacheHeader(response.headers());
+        if (null != OkHelper.get().getHeadCacher()) {//缓存header
+            OkHelper.get().getHeadCacher().onCacheHeader(response.headers());
         }
         String res = response.body().string();
         int httpCode = response.code();
@@ -74,40 +74,33 @@ public abstract class GeneralWrapperCallBack<R, E> extends OCallBack<Object[]> {
             if (null != processor) processor.process(wrapper.getCode(), get());
             return null;
         }
-        return new Object[]{processor.parseResult(wrapper),
+        return new Object[]{processor.parseResult(wrapper, bsiCallback.onGetType()),
                 processor.parseExtra(wrapper)};
     }
 
     @Override
     public void onResult(Object[] result) {
         if (null != result && 2 == result.length) {
-            if (null != callback) callback.onSuccess((R) result[0], (E) result[1]);
+            if (null != bsiCallback) bsiCallback.onSuccess((R) result[0], (E) result[1]);
         } else {
-            if (null != callback) callback.onError(-1, "No Result！");
+            if (null != bsiCallback) bsiCallback.onError(-1, "No Result！");
         }
     }
 
     @Override
     public void onError(Exception e) {
-        if (null != callback) callback.onError(-1, e.getLocalizedMessage());
+        if (null != bsiCallback) bsiCallback.onError(-1, e.getLocalizedMessage());
     }
 
     @Override
     public void onAfter() {
         if (null != iLoadTag) iLoadTag.dismiss();
-        if (null != callback) {
+        if (null != bsiCallback) {
             if (null == wrapper) {
-                callback.onAfter(-1, "");
+                bsiCallback.onAfter(-1, "");
             } else {
-                callback.onAfter(wrapper.getCode(), wrapper.getMessage());
+                bsiCallback.onAfter(wrapper.getCode(), wrapper.getMessage());
             }
         }
     }
-
-    /**
-     * 强制获取数据处理器
-     *
-     * @return
-     */
-    public abstract IProcess<R, E> onSetProcessor();
 }

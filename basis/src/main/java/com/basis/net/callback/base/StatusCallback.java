@@ -1,13 +1,13 @@
 package com.basis.net.callback.base;
 
-import com.business.IBusiCallback;
+import com.business.BsiCallback;
 
 /**
  * @author: BaiCQ
- * @ClassName: IBusiCallback
+ * @ClassName: StatusCallback
  * @Description: 没有body请求回调
  */
-public class BaseCallback implements IBusiCallback<Integer, String> {
+public class StatusCallback implements BsiCallback<Integer, String, Integer> {
 
     /**
      * @param status
@@ -25,5 +25,10 @@ public class BaseCallback implements IBusiCallback<Integer, String> {
 
     @Override
     public void onAfter(int code, String sysMsg) {
+    }
+
+    @Override
+    public Class<Integer> onGetType() {
+        return null;
     }
 }

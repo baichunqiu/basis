@@ -31,8 +31,7 @@
                 android:id="@+id/header_refresh_time_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:visibility="gone">
+                android:layout_marginTop="3dp">
 
                 <TextView
                     android:layout_width="wrap_content"

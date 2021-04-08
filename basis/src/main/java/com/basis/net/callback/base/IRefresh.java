@@ -1,15 +1,14 @@
-package com.basis.net.callback.base;
-
-
-import com.IRefresh;
-import com.progress.Style;
-
-/**
- * @author: BaiCQ
- * @className: BaseListView
- * @Description: 所有刷新listview的基类
- */
-public interface IRefreshView extends IRefresh {
+//package com.basis.net.callback.base;
+//
+//
+//import com.progress.Style;
+//
+///**
+// * @author: BaiCQ
+// * @className: BaseListView
+// * @Description: 所有刷新listview的基类
+// */
+//public interface IRefresh{
 //    void setRefreshStyle(Style style);
 //
 //    void setLoadStyle(Style style);
@@ -34,5 +33,5 @@ public interface IRefreshView extends IRefresh {
 //
 //        void onLoad();
 //    }
-}
-
+//}
+//

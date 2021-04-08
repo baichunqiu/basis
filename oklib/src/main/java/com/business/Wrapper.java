@@ -1,7 +1,7 @@
 package com.business;
 
-import com.business.parse.IPage;
-import com.business.parse.IWrap;
+import com.business.interfaces.IPage;
+import com.business.interfaces.IWrap;
 import com.google.gson.JsonElement;
 
 public class Wrapper implements IWrap {
@@ -11,9 +11,9 @@ public class Wrapper implements IWrap {
     //数据集
     private JsonElement body;
     //页码索引
-    private int page = 0;
+    private int page = -1;
     //总页
-    private int total = 1;
+    private int total = 0;
 
     public Wrapper setCode(int code) {
         this.code = code;
@@ -50,27 +50,8 @@ public class Wrapper implements IWrap {
 
     @Override
     public IPage getPage() {
+        if (page < 0)return null;
         return new Page(page, total);
-    }
-
-    public class Page implements IPage {
-        private int page;
-        private int total;
-
-        public Page(int page, int total) {
-            this.page = page;
-            this.total = total;
-        }
-
-        @Override
-        public int getPage() {
-            return page;
-        }
-
-        @Override
-        public int getTotal() {
-            return total;
-        }
     }
 }
 

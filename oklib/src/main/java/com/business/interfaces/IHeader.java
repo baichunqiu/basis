@@ -1,4 +1,4 @@
-package com.business.parse;
+package com.business.interfaces;
 
 import java.util.Map;
 

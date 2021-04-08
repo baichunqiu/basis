@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 
 import com.basis.R;
 import com.basis.net.LoadTag;
-import com.business.parse.IParse;
+import com.business.interfaces.IParse;
 import com.kit.utils.Logger;
 import com.kit.utils.ObjUtil;
 import com.kit.UIKit;
@@ -73,16 +73,6 @@ public abstract class AbsListFragment<V, T> extends BaseFragment implements UICo
 
     public void refreshData(List<T> netData, boolean isRefresh) {
         if (null != mController) mController.onRefreshData(netData, isRefresh);
-    }
-
-    /**
-     * 接口解析数据后子线程预处理数据
-     *
-     * @param netData
-     */
-    @Override
-    public List<T> onPreprocess(List<T> netData) {
-        return netData;
     }
 
     /**

@@ -1,14 +1,15 @@
 package com.business;
 
-import com.business.parse.IHeader;
-import com.business.parse.IParse;
+import com.business.interfaces.IHeader;
+import com.business.interfaces.IParse;
+import com.business.interfaces.IProcess;
 
 public class OkHelper {
     private final static OkHelper instance = new OkHelper();
     //通用json解析器
     private IParse defaultParser;
-    private String mToken;
-    private IHeader cacheHeader;
+    private IProcess defaultProcessor;
+    private IHeader headCacher;
 
     public static OkHelper get() {
         return instance;
@@ -18,39 +19,33 @@ public class OkHelper {
         OkUtil.debug = debug;
     }
 
-
-    public void setCacheHeader(IHeader cacheHeader) {
-        this.cacheHeader = cacheHeader;
+    public void setHeadCacher(IHeader headCacher) {
+        this.headCacher = headCacher;
     }
 
-    public IHeader getCacheHeader() {
-        return cacheHeader;
+    public IHeader getHeadCacher() {
+        return headCacher;
     }
 
-    /**
-     * 缓存token
-     * 供外部设置
-     *
-     * @param token
-     */
-    public void setToken(String token) {
-        if (null != token && "".equals(token)) {
-            mToken = token;
-        }
-    }
-
-    public String getToken() {
-        return mToken;
-    }
-
-    public void setParser(IParse parser) {
+    public void setDefaultParser(IParse parser) {
         defaultParser = parser;
     }
 
-    protected IParse getDefaultParser() {
+    public IParse getParser() {
         if (null == defaultParser) {
-            defaultParser = new DefaultParser();
+            defaultParser = new BaseParser();
         }
         return defaultParser;
+    }
+
+    public void setDefaultProcessor(IProcess defaultProcessor) {
+        this.defaultProcessor = defaultProcessor;
+    }
+
+    protected <R,E,T> IProcess<R,E,T> getProcessor() {
+        if (null == defaultProcessor) {
+            defaultProcessor = new BaseProcessor();
+        }
+        return defaultProcessor;
     }
 }

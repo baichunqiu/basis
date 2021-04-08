@@ -1,11 +1,11 @@
 package com.basis.net.controller;
 
+import com.IRefresh;
 import com.basis.net.LoadTag;
-import com.basis.net.NetApi;
-import com.basis.net.callback.base.BaseCallback;
-import com.basis.net.callback.base.BaseListCallback;
-import com.basis.net.callback.base.IRefreshView;
-import com.business.parse.IParse;
+import com.basis.net.Request;
+import com.basis.net.callback.base.StatusCallback;
+import com.basis.net.callback.base.ListCallback;
+import com.business.interfaces.IParse;
 import com.oklib.Method;
 import com.oklib.ORequest;
 
@@ -59,14 +59,14 @@ public abstract class Controller<T> implements IPage {
      * @param dialog      ILoadTag load视图
      * @param method      get/post
      * @param operator    数据处理对象
-     * @param refreshView listView
+     * @param refreshView refreshView
      */
     protected final void request(final boolean isRefresh, String url, Map<String, Object> params,
                                  IParse parser,
                                  LoadTag dialog,
                                  Method method,
                                  final IOperate operator,
-                                 IRefreshView refreshView) {
+                                 IRefresh refreshView) {
         this.refresh = isRefresh;
         if (null != operator) {//operator 不为空 需要分页处理
             if (isRefresh) currentPage = PAGE_FIRST;
@@ -76,12 +76,8 @@ public abstract class Controller<T> implements IPage {
                 params.put(KEY_PAGE_INDEX, currentPage + "");
             }
         }
-        BaseListCallback<T> baseListCallback = new BaseListCallback<T>(refreshView) {
+        ListCallback<T> listCallback = new ListCallback<T>(refreshView) {
             List<T> tempData = null;
-            @Override
-            public List<T> onPreprocess(List<T> rawData) {
-                return null == operator ? rawData : operator.onPreprocess(rawData);
-            }
 
             @Override
             public void onSuccess(List<T> tList, Boolean loadFull) {
@@ -109,11 +105,11 @@ public abstract class Controller<T> implements IPage {
             }
 
             @Override
-            public Class<T> setType() {
+            public Class<T> onGetType() {
                 return tClass;
             }
         };
-        ORequest = NetApi.request(dialog, url, params, parser, method, baseListCallback);
+        ORequest = Request.request(dialog, url, params, parser, method, listCallback);
     }
 
 
@@ -125,7 +121,7 @@ public abstract class Controller<T> implements IPage {
      * @param dialog
      */
     public void operate(final String url, Map<String, Object> params, LoadTag dialog) {
-        NetApi.operate(dialog, url, params, Method.post, new BaseCallback() {
+        Request.status(dialog, url, params, Method.post, new StatusCallback() {
             @Override
             public void onAfter(int status, String sysMsg) {
                 super.onAfter(status, sysMsg);
@@ -155,10 +151,6 @@ public abstract class Controller<T> implements IPage {
 
 
     public interface IOperate<T> {
-        /**
-         * 解析数据时,数据预处理
-         */
-        List<T> onPreprocess(List<T> rawData);
 
         /**
          * 加载失败回调

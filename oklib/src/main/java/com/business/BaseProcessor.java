@@ -1,6 +1,9 @@
-package com.business.parse;
+package com.business;
 
-import com.business.OkUtil;
+import com.business.interfaces.IPage;
+import com.business.interfaces.IProcess;
+import com.business.interfaces.IWrap;
+import com.google.gson.JsonElement;
 import com.oklib.ORequest;
 
 /**
@@ -9,7 +12,7 @@ import com.oklib.ORequest;
  * @CreateDate: 2019/3/27 14:08
  * @Description: 数据处理封装
  */
-public abstract class BaseProcessor<R, E> implements IProcess<R, E> {
+public class BaseProcessor<R, E, T> implements IProcess<R, E, T> {
     private final static String TAG = "BaseProcessor";
     //最大重复请求次数
     private final static int MAX_REPEAT = 1;
@@ -50,7 +53,22 @@ public abstract class BaseProcessor<R, E> implements IProcess<R, E> {
         return false;
     }
 
-    public abstract R parseResult(IWrap wrapper);
+    @Override
+    public  R parseResult(IWrap wrap,Class<T> clazz){
+        JsonElement element = wrap.getBody();
+        if (null == element){
+            return null;
+        }
+        return OkUtil.json2Obj(wrap.getBody(), clazz);
+    }
 
-    public abstract E parseExtra(IWrap wrapper);
+    @Override
+    public E parseExtra(IWrap wrap){
+        IPage page = wrap.getPage();
+        if (null!= page){
+            return  (E)(Boolean)(page.getPage() >= page.getTotal());
+        }else {
+            return (E)wrap.getMessage();
+        }
+    }
 }

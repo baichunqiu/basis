@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -349,19 +350,13 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
                 lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
             }
             int adjAdapterItemCount = layoutManager.getItemCount() + getHeaders_includingRefreshCount();
-            //Log.e("aaaaa","adjAdapterItemCount "+adjAdapterItemCount +" getItemCount "+layoutManager.getItemCount());
-
             int status = STATE_DONE;
-
-            if (mRefreshHeader != null)
-                status = mRefreshHeader.getState();
-            if (
-                    layoutManager.getChildCount() > 0
-                            && lastVisibleItemPosition >= adjAdapterItemCount - limitNumberToCallLoadMore
-                            && adjAdapterItemCount >= layoutManager.getChildCount()
-                            && !isNoMore
-                            && status < ArrowRefreshHeader.STATE_REFRESHING
-            ) {
+            if (mRefreshHeader != null) status = mRefreshHeader.getState();
+            if (layoutManager.getChildCount() > 0
+                    && lastVisibleItemPosition >= adjAdapterItemCount - limitNumberToCallLoadMore
+                    && adjAdapterItemCount >= layoutManager.getChildCount()
+                    && !isNoMore
+                    && status < ArrowRefreshHeader.STATE_REFRESHING) {
                 isLoadingData = true;
                 if (mFootView instanceof LoadingMoreFooter) {
                     ((LoadingMoreFooter) mFootView).setState(LoadingMoreFooter.STATE_LOADING);
@@ -885,6 +880,7 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
 
     @Override
     public void setNoMore(boolean noMore) {
+        Log.e("setNoMore","noMore = "+noMore);
         isLoadingData = false;
         isNoMore = noMore;
         if (mFootView instanceof LoadingMoreFooter) {
@@ -912,9 +908,10 @@ public class XRecyclerView extends RecyclerView implements IRefresh {
 
     @Override
     public void refreshComplete() {
-        if (mRefreshHeader != null)
+        if (mRefreshHeader != null) {
             mRefreshHeader.refreshComplete();
-        setNoMore(false);
+        }
+//        setNoMore(false);
     }
 
     @Override

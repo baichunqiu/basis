@@ -12,6 +12,7 @@ import com.adapter.interfaces.IAdapte;
 import com.adapter.recycle.RcyAdapter;
 import com.adapter.recycle.RcyHolder;
 import com.adapter.recycle.RcySAdapter;
+import com.business.OkUtil;
 import com.business.Wrapper;
 import com.kit.UIKit;
 import com.kit.cache.GsonUtil;
@@ -101,7 +102,7 @@ public class RecycleActivity extends AppCompatActivity {
 
             @Override
             public void onResult(Wrapper wrapper) {
-                List<Meizi> meizis = GsonUtil.json2List(wrapper.getBody(), Meizi.class);
+                List<Meizi> meizis = OkUtil.json2Obj(wrapper.getBody(), Meizi.class);
                 int len = null == meizis ? 0 : meizis.size();
                 Logger.e("AdapterActivity", "fetchGankMZ len = " + len);
                 mAdapter.setData(meizis, isRefresh);

@@ -29,10 +29,10 @@
         android:text="widget activity" />
 
     <Button
-        android:id="@+id/camera"
+        android:id="@+id/recycle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimens_60px"
         android:layout_marginRight="@dimen/dimens_60px"
-        android:text="camera activity" />
+        android:text="Recycle" />
 </com.basis.percent.PercentLinearLayout>

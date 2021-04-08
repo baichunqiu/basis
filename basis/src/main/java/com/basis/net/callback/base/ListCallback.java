@@ -1,5 +1,7 @@
 package com.basis.net.callback.base;
 
+import com.IRefresh;
+import com.business.BsiCallback;
 import com.kit.utils.Logger;
 import com.kit.utils.ObjUtil;
 
@@ -7,25 +9,20 @@ import java.util.List;
 
 /**
  * @author: BaiCQ
- * @ClassName: BaseListCallback
+ * @ClassName: ListCallback
  * @Description: 有body网络请求的回调
  */
-public class BaseListCallback<R> implements IListCallback<R> {
-    private IRefreshView refreshView;
+public class ListCallback<R> implements BsiCallback<List<R>, Boolean,R> {
+    private IRefresh refreshView;
     protected Class<R> rClass;
 
-    public BaseListCallback() {
-        this(null);
+    public ListCallback() {
+        rClass = (Class<R>) ObjUtil.getTType(ListCallback.this)[0];
     }
 
-    public BaseListCallback(IRefreshView baseListView) {
+    public ListCallback(IRefresh baseListView) {
+        rClass = (Class<R>) ObjUtil.getTType(ListCallback.this)[0];
         this.refreshView = baseListView;
-        rClass = (Class<R>) ObjUtil.getTType(BaseListCallback.this)[0];
-    }
-
-    @Override
-    public List<R> onPreprocess(List<R> rawData) {
-        return rawData;
     }
 
     /**
@@ -42,19 +39,19 @@ public class BaseListCallback<R> implements IListCallback<R> {
      * @param errMsg 错误信息
      */
     public void onError(int code, String errMsg) {
-        Logger.e("BaseListCallback", "onError:["+code+"] " + errMsg);
+        Logger.e("ListCallback", "onError:["+code+"] " + errMsg);
     }
 
     @Override
     public void onAfter(int code, String msg) {
         if (null != refreshView) {
             refreshView.refreshComplete();
-            refreshView.refreshComplete();
+            refreshView.loadComplete();
         }
     }
 
     @Override
-    public Class<R> setType() {
+    public Class<R> onGetType() {
         return rClass;
     }
 }

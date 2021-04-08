@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.IRefresh;
 import com.adapter.RefreshAdapter;
 import com.adapter.interfaces.IHolder;
+import com.business.OkUtil;
 import com.business.Wrapper;
 import com.kit.UIKit;
 import com.kit.cache.GsonUtil;
@@ -96,7 +97,7 @@ public class AdapterActivity extends AppCompatActivity {
 
             @Override
             public void onResult(Wrapper wrapper) {
-                List<Meizi> meizis = GsonUtil.json2List(wrapper.getBody(), Meizi.class);
+                List<Meizi> meizis = OkUtil.json2Obj(wrapper.getBody(), Meizi.class);
                 int len = null == meizis ? 0 : meizis.size();
                 Logger.e("AdapterActivity", "fetchGankMZ len = " + len);
                 mAdapter.setData(meizis, isRefresh);

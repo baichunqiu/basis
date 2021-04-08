@@ -89,27 +89,6 @@ public class GsonUtil {
         return lst;
     }
 
-    public static <T> List<T> json2List(JsonElement jsonElement, Class<T> clazz) {
-        if (null == clazz) {
-            Logger.e(TAG, "the clazz can not null!");
-            return null;
-        }
-        List<T> lst = new ArrayList<T>();
-        try {
-            if (jsonElement instanceof JsonArray) {//兼融list
-                JsonArray array = jsonElement.getAsJsonArray();
-                for (JsonElement elem : array) {
-                    lst.add(gson.fromJson(elem, clazz));
-                }
-            } else if (jsonElement instanceof JsonObject) {//obj
-                lst.add(gson.fromJson(jsonElement, clazz));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return lst;
-    }
-
     public static String obj2Json(Object object) {
         if (null == object) {
             return "";

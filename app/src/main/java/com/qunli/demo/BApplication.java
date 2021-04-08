@@ -2,6 +2,7 @@ package com.qunli.demo;
 
 import android.app.Application;
 
+import com.basis.BasisApplication;
 import com.business.OkHelper;
 import com.business.Wrapper;
 import com.business.interfaces.IParse;
@@ -12,7 +13,7 @@ import com.kit.cache.GsonUtil;
 import com.kit.utils.Logger;
 
 
-public class BcqApplication extends Application {
+public class BApplication extends BasisApplication {
     private static IParse parser;
 
     @Override
