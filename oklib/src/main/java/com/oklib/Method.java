@@ -1,4 +1,4 @@
-package com.oklib.core;
+package com.oklib;
 
 public enum Method {
     get,

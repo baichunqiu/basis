@@ -26,6 +26,7 @@ public abstract class RefreshAdapter<T> implements IAdapte<T, IHolder> {
         this.layoutIds = layoutIds;
     }
 
+    @Override
     public void setRefreshView(Object refreshView) {
         if (refreshView instanceof ListView) {
             ((ListView) refreshView).setAdapter(lvAdapter());

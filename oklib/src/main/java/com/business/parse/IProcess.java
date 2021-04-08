@@ -1,6 +1,6 @@
 package com.business.parse;
 
-import com.oklib.core.ReQuest;
+import com.oklib.ORequest;
 
 /**
  * @author: BaiCQ
@@ -8,30 +8,29 @@ import com.oklib.core.ReQuest;
  * @date: 2018/6/27
  * @Description: 处理器接口 封装有错误处理和数据处理
  */
-public interface Processor<R, E> {
+public interface IProcess<R, E> {
     /**
      * 错误处理
      *
      * @param code
      * @param request
      */
-    void process(int code, ReQuest request);
+    void process(int code, ORequest request);
 
     /**
      * 数据转换：
      * 从Wrapper中提取业务数据
      *
-     * @param wrapper
+     * @param wrap
      * @return
      */
-    R parseResult(Wrapper wrapper);
+    R parseResult(IWrap wrap);
 
     /**
      * 数据转换：
      * 从Wrapper中提取额外数据
-     *
-     * @param wrapper
+     * @param wrap
      * @return
      */
-    E parseExtra(Wrapper wrapper);
+    E parseExtra(IWrap wrap);
 }

@@ -1,5 +1,7 @@
 package com.oklib.callback;
 
+import com.oklib.OCallBack;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,12 +9,12 @@ import java.io.InputStream;
 
 import okhttp3.Response;
 
-public abstract class FileCallBack extends BaseCallBack<File> {
+public abstract class FileIOCallBack extends OCallBack<File> {
 
     private String destFileDir;
     private String destFileName;
 
-    public FileCallBack(String destFileDir, String destFileName) {
+    public FileIOCallBack(String destFileDir, String destFileName) {
         this.destFileDir = destFileDir;
         this.destFileName = destFileName;
     }

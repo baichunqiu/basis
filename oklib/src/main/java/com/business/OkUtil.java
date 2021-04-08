@@ -15,12 +15,12 @@ import java.util.List;
 
 /**
  * @author: BaiCQ
- * @ClassName: GsonUtil
- * @Description: Gson解析相关工具类
+ * @ClassName: OkUtil
+ * @Description: 相关工具类
  */
 public class OkUtil {
     protected static boolean debug = true;
-    public final static String TAG = "GsonUtil";
+    public final static String TAG = "OkUtil";
     public final static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss:SSS";
     private final static Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT).create();
 

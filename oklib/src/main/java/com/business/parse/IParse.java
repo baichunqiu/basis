@@ -7,15 +7,15 @@ package com.business.parse;
  * @Description: 数据解析：统一数据格式，将response的数据封装成Wrapper返回
  */
 
-public interface Parser {
+public interface IParse<W extends IWrap> {
     /**
      * 统一解析字段
      *
      * @param httpcode http状态码
-     * @param json     body
+     * @param resJson  body
      * @return
      */
-    Wrapper parse(int httpcode, String json) throws Exception;
+    W parse(int httpcode, String resJson) throws Exception;
 
     /**
      * 状态判断
@@ -24,11 +24,4 @@ public interface Parser {
      * @return
      */
     boolean ok(int code);
-
-    /**
-     * 需要header的keys数组
-     *
-     * @return
-     */
-    String[] headerKeys();
 }

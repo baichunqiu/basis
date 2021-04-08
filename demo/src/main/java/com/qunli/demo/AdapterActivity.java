@@ -9,14 +9,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.IRefresh;
 import com.adapter.RefreshAdapter;
 import com.adapter.interfaces.IHolder;
-import com.business.parse.Wrapper;
+import com.business.Wrapper;
 import com.kit.UIKit;
 import com.kit.cache.GsonUtil;
 import com.kit.utils.ImageLoader;
 import com.kit.utils.Logger;
+import com.oklib.OCallBack;
 import com.oklib.OkApi;
-import com.oklib.callback.BaseCallBack;
-import com.progress.Style;
 import com.xrecycle.XRecyclerView;
 
 import java.util.List;
@@ -66,38 +65,37 @@ public class AdapterActivity extends AppCompatActivity {
             }
         });
         mAdapter = new RefreshAdapter<Meizi>(this, R.layout.item_mz, R.layout.item_info) {
-                @Override
-                public int getItemLayoutId(Meizi item, int position) {
-                    return position % 2 == 0 ? R.layout.item_mz : R.layout.item_info;
-                }
+            @Override
+            public int getItemLayoutId(Meizi item, int position) {
+                return position % 2 == 0 ? R.layout.item_mz : R.layout.item_info;
+            }
 
-                @Override
-                public void convert(IHolder holder, Meizi meizi, int position, int layoutId) {
-                    if (layoutId == R.layout.item_mz) {
-                        ImageView imageView = (ImageView) holder.getView(R.id.img_content);
-                        ImageLoader.loadUrl(imageView, meizi.getUrl(), R.mipmap.ic_launcher, ImageLoader.Size.SZ_250);
-                    } else {
-                        holder.setText(R.id.tv_info, meizi.getDesc());
-                    }
+            @Override
+            public void convert(IHolder holder, Meizi meizi, int position, int layoutId) {
+                if (layoutId == R.layout.item_mz) {
+                    ImageView imageView = (ImageView) holder.getView(R.id.img_content);
+                    ImageLoader.loadUrl(imageView, meizi.getUrl(), R.mipmap.ic_launcher, ImageLoader.Size.SZ_250);
+                } else {
+                    holder.setText(R.id.tv_info, meizi.getDesc());
                 }
-            };
+            }
+        };
         mAdapter.setRefreshView(iRefresh);
         fetchGankMZ(true);
     }
 
     private void fetchGankMZ(final boolean isRefresh) {
         String url = "https://gank.io/api/v2/data/category/Girl/type/Girl/page/" + mCurPage + "/count/15";
-        OkApi.get(url, null, new BaseCallBack<Wrapper>() {
+        OkApi.get(url, null, new OCallBack<Wrapper>() {
             @Override
             public Wrapper onParse(Response response) throws Exception {
                 int httpCode = response.code();
                 String body = response.body().string();
-                Wrapper wrapper = BcqApplication.getParser().parse(httpCode, body);
-                return wrapper;
+                return BcqApplication.getParser().parse(httpCode, body);
             }
 
             @Override
-            public void onResponse(Wrapper wrapper) {
+            public void onResult(Wrapper wrapper) {
                 List<Meizi> meizis = GsonUtil.json2List(wrapper.getBody(), Meizi.class);
                 int len = null == meizis ? 0 : meizis.size();
                 Logger.e("AdapterActivity", "fetchGankMZ len = " + len);

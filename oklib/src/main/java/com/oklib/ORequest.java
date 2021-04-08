@@ -1,34 +1,40 @@
-package com.oklib.core;
+package com.oklib;
 
 import com.business.OkUtil;
-import com.oklib.callback.CallBack;
+import com.oklib.core.Core;
+import com.oklib.core.IOCallBack;
 
 import java.util.Map;
 
-//import com.kit.utils.Logger;
-
-public class ReQuest<T> {
+public class ORequest<T> {
     private final static String TAG = "ReQuest";
+    public Object tag;
     public String url;
     public Map<String, Object> param;
-    public CallBack<T, Object> callBack;
+    public IOCallBack<T, Object> callBack;
     private Method method;
 
-    private ReQuest() {
+    private ORequest() {
     }
 
     public Map<String, Object> param() {
         return param;
     }
 
-    public ReQuest<T> request() {
+    public void cancel() {
+        Core.core().cancel(tag);
+    }
+
+    public ORequest<T> request() {
         logParams(url, method.name(), param);
+        //设置request
+        callBack.set(this);
         if (Method.post == method) {
-            Core.core().post(url, param, callBack.set(this));
+            Core.core().post(tag, url, param, callBack);
         } else if (Method.get == method) {
-            Core.core().get(url, param, callBack.set(this));
+            Core.core().get(tag, url, param, callBack);
         } else if (Method.delete == method) {
-            Core.core().delete(url, param, callBack.set(this));
+            Core.core().delete(tag, url, param, callBack);
         }
         return this;
     }
@@ -70,9 +76,10 @@ public class ReQuest<T> {
      * @param <T>
      */
     public static class Builder<T> {
+        private Object tag;
         private String url;
         private Map<String, Object> param;
-        private CallBack<T, ReQuest<T>> callBack;
+        private IOCallBack<T, ORequest<T>> callBack;
         private Method method;
 
         private Builder() {
@@ -84,22 +91,9 @@ public class ReQuest<T> {
             return builder;
         }
 
-        public static Builder get() {
-            Builder builder = new Builder();
-            builder.method = Method.get;
-            return builder;
-        }
-
-        public static Builder post() {
-            Builder builder = new Builder();
-            builder.method = Method.post;
-            return builder;
-        }
-
-        public static Builder delete() {
-            Builder builder = new Builder();
-            builder.method = Method.delete;
-            return builder;
+        public Builder tag(Object tag) {
+            this.tag = tag;
+            return this;
         }
 
         public Builder url(String url) {
@@ -112,18 +106,19 @@ public class ReQuest<T> {
             return this;
         }
 
-        public Builder callback(CallBack<T, ReQuest<T>> callBack) {
+        public Builder callback(IOCallBack<T, ORequest<T>> callBack) {
             this.callBack = callBack;
             return this;
         }
 
-        public ReQuest build() {
-            ReQuest reQuest = new ReQuest();
-            reQuest.method = method;
-            reQuest.url = url;
-            reQuest.param = param;
-            reQuest.callBack = callBack;
-            return reQuest;
+        public ORequest build() {
+            ORequest ORequest = new ORequest();
+            ORequest.method = method;
+            ORequest.tag = null != tag ? tag : url;
+            ORequest.url = url;
+            ORequest.param = param;
+            ORequest.callBack = callBack;
+            return ORequest;
         }
     }
 }

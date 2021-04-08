@@ -3,6 +3,7 @@ package com.oklib.core;
 import android.net.Uri;
 
 import com.business.OkUtil;
+import com.oklib.FormType;
 import com.oklib.body.IBody;
 
 import java.util.Map;
@@ -15,8 +16,9 @@ import okhttp3.RequestBody;
  * ok core 转换工具类
  */
 public class Transform {
-    private static FormType formType = FormType.json;
     public final static MediaType json = MediaType.parse("application/json; charset=utf-8");
+
+    private static FormType formType = FormType.json;
 
     public static void setFormType(FormType formType) {
         Transform.formType = formType;
@@ -58,10 +60,11 @@ public class Transform {
      * @return RequestBody
      */
     public static RequestBody param2Body(Map<String, Object> params) {
-        if (formType == FormType.json) {
-            return RequestBody.Companion.create(OkUtil.obj2Json(params), json);
-        } else {
-            return param2Builder(params).build();
+        switch (formType) {
+            case form:
+                return param2Builder(params).build();
+            default:
+                return RequestBody.Companion.create(OkUtil.obj2Json(params), json);
         }
     }
 

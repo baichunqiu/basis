@@ -1,7 +1,7 @@
 package com.business.parse;
 
 import com.business.OkUtil;
-import com.oklib.core.ReQuest;
+import com.oklib.ORequest;
 
 /**
  * @Author: BaiCQ
@@ -9,7 +9,7 @@ import com.oklib.core.ReQuest;
  * @CreateDate: 2019/3/27 14:08
  * @Description: 数据处理封装
  */
-public abstract class BaseProcessor<R, E> implements Processor<R, E> {
+public abstract class BaseProcessor<R, E> implements IProcess<R, E> {
     private final static String TAG = "BaseProcessor";
     //最大重复请求次数
     private final static int MAX_REPEAT = 1;
@@ -20,13 +20,13 @@ public abstract class BaseProcessor<R, E> implements Processor<R, E> {
     private String lastUrl = "";
 
     @Override
-    public final void process(int code, ReQuest reQuest) {
-        if (code == lastCode && lastUrl.equals(reQuest.url)) {
-            //同一次请求同样的错误¬
+    public final void process(int code, ORequest ORequest) {
+        if (code == lastCode && lastUrl.equals(ORequest.url)) {
+            //同一次请求同样的错误
             repeat++;
         } else {
             lastCode = code;
-            lastUrl = reQuest.url;
+            lastUrl = ORequest.url;
             repeat = 1;
         }
         if (repeat > MAX_REPEAT) {
@@ -35,7 +35,7 @@ public abstract class BaseProcessor<R, E> implements Processor<R, E> {
         }
         OkUtil.e(TAG, "**************************** start process code error = " + code + " and request ****************************");
         if (processCode(code)) {
-            reQuest.request();
+            ORequest.request();
         }
         OkUtil.e(TAG, "**************************** end   process code error = " + code + " and request ****************************");
     }
@@ -50,7 +50,7 @@ public abstract class BaseProcessor<R, E> implements Processor<R, E> {
         return false;
     }
 
-    public abstract R parseResult(Wrapper wrapper);
+    public abstract R parseResult(IWrap wrapper);
 
-    public abstract E parseExtra(Wrapper wrapper);
+    public abstract E parseExtra(IWrap wrapper);
 }

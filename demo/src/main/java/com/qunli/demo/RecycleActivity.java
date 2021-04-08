@@ -5,27 +5,28 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.IRefresh;
+import com.adapter.interfaces.IAdapte;
 import com.adapter.recycle.RcyAdapter;
 import com.adapter.recycle.RcyHolder;
 import com.adapter.recycle.RcySAdapter;
-import com.business.parse.Wrapper;
+import com.business.Wrapper;
 import com.kit.UIKit;
 import com.kit.cache.GsonUtil;
 import com.kit.utils.ImageLoader;
+import com.kit.utils.Logger;
+import com.oklib.OCallBack;
 import com.oklib.OkApi;
-import com.oklib.callback.BaseCallBack;
-import com.progress.Style;
-import com.xrecycle.XRecyclerView;
 
 import java.util.List;
 
 import okhttp3.Response;
 
 public class RecycleActivity extends AppCompatActivity {
-    private XRecyclerView recyclerView;
-    private RcyAdapter mAdapter;
+    private IRefresh refresh;
+    private IAdapte mAdapter;
     private int mCurPage = 1;
     private boolean sample = false;
     @Override
@@ -38,19 +39,12 @@ public class RecycleActivity extends AppCompatActivity {
     }
 
     public void init() {
-        recyclerView = findViewById(R.id.rv);
+        refresh = findViewById(R.id.rv);
         final GridLayoutManager layoutmanager = new GridLayoutManager(this, 2);
-        recyclerView.setLayoutManager(layoutmanager);
-        recyclerView.enableRefresh(true);
-        recyclerView.enableLoad(true);
-//        recyclerView.setRefreshStyle(Style.BallSpinFadeLoader);
-//        recyclerView.setRefreshStyle(Style.BallRotate);
-//        recyclerView.setLoadStyle(Style.BallRotate);
-        recyclerView
-                .getDefaultRefreshHeaderView()
-                .setRefreshTimeVisible(true);
-        recyclerView.getDefaultFootView().setNoMoreHint("自定义加载完毕提示");
-        recyclerView.setLoadListener(new IRefresh.LoadListener() {
+        ((RecyclerView) refresh).setLayoutManager(layoutmanager);
+        refresh.enableRefresh(true);
+        refresh.enableLoad(true);
+        refresh.setLoadListener(new IRefresh.LoadListener() {
             @Override
             public void onRefresh() {
                 mCurPage = 1;
@@ -91,33 +85,33 @@ public class RecycleActivity extends AppCompatActivity {
                 }
             };
         }
-        recyclerView.setAdapter(mAdapter);
+        mAdapter.setRefreshView(refresh);
         fetchGankMZ(true);
     }
 
     private void fetchGankMZ(final boolean isRefresh) {
         String url = "https://gank.io/api/v2/data/category/Girl/type/Girl/page/" + mCurPage + "/count/15";
-        OkApi.get( url, null, new BaseCallBack<Wrapper>() {
+        OkApi.get( url, null, new OCallBack<Wrapper>() {
             @Override
             public Wrapper onParse(Response response) throws Exception {
                 int httpCode = response.code();
                 String body = response.body().string();
-                Wrapper wrapper = BcqApplication.getParser().parse(httpCode,body);
-                return wrapper;
+                return BcqApplication.getParser().parse(httpCode, body);
             }
+
             @Override
-            public void onResponse(Wrapper wrapper) {
-                List<Meizi> meizis = GsonUtil.json2List(wrapper.getBody(),Meizi.class);
-                int len = null != meizis?0:meizis.size();
+            public void onResult(Wrapper wrapper) {
+                List<Meizi> meizis = GsonUtil.json2List(wrapper.getBody(), Meizi.class);
+                int len = null == meizis ? 0 : meizis.size();
+                Logger.e("AdapterActivity", "fetchGankMZ len = " + len);
                 mAdapter.setData(meizis, isRefresh);
             }
 
             @Override
             public void onAfter() {
-                recyclerView.loadComplete();
-                recyclerView.refreshComplete();
+                refresh.loadComplete();
+                refresh.refreshComplete();
             }
         });
     }
-
 }

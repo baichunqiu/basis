@@ -4,10 +4,11 @@ import com.basis.net.callback.base.IListCallback;
 import com.business.GeneralWrapperCallBack;
 import com.business.IBusiCallback;
 import com.business.ILoadTag;
-import com.business.parse.Parser;
-import com.business.parse.Processor;
-import com.business.parse.Wrapper;
+import com.business.parse.IPage;
+import com.business.parse.IParse;
+import com.business.parse.IProcess;
 import com.business.parse.BaseProcessor;
+import com.business.parse.IWrap;
 import com.kit.cache.GsonUtil;
 import com.kit.utils.Logger;
 
@@ -21,18 +22,17 @@ import java.util.List;
  */
 public class GeneralListCallback<R> extends GeneralWrapperCallBack<List<R>, Boolean> {
 
-    public GeneralListCallback(ILoadTag loadTag, Parser parser, IBusiCallback<List<R>, Boolean> iBusiCallback) {
+    public GeneralListCallback(ILoadTag loadTag, IParse parser, IBusiCallback<List<R>, Boolean> iBusiCallback) {
         super(loadTag, parser, iBusiCallback);
     }
 
     @Override
-    public Processor<List<R>, Boolean> onSetProcessor() {
+    public IProcess<List<R>, Boolean> onSetProcessor() {
         return new BaseProcessor<List<R>, Boolean>() {
             @Override
-            public List<R> parseResult(Wrapper wrapper) {
-                IBusiCallback iBusiCallback = getiBusiCallback();
-                if (null != wrapper.getBody() && !"".equals(wrapper.getBody()) && iBusiCallback instanceof IListCallback) {
-                    IListCallback<R> iListCallback = (IListCallback<R>) iBusiCallback;
+            public List<R> parseResult(IWrap wrapper) {
+                if (null != wrapper.getBody() && !"".equals(wrapper.getBody()) && callback instanceof IListCallback) {
+                    IListCallback<R> iListCallback = (IListCallback<R>) callback;
                     List<R> resultData = GsonUtil.json2List(wrapper.getBody(), iListCallback.setType());
                     resultData = iListCallback.onPreprocess(resultData);
                     Logger.e(TAG, "parseResult len = " + resultData.size());
@@ -44,8 +44,9 @@ public class GeneralListCallback<R> extends GeneralWrapperCallBack<List<R>, Bool
             }
 
             @Override
-            public Boolean parseExtra(Wrapper wrapper) {
-                return wrapper.getIndex() >= wrapper.getTotal();
+            public Boolean parseExtra(IWrap wrapper) {
+                IPage page = wrapper.getPage();
+                return null == page ? false : page.getPage() >= page.getTotal();
             }
         };
     }

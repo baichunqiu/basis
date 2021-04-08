@@ -1,14 +1,9 @@
-package com.oklib.callback;
+package com.oklib.core;
 
-import com.oklib.core.ReQuest;
-
-import org.jetbrains.annotations.Nullable;
-
-import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public interface CallBack<T, E> {
+interface IOBack<T> {
 
     /**
      * UI Thread
@@ -40,7 +35,7 @@ public interface CallBack<T, E> {
      *
      * @param result
      */
-    void onResponse(T result);
+    void onResult(T result);
 
     /**
      * UI Thread
@@ -53,9 +48,4 @@ public interface CallBack<T, E> {
      * UI Thread
      */
     void onAfter();
-
-
-    CallBack<T, E> set(E e);
-
-    E get();
 }

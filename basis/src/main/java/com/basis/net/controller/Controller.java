@@ -5,9 +5,9 @@ import com.basis.net.NetApi;
 import com.basis.net.callback.base.BaseCallback;
 import com.basis.net.callback.base.BaseListCallback;
 import com.basis.net.callback.base.IRefreshView;
-import com.business.parse.Parser;
-import com.oklib.core.Method;
-import com.oklib.core.ReQuest;
+import com.business.parse.IParse;
+import com.oklib.Method;
+import com.oklib.ORequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.Map;
 public abstract class Controller<T> implements IPage {
     public final static String TAG = "Controller";
     private Class<T> tClass;
-    private ReQuest<List<T>> reQuest;
+    private ORequest<List<T>> ORequest;
     protected int currentPage = PAGE_FIRST;//当前页的索引
     //由于使用request.request() 此处在回调callback不能配置死，由控制器动态维护
     //和最后一次请求绑定
@@ -38,14 +38,14 @@ public abstract class Controller<T> implements IPage {
      * @param refresh
      */
     protected final void requestAgain(boolean refresh) {
-        if (null != reQuest) {
-            Map<String, Object> params = reQuest.param();
+        if (null != ORequest) {
+            Map<String, Object> params = ORequest.param();
             if (null != params && params.containsKey(KEY_PAGE_INDEX)) {
                 currentPage = refresh ? PAGE_FIRST : Integer.valueOf(params.get(KEY_PAGE_INDEX).toString()) + 1;
                 params.put(KEY_PAGE_INDEX, currentPage + "");
             }
             this.refresh = refresh;
-            reQuest = reQuest.request();
+            ORequest = ORequest.request();
         }
     }
 
@@ -62,7 +62,7 @@ public abstract class Controller<T> implements IPage {
      * @param refreshView listView
      */
     protected final void request(final boolean isRefresh, String url, Map<String, Object> params,
-                                 Parser parser,
+                                 IParse parser,
                                  LoadTag dialog,
                                  Method method,
                                  final IOperate operator,
@@ -113,7 +113,7 @@ public abstract class Controller<T> implements IPage {
                 return tClass;
             }
         };
-        reQuest = NetApi.request(dialog, url, params, parser, method, baseListCallback);
+        ORequest = NetApi.request(dialog, url, params, parser, method, baseListCallback);
     }
 
 

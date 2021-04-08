@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.adapter.interfaces.DataObserver;
 import com.adapter.interfaces.IAdapte;
@@ -17,7 +20,7 @@ import java.util.List;
 /**
  * @author: BaiCQ
  * @createTime: 2017/2/28 10:12
- * @className:  RefreshAdapter
+ * @className: RefreshAdapter
  * @Description: 通用适配器:支持多类型viewType
  */
 public abstract class LvAdapter<T> extends BaseAdapter implements IAdapte<T, LvHolder> {
@@ -29,9 +32,19 @@ public abstract class LvAdapter<T> extends BaseAdapter implements IAdapte<T, LvH
     private DataObserver observer;
 
     @Override
+    public void setRefreshView(Object refreshView) {
+        if (refreshView instanceof ListView) {
+            ((ListView) refreshView).setAdapter(this);
+        } else {
+            throw new IllegalArgumentException("No Support View Type :" + refreshView.getClass().getSimpleName());
+        }
+    }
+
+    @Override
     public void setDataObserver(DataObserver observer) {
         this.observer = observer;
     }
+
     public LvAdapter(Context context, int... itemLayoutId) {
         this.mContext = context;
         inflater = LayoutInflater.from(context);
@@ -45,8 +58,8 @@ public abstract class LvAdapter<T> extends BaseAdapter implements IAdapte<T, LvH
     }
 
     @Override
-    public synchronized final void setData(List<T> list,boolean refresh) {
-        if (refresh){
+    public synchronized final void setData(List<T> list, boolean refresh) {
+        if (refresh) {
             data.clear();
         }
         data.addAll(list);
@@ -62,7 +75,7 @@ public abstract class LvAdapter<T> extends BaseAdapter implements IAdapte<T, LvH
 
     @Override
     public int getCount() {
-        return null == data?0:data.size();
+        return null == data ? 0 : data.size();
     }
 
     @Override
@@ -89,7 +102,7 @@ public abstract class LvAdapter<T> extends BaseAdapter implements IAdapte<T, LvH
     @Override
     public int getViewTypeCount() {
         int count = itemTypes.size();
-        if (count<1)count =1;
+        if (count < 1) count = 1;
         return count;
     }
 
@@ -97,7 +110,7 @@ public abstract class LvAdapter<T> extends BaseAdapter implements IAdapte<T, LvH
     public int getItemViewType(int position) {
         int layoutId = getItemLayoutId(getItem(position), position);
         Integer type = itemTypes.get(layoutId);
-        if (null == type){
+        if (null == type) {
             throw new IllegalArgumentException("No ViewType Setted for position =" + position);
         }
         return type;
@@ -106,8 +119,8 @@ public abstract class LvAdapter<T> extends BaseAdapter implements IAdapte<T, LvH
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         T t = getItem(position);
-        int layoutId = getItemLayoutId(t,position);
-        if (layoutId < 0){
+        int layoutId = getItemLayoutId(t, position);
+        if (layoutId < 0) {
             throw new IllegalArgumentException("No ItemView Setted for posotopm =" + position);
         }
         LvHolder lvHolder;
@@ -118,12 +131,13 @@ public abstract class LvAdapter<T> extends BaseAdapter implements IAdapte<T, LvH
         } else {
             lvHolder = (LvHolder) convertView.getTag();
         }
-        convert(lvHolder,t,position,layoutId);
+        convert(lvHolder, t, position, layoutId);
         return lvHolder.rootView();
     }
 
     /**
      * 根据position 和 数据 获取itemView的布局id
+     *
      * @param item
      * @param position
      * @return

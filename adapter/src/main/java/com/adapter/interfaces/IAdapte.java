@@ -5,9 +5,12 @@ import java.util.List;
 /**
  * 通用适配器接口
  */
-public interface IAdapte<T,VH extends IHolder> {
+public interface IAdapte<T, VH extends IHolder> {
+
+    void setRefreshView(Object refreshView);
 
     void setDataObserver(DataObserver observer);
+
     /**
      * 设置数据
      *
@@ -27,10 +30,12 @@ public interface IAdapte<T,VH extends IHolder> {
 
     /**
      * 移除
+     *
      * @param item
      * @return
      */
     boolean removeItem(T item);
+
     /**
      * 根据position 和 数据 获取itemView的布局id
      *

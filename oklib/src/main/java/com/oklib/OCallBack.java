@@ -1,13 +1,13 @@
-package com.oklib.callback;
+package com.oklib;
 
 import com.oklib.core.Dispatcher;
-import com.oklib.core.ReQuest;
+import com.oklib.core.IOCallBack;
 
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class BaseCallBack<R> implements CallBack<R, ReQuest<R>> {
-    private ReQuest<R> reQuest;
+public class OCallBack<R> implements IOCallBack<R, ORequest<R>> {
+    private ORequest<R> ORequest;
 
     @Override
     public void onBefore(Request.Builder request) {
@@ -23,7 +23,7 @@ public class BaseCallBack<R> implements CallBack<R, ReQuest<R>> {
     }
 
     @Override
-    public void onResponse(R result) {
+    public void onResult(R result) {
     }
 
     @Override
@@ -44,13 +44,12 @@ public class BaseCallBack<R> implements CallBack<R, ReQuest<R>> {
     }
 
     @Override
-    public CallBack<R, ReQuest<R>> set(ReQuest<R> reQuest) {
-        this.reQuest = reQuest;
-        return this;
+    public void set(ORequest<R> ORequest) {
+        this.ORequest = ORequest;
     }
 
     @Override
-    public ReQuest<R> get() {
-        return reQuest;
+    public ORequest<R> get() {
+        return ORequest;
     }
 }

@@ -6,24 +6,25 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.IRefresh;
+import com.adapter.interfaces.IAdapte;
 import com.adapter.listview.LvAdapter;
-import com.adapter.listview.LvSAdapter;
 import com.adapter.listview.LvHolder;
-import com.business.parse.Wrapper;
+import com.adapter.listview.LvSAdapter;
+import com.business.Wrapper;
 import com.kit.UIKit;
 import com.kit.cache.GsonUtil;
 import com.kit.utils.ImageLoader;
+import com.kit.utils.Logger;
+import com.oklib.OCallBack;
 import com.oklib.OkApi;
-import com.oklib.callback.BaseCallBack;
-import com.listview.RefreshListView;
 
 import java.util.List;
 
 import okhttp3.Response;
 
 public class RefreshActivity extends AppCompatActivity {
-    private RefreshListView listView;
-    private LvAdapter mAdapter;
+    private IRefresh refresh;
+    private IAdapte mAdapter;
     private int mCurPage = 1;
     private boolean sample = false;
     @Override
@@ -36,10 +37,10 @@ public class RefreshActivity extends AppCompatActivity {
     }
 
     public void init() {
-        listView = findViewById(R.id.rv);
-        listView.enableLoad(true);
-        listView.enableRefresh(true);
-        listView.setLoadListener(new IRefresh.LoadListener() {
+        refresh = findViewById(R.id.rv);
+        refresh.enableLoad(true);
+        refresh.enableRefresh(true);
+        refresh.setLoadListener(new IRefresh.LoadListener() {
             @Override
             public void onRefresh() {
                 mCurPage = 1;
@@ -78,31 +79,32 @@ public class RefreshActivity extends AppCompatActivity {
                 }
             };
         }
-        listView.setAdapter(mAdapter);
+        mAdapter.setRefreshView(refresh);
         fetchGankMZ(true);
     }
 
     private void fetchGankMZ(final boolean isRefresh) {
         String url = "https://gank.io/api/v2/data/category/Girl/type/Girl/page/" + mCurPage + "/count/15";
-        OkApi.get( url, null, new BaseCallBack<Wrapper>() {
+        OkApi.get( url, null, new OCallBack<Wrapper>() {
             @Override
             public Wrapper onParse(Response response) throws Exception {
                 int httpCode = response.code();
                 String body = response.body().string();
-                Wrapper wrapper = BcqApplication.getParser().parse(httpCode,body);
-                return wrapper;
+                return BcqApplication.getParser().parse(httpCode, body);
             }
+
             @Override
-            public void onResponse(Wrapper wrapper) {
-                List<Meizi> meizis = GsonUtil.json2List(wrapper.getBody(),Meizi.class);
-                int len = null != meizis?0:meizis.size();
+            public void onResult(Wrapper wrapper) {
+                List<Meizi> meizis = GsonUtil.json2List(wrapper.getBody(), Meizi.class);
+                int len = null == meizis ? 0 : meizis.size();
+                Logger.e("AdapterActivity", "fetchGankMZ len = " + len);
                 mAdapter.setData(meizis, isRefresh);
             }
 
             @Override
             public void onAfter() {
-                listView.loadComplete();
-                listView.refreshComplete();
+                refresh.loadComplete();
+                refresh.refreshComplete();
             }
         });
     }

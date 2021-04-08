@@ -7,11 +7,11 @@ import android.widget.FrameLayout;
 
 import com.basis.R;
 import com.basis.net.LoadTag;
-import com.business.parse.Parser;
+import com.business.parse.IParse;
 import com.kit.utils.Logger;
 import com.kit.utils.ObjUtil;
 import com.kit.UIKit;
-import com.oklib.core.Method;
+import com.oklib.Method;
 
 import java.util.List;
 import java.util.Map;
@@ -66,7 +66,7 @@ public abstract class AbsListFragment<V, T> extends BaseFragment implements UICo
      * @param mDialogMsg 进度条显示msg
      * @param method     Post/get
      */
-    public void getNetData(boolean isRefresh, String mUrl, Map<String, Object> params, Parser parser, String mDialogMsg, Method method) {
+    public void getNetData(boolean isRefresh, String mUrl, Map<String, Object> params, IParse parser, String mDialogMsg, Method method) {
         if (null != mController)
             mController.request(isRefresh, mUrl, params, parser, TextUtils.isEmpty(mDialogMsg) ? null : new LoadTag(mActivity, mDialogMsg), method);
     }

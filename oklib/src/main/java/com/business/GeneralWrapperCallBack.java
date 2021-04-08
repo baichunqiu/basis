@@ -1,11 +1,10 @@
 package com.business;
 
-import com.business.parse.Parser;
-import com.business.parse.Processor;
-import com.business.parse.Wrapper;
-import com.oklib.callback.BaseCallBack;
+import com.business.parse.IParse;
+import com.business.parse.IWrap;
+import com.business.parse.IProcess;
+import com.oklib.OCallBack;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.Request;
@@ -17,61 +16,47 @@ import okhttp3.Response;
  * @Description: 实现基本数据处理回调
  * IBusiCallback与CallBack的转换器
  */
-public abstract class GeneralWrapperCallBack<R, E> extends BaseCallBack<Object[]> {
+public abstract class GeneralWrapperCallBack<R, E> extends OCallBack<Object[]> {
     protected final String TAG = this.getClass().getSimpleName();
-    private Parser parser;
-    private Processor<R, E> processor;
-    private IBusiCallback<R, E> iBusiCallback;
-    private Wrapper wrapper;
+    private IParse parser;
+    private IProcess<R, E> processor;
+    public IBusiCallback<R, E> callback;
+    private IWrap wrapper;
     private ILoadTag iLoadTag;
-
-    public IBusiCallback<R, E> getiBusiCallback() {
-        return iBusiCallback;
-    }
 
     /**
      * @param iLoadTag      loadTag
      * @param parser        解析器
      * @param iBusiCallback 业务回调
      */
-    public GeneralWrapperCallBack(ILoadTag iLoadTag, Parser parser, IBusiCallback iBusiCallback) {
-        this.iBusiCallback = iBusiCallback;
-        this.parser = null == parser ? OkHelper.get().getParser() : parser;
+    public GeneralWrapperCallBack(ILoadTag iLoadTag, IParse parser, IBusiCallback iBusiCallback) {
+        this.callback = iBusiCallback;
         this.iLoadTag = iLoadTag;
         this.processor = onSetProcessor();
+        this.parser = null == parser ? OkHelper.get().getDefaultParser() : parser;
     }
 
     @Override
     public void onBefore(Request.Builder builder) {
         wrapper = null;
         if (null != iLoadTag) iLoadTag.show();
-    }
-
-    private void onResponseHeader(Response response) {
-        String[] headerKeys = null == parser ? null : parser.headerKeys();
-        int len = null == headerKeys ? 0 : headerKeys.length;
-        Map<String, String> headers = new HashMap<>();
-        for (int i = 0; i < len; i++) {
-            String key = headerKeys[i];
-            headers.put(key, response.header(key));
+        if (null != OkHelper.get().getCacheHeader()) { //添加header
+            Map<String, String> hs = OkHelper.get().getCacheHeader().onAddHeader();
+            if (null == hs || hs.isEmpty()) return;
+            for (Map.Entry<String, String> en : hs.entrySet()) {
+                builder.addHeader(en.getKey(), en.getValue());
+            }
         }
-        onParseHeaders(headers);
-    }
-
-    /**
-     * haead回调
-     *
-     * @param headers
-     */
-    protected void onParseHeaders(Map<String, String> headers) {
     }
 
     @Override
     public final Object[] onParse(Response response) throws Exception {
-        onResponseHeader(response);
+        if (null != OkHelper.get().getCacheHeader()) {//缓存header
+            OkHelper.get().getCacheHeader().onCacheHeader(response.headers());
+        }
         String res = response.body().string();
         int httpCode = response.code();
-        OkUtil.e(TAG, "httpCode = " + httpCode + " res = " + res);
+        OkUtil.e(TAG, "url = " + get().url+"\nhttpCode = " + httpCode + " res = " + res);
         if (null == res || "".equals(res)) {
             OkUtil.e(TAG, "未知错误：Response No Body ！");
             return null;
@@ -81,7 +66,6 @@ public abstract class GeneralWrapperCallBack<R, E> extends BaseCallBack<Object[]
             return null;
         }
         wrapper = parser.parse(httpCode, res);
-        OkUtil.e(TAG, "wrapper = " + OkUtil.obj2Json(wrapper));
         if (null == processor) {
             OkUtil.e(TAG, "No Set Processor ！");
             return null;
@@ -95,27 +79,27 @@ public abstract class GeneralWrapperCallBack<R, E> extends BaseCallBack<Object[]
     }
 
     @Override
-    public void onResponse(Object[] result) {
+    public void onResult(Object[] result) {
         if (null != result && 2 == result.length) {
-            if (null != iBusiCallback) iBusiCallback.onSuccess((R) result[0], (E) result[1]);
+            if (null != callback) callback.onSuccess((R) result[0], (E) result[1]);
         } else {
-            if (null != iBusiCallback) iBusiCallback.onError(-1, "No Result！");
+            if (null != callback) callback.onError(-1, "No Result！");
         }
     }
 
     @Override
     public void onError(Exception e) {
-        if (null != iBusiCallback) iBusiCallback.onError(-1, e.getLocalizedMessage());
+        if (null != callback) callback.onError(-1, e.getLocalizedMessage());
     }
 
     @Override
     public void onAfter() {
         if (null != iLoadTag) iLoadTag.dismiss();
-        if (null != iBusiCallback) {
+        if (null != callback) {
             if (null == wrapper) {
-                iBusiCallback.onAfter(-1, "");
+                callback.onAfter(-1, "");
             } else {
-                iBusiCallback.onAfter(wrapper.getCode(), wrapper.getMessage());
+                callback.onAfter(wrapper.getCode(), wrapper.getMessage());
             }
         }
     }
@@ -125,5 +109,5 @@ public abstract class GeneralWrapperCallBack<R, E> extends BaseCallBack<Object[]
      *
      * @return
      */
-    public abstract Processor<R, E> onSetProcessor();
+    public abstract IProcess<R, E> onSetProcessor();
 }

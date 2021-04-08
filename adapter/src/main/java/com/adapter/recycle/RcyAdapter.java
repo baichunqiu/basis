@@ -5,6 +5,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +27,15 @@ public abstract class RcyAdapter<T> extends RecyclerView.Adapter<RcyHolder> impl
     private SparseArray<Integer> itemTypes;
     private List<T> data;
     private DataObserver observer;
+
+    @Override
+    public void setRefreshView(Object refreshView) {
+        if (refreshView instanceof RecyclerView) {
+            ((RecyclerView) refreshView).setAdapter(this);
+        } else {
+            throw new IllegalArgumentException("No Support View Type :" + refreshView.getClass().getSimpleName());
+        }
+    }
 
     @Override
     public void setDataObserver(DataObserver observer) {

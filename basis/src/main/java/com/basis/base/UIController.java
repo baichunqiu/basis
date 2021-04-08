@@ -1,19 +1,17 @@
 package com.basis.base;
 
 import android.view.View;
-import android.widget.ListView;
 
 import com.IRefresh;
 import com.adapter.RefreshAdapter;
 import com.adapter.interfaces.DataObserver;
-import com.adapter.interfaces.IAdapte;
 import com.basis.R;
 import com.basis.net.LoadTag;
 import com.basis.net.callback.base.IRefreshView;
 import com.basis.net.controller.Controller;
-import com.business.parse.Parser;
+import com.business.parse.IParse;
 import com.kit.UIKit;
-import com.oklib.core.Method;
+import com.oklib.Method;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +75,7 @@ public class UIController<V, T> extends Controller<T> implements DataObserver {
     }
 
 
-    public void request(final boolean isRefresh, String url, Map<String, Object> params, Parser parser, LoadTag loadBar, Method method) {
+    public void request(final boolean isRefresh, String url, Map<String, Object> params, IParse parser, LoadTag loadBar, Method method) {
         super.request(isRefresh, url, params, parser, loadBar, method, operator, refreshView);
     }
 

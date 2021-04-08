@@ -3,10 +3,10 @@ package com.basis.net.callback;
 import com.business.GeneralWrapperCallBack;
 import com.business.IBusiCallback;
 import com.business.ILoadTag;
-import com.business.parse.Processor;
-import com.business.parse.Parser;
-import com.business.parse.Wrapper;
 import com.business.parse.BaseProcessor;
+import com.business.parse.IParse;
+import com.business.parse.IProcess;
+import com.business.parse.IWrap;
 
 /**
  * @author: BaiCQ
@@ -15,20 +15,20 @@ import com.business.parse.BaseProcessor;
  */
 public class GeneralStateCallback extends GeneralWrapperCallBack<Integer, String> {
 
-    public GeneralStateCallback(ILoadTag loadTag, Parser parser, IBusiCallback<Integer, String> iBusiCallback) {
+    public GeneralStateCallback(ILoadTag loadTag, IParse parser, IBusiCallback<Integer, String> iBusiCallback) {
         super(loadTag, parser, iBusiCallback);
     }
 
     @Override
-    public Processor<Integer, String> onSetProcessor() {
+    public IProcess<Integer, String> onSetProcessor() {
         return new BaseProcessor<Integer, String>() {
             @Override
-            public Integer parseResult(Wrapper wrapper) {
+            public Integer parseResult(IWrap wrapper) {
                 return wrapper.getCode();
             }
 
             @Override
-            public String parseExtra(Wrapper wrapper) {
+            public String parseExtra(IWrap wrapper) {
                 return wrapper.getMessage();
             }
         };

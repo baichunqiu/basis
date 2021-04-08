@@ -8,11 +8,11 @@ import com.basis.net.callback.base.IListCallback;
 import com.business.GeneralWrapperCallBack;
 import com.business.IBusiCallback;
 import com.business.ILoadTag;
-import com.business.parse.Parser;
+import com.business.parse.IParse;
 import com.kit.utils.Logger;
 import com.kit.utils.NetUtil;
-import com.oklib.core.Method;
-import com.oklib.core.ReQuest;
+import com.oklib.Method;
+import com.oklib.ORequest;
 
 import java.util.Map;
 
@@ -38,7 +38,7 @@ public class NetApi {
      * @param iListCallback 数据集回调
      * @return 请求封装体
      */
-    public static <R> ReQuest request(ILoadTag tag, String url, Map<String, Object> params, Method method, IListCallback<R> iListCallback) {
+    public static <R> ORequest request(ILoadTag tag, String url, Map<String, Object> params, Method method, IListCallback<R> iListCallback) {
         return request(url, params, method, new GeneralListCallback(tag, null, iListCallback));
     }
 
@@ -51,7 +51,7 @@ public class NetApi {
      * @param iListCallback 数据集回调
      * @return 请求封装体
      */
-    public static <R> ReQuest request(ILoadTag tag, String url, Map<String, Object> params, Parser parser, Method method, IListCallback<R> iListCallback) {
+    public static <R> ORequest request(ILoadTag tag, String url, Map<String, Object> params, IParse parser, Method method, IListCallback<R> iListCallback) {
         return request(url, params, method, new GeneralListCallback(tag, parser, iListCallback));
     }
 
@@ -63,7 +63,7 @@ public class NetApi {
      * @param iCallback 状态回调
      * @return 请求封装体
      */
-    public static ReQuest operate(ILoadTag tag, String url, Map<String, Object> params, Method method, IBusiCallback<Integer, String> iCallback) {
+    public static ORequest operate(ILoadTag tag, String url, Map<String, Object> params, Method method, IBusiCallback<Integer, String> iCallback) {
         return request(url, params, method, new GeneralStateCallback(tag, null, iCallback));
     }
 
@@ -76,7 +76,7 @@ public class NetApi {
      * @param iCallback 状态回调
      * @return 请求封装体
      */
-    public static ReQuest operate(ILoadTag tag, String url, Map<String, Object> params, Parser parser, Method method, IBusiCallback<Integer, String> iCallback) {
+    public static ORequest operate(ILoadTag tag, String url, Map<String, Object> params, IParse parser, Method method, IBusiCallback<Integer, String> iCallback) {
         return request(url, params, method, new GeneralStateCallback(tag, parser, iCallback));
     }
 
@@ -91,19 +91,20 @@ public class NetApi {
      * @param <E>             extra类型 （附加数据）
      * @return ReQuest 请求封装体
      */
-    public static <R, E> ReQuest request(String url, Map<String, Object> params, Method method, GeneralWrapperCallBack<R, E> generalCallBack) {
-        ReQuest reQuest = ReQuest.Builder.method(method).url(url)
+    public static <R, E> ORequest request(String url, Map<String, Object> params, Method method, GeneralWrapperCallBack<R, E> generalCallBack) {
+        ORequest request =  ORequest.Builder.method(method)
+                .url(url)
                 .param(params)
                 .callback(generalCallBack)
                 .build();
         if (checkOK(url)) {
-            reQuest.request();
+            request.request();
         } else {
             if (null != generalCallBack) {
-                generalCallBack.getiBusiCallback().onError(CODE_CHECK_ERROR,"设备未连接网络");
+                generalCallBack.callback.onError(CODE_CHECK_ERROR,"设备未连接网络");
             }
         }
-        return reQuest;
+        return request;
     }
 
 

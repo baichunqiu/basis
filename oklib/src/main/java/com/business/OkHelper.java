@@ -1,19 +1,30 @@
 package com.business;
 
-import com.business.parse.Parser;
+import com.business.parse.IHeader;
+import com.business.parse.IParse;
 
 public class OkHelper {
     private final static OkHelper instance = new OkHelper();
     //通用json解析器
-    private Parser defaultParser;
+    private IParse defaultParser;
     private String mToken;
+    private IHeader cacheHeader;
 
     public static OkHelper get() {
         return instance;
     }
 
-    public static void setDebug(boolean debug){
+    public static void setDebug(boolean debug) {
         OkUtil.debug = debug;
+    }
+
+
+    public void setCacheHeader(IHeader cacheHeader) {
+        this.cacheHeader = cacheHeader;
+    }
+
+    public IHeader getCacheHeader() {
+        return cacheHeader;
     }
 
     /**
@@ -32,13 +43,13 @@ public class OkHelper {
         return mToken;
     }
 
-    public void setParser(Parser parser) {
+    public void setParser(IParse parser) {
         defaultParser = parser;
     }
 
-    protected Parser getParser() {
+    protected IParse getDefaultParser() {
         if (null == defaultParser) {
-            defaultParser = new DefauParser();
+            defaultParser = new DefaultParser();
         }
         return defaultParser;
     }
