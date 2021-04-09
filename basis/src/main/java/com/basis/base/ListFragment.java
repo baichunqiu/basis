@@ -5,9 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.adapter.interfaces.IHolder;
 import com.basis.R;
 import com.basis.net.LoadTag;
-import com.basis.widget.TitleBar;
 import com.business.interfaces.IParse;
 import com.kit.utils.Logger;
 import com.kit.utils.ObjUtil;
@@ -17,36 +17,30 @@ import com.oklib.Method;
 import java.util.List;
 import java.util.Map;
 
-
 /**
- * @param <V> 适配器数据类型
- * @param <T> 接口数据类型
  * @author: BaiCQ
  * @createTime: 2017/1/13 11:38
- * @className: AbsListActivity
- * @Description: 正常情况下 V T 的类型是一致的
+ * @className: AbsListFragment
+ * @Description: 正常情况下 ND, AD 的类型是一致的
  */
-public abstract class AbsListActivity<V, T> extends BaseActivity implements UIController.IOperator<V, T> {
-    private Class<T> tClass;
-    private UIController<V, T> mController;
+public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragment implements UIController.IOperator<ND, AD,VH> {
+    private Class<ND> tClass;
+    private UIController<ND,AD, VH> mController;
     private View contentView;
-    private TitleBar titleBar;
 
     @Override
-    public int setLayoutId() {
-        return R.layout.activity_abs_list;
+    public final int setLayoutId() {
+        return R.layout.fragment_abs_list;
     }
 
-    @Override
     public final void init() {
-        tClass = (Class<T>) ObjUtil.getTType(getClass())[1];
         resetLayoutView();
+        tClass = (Class<ND>) ObjUtil.getTType(getClass())[0];
         mController = new UIController(getLayout(), tClass, this);
         initView(contentView);
     }
 
     private void resetLayoutView() {
-        initTitleBar();
         FrameLayout ll_content = getView(R.id.ll_content);
         contentView = setContentView();
         ll_content.addView(contentView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
@@ -55,26 +49,8 @@ public abstract class AbsListActivity<V, T> extends BaseActivity implements UICo
         //未设置show_data布局 使用lv替代
         if (null == show_data) show_data = UIKit.getView(contentView, R.id.bsi_refresh);
         ViewGroup extraParent = null != show_data ? (ViewGroup) show_data.getParent() : ll_content;
-        extraParent.addView(UIKit.inflate(R.layout.no_data), FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-    }
-
-    private void initTitleBar() {
-        titleBar = getView(R.id.bsi_titleBar);
-        if (titleBar == null) {
-            Logger.e(TAG, "init title_bar error for titleBar is null, " +
-                    "are you set id of the view is 'bsi_v_show_data' !");
-            return;
-        }
-        titleBar.setOnLeftListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackCode();
-            }
-        });
-    }
-
-    public void setQlTitle(String title) {
-        if (null != titleBar) titleBar.setTitle(title, R.color.white);
+        View nodata = UIKit.inflate(R.layout.no_data);
+        extraParent.addView(nodata, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
     }
 
     public void getNetData(boolean isRefresh, String mUrl, Map<String, Object> params, String mDialogMsg, Method method) {
@@ -85,38 +61,31 @@ public abstract class AbsListActivity<V, T> extends BaseActivity implements UICo
      * @param isRefresh  是否刷新
      * @param mUrl       mUrl
      * @param params     参数 注意：不包含page
-     * @param method     Post/get
      * @param parser     解析器
      * @param mDialogMsg 进度条显示msg
+     * @param method     Post/get
      */
     public void getNetData(boolean isRefresh, String mUrl, Map<String, Object> params, IParse parser, String mDialogMsg, Method method) {
         if (null != mController)
             mController.request(isRefresh, mUrl, params, parser, TextUtils.isEmpty(mDialogMsg) ? null : new LoadTag(mActivity, mDialogMsg), method);
     }
 
-    /**
-     * 刷新适配器数据
-     *
-     * @param netData   接口放回数据
-     * @param isRefresh 是否刷新
-     */
-    public void refreshData(List<T> netData, boolean isRefresh) {
+    public void refreshData(List<ND> netData, boolean isRefresh) {
         if (null != mController) mController.onRefreshData(netData, isRefresh);
     }
 
     /**
-     * @param netData 此次请求的数据
+     * 适配器设置数据前 处理数据 有可能类型转换
+     *
+     * @param netData
      */
     @Override
-    public List<V> onPreRefreshData(List<T> netData, boolean isRefresh) {
-        return (List<V>) netData;
+    public List<AD> onPreRefreshData(List<ND> netData, boolean isRefresh) {
+        return (List<AD>) netData;
     }
 
-    /**
-     * @param netData 设置给适配器的数据
-     */
     @Override
-    public List<V> onPreSetData(List<V> netData) {
+    public List<AD> onPreSetData(List<AD> netData) {
         return netData;
     }
 
@@ -124,6 +93,7 @@ public abstract class AbsListActivity<V, T> extends BaseActivity implements UICo
     public void onError(int status, String errMsg) {
         Logger.e(TAG, "errMsg :" + errMsg);
     }
+
 
     public abstract View setContentView();
 

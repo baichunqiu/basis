@@ -2,10 +2,10 @@ package com.basis.base;
 
 /**
  * @author: BaiCQ
- * @ClassName: IRefresh
+ * @ClassName: IBasis
  * @Description: 刷新UI的接口
  */
-public interface IBase {
+public interface IBasis {
 
     /**
      * 设置布局
@@ -18,7 +18,7 @@ public interface IBase {
     void init();
 
     /**
-     * 刷新UI回调接口
+     * 刷新UI回调接口 供fragment刷数据使用
      * @param obj
      */
     void onRefresh(Object obj);

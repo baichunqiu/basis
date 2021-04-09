@@ -1,14 +1,20 @@
 package com.basis.base;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.IdRes;
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.basis.widget.ActionBarWapper;
+import com.basis.widget.IBarWrap;
 import com.kit.UIKit;
+import com.kit.utils.Logger;
 
 /**
  * @author: BaiCQ
@@ -16,14 +22,11 @@ import com.kit.UIKit;
  * @date: 2018/8/17
  * @Description: 基类，AbsExitActivity的空实现
  */
-public abstract class BaseActivity extends FragmentActivity implements IBase {
+public abstract class BaseActivity extends AppCompatActivity implements IBasis {
     protected final String TAG = this.getClass().getSimpleName();
     protected BaseActivity mActivity;
     private View layout;
-
-    protected boolean setFullScreen() {
-        return true;
-    }
+    private IBarWrap wrap;
 
     @Override
     protected void onDestroy() {
@@ -36,17 +39,41 @@ public abstract class BaseActivity extends FragmentActivity implements IBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = this;
-        if (setFullScreen()) {//全屏
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
         UIStack.getInstance().add(mActivity);
         layout = UIKit.inflate(setLayoutId());
         setContentView(layout);
+        //init wapp
+        wrap = new ActionBarWapper(mActivity);
+        onInitBarWrapper(wrap);
+        wrap.inflate();
         init();
     }
 
-    protected View getLayout() {
+    public abstract int setLayoutId();
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return wrap.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (android.R.id.home == item.getItemId()) {
+            Logger.e(TAG,"back !");
+            onBackCode();
+            return true;
+        }else {
+            return wrap.onOptionsItemSelected(item);
+        }
+    }
+
+    public void onInitBarWrapper(IBarWrap wrap){
+    }
+
+    @Override
+    public abstract void init();
+
+    public View getLayout() {
         return layout;
     }
 

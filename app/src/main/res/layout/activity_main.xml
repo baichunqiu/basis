@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.basis.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.basis.widget.TitleBar
-        android:id="@+id/bsi_titleBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_hind="true"
-        app:title="UI" />
-
+<!--    <com.basis.widget.TitleBar-->
+<!--        android:id="@+id/bsi_titleBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:left_hind="true"-->
+<!--        android:visibility="gone"-->
+<!--        app:title="UI" />-->
+<!--    <ViewStub-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout="@layout/basis_actionbar" />-->
+<!--    <include layout="@layout/basis_actionbar"/>-->
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="?attr/actionBarSize"-->
+<!--        app:titleTextColor="@color/white" />-->
     <Button
         android:id="@+id/load"
         android:layout_width="match_parent"
@@ -35,4 +44,12 @@
         android:layout_marginLeft="@dimen/dimens_60px"
         android:layout_marginRight="@dimen/dimens_60px"
         android:text="Recycle" />
-</com.basis.percent.PercentLinearLayout>
+
+    <Button
+        android:id="@+id/listui"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimens_60px"
+        android:layout_marginRight="@dimen/dimens_60px"
+        android:text="List Activity" />
+</LinearLayout>

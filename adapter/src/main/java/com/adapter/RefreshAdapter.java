@@ -16,7 +16,7 @@ import com.adapter.recycle.RcyHolder;
 
 import java.util.List;
 
-public abstract class RefreshAdapter<T> implements IAdapte<T, IHolder> {
+public abstract class RefreshAdapter<T, VH extends IHolder> implements IAdapte<T, VH> {
     protected final Context context;
     private IAdapte adapter;
     private int[] layoutIds;
@@ -38,14 +38,14 @@ public abstract class RefreshAdapter<T> implements IAdapte<T, IHolder> {
     }
 
     public BaseAdapter lvAdapter() {
-        adapter = new LvAdapter<T>(context, layoutIds) {
+        adapter = new LvAdapter<T, VH>(context, layoutIds) {
             @Override
             public int getItemLayoutId(T item, int position) {
                 return RefreshAdapter.this.getItemLayoutId(item, position);
             }
 
             @Override
-            public void convert(LvHolder holder, T item, int position, int layoutId) {
+            public void convert(VH holder, T item, int position, int layoutId) {
                 RefreshAdapter.this.convert(holder, item, position, layoutId);
             }
         };
@@ -53,14 +53,14 @@ public abstract class RefreshAdapter<T> implements IAdapte<T, IHolder> {
     }
 
     public RecyclerView.Adapter recycleAdapter() {
-        adapter = new RcyAdapter<T>(context, layoutIds) {
+        adapter = new RcyAdapter<T, VH>(context, layoutIds) {
             @Override
             public int getItemLayoutId(T item, int position) {
                 return RefreshAdapter.this.getItemLayoutId(item, position);
             }
 
             @Override
-            public void convert(RcyHolder holder, T item, int position, int layoutId) {
+            public void convert(VH holder, T item, int position, int layoutId) {
                 RefreshAdapter.this.convert(holder, item, position, layoutId);
             }
         };
@@ -93,5 +93,5 @@ public abstract class RefreshAdapter<T> implements IAdapte<T, IHolder> {
     public abstract int getItemLayoutId(T item, int position);
 
     @Override
-    public abstract void convert(IHolder iHolder, T t, int position, int layoutId);
+    public abstract void convert(VH iHolder, T t, int position, int layoutId);
 }

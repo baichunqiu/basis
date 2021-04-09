@@ -2,13 +2,15 @@ package com.adapter.listview;
 
 import android.content.Context;
 
+import com.adapter.interfaces.IHolder;
+
 /**
  * @author: BaiCQ
  * @createTime: 2017/2/28 10:11
  * @className:  Sample Adapter
  * @Description: 一种viewType通用adapter
  */
-public abstract class LvSAdapter<T> extends LvAdapter<T> {
+public abstract class LvSAdapter<T,VH extends IHolder> extends LvAdapter<T,VH> {
     private int layoutId;
 
     public LvSAdapter(Context context, int itemLayoutId) {
@@ -22,10 +24,10 @@ public abstract class LvSAdapter<T> extends LvAdapter<T> {
     }
 
     @Override
-    public void convert(LvHolder holder, T t, int position, int layoutId) {
+    public void convert(VH holder, T t, int position, int layoutId) {
         convert(holder, t, position);
     }
 
-    public abstract void convert(LvHolder holder, T t, int position);
+    public abstract void convert(VH holder, T t, int position);
 
 }

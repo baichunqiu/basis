@@ -2,9 +2,13 @@ package com.basis.base;
 
 import android.view.View;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.IRefresh;
-import com.adapter.RefreshAdapter;
 import com.adapter.interfaces.DataObserver;
+import com.adapter.interfaces.IAdapte;
+import com.adapter.interfaces.IHolder;
 import com.basis.R;
 import com.basis.net.LoadTag;
 import com.basis.net.controller.Controller;
@@ -21,13 +25,16 @@ import java.util.Map;
  * @createTime: 2017/1/13 11:38
  * @className: UIController
  * @Description: 供列表显示页面使用的控制器
+ * @param <ND> 适配器数据类型
+ * @param <AD> 接口数据类型
+ * @param <VH> 接口数据类型
  */
-public class UIController<V, T> extends Controller<T> implements DataObserver {
+public class UIController<ND, AD, VH extends IHolder> extends Controller<ND> implements DataObserver {
     private final String TAG = "UIController";
-    private IOperator operator;
+    private IOperator<ND, AD,VH> operator;
     //适配器使用功能集合 泛型不能使用 T 接口返回类型有可能和适配器使用的不一致
     private List adapterList = new ArrayList<>();
-    private RefreshAdapter<T> mAdapter;
+    private IAdapte<AD, VH> mAdapter;
     private IRefresh refreshView;
     private View showData;
     private View noData;
@@ -38,7 +45,7 @@ public class UIController<V, T> extends Controller<T> implements DataObserver {
         None
     }
 
-    public UIController(View parent, Class<T> tclazz, IOperator<V, T> operator) {
+    public UIController(View parent, Class<ND> tclazz, IOperator<ND, AD,VH> operator) {
         super(tclazz);
         this.layout = parent;
         this.operator = operator;
@@ -50,6 +57,12 @@ public class UIController<V, T> extends Controller<T> implements DataObserver {
         noData = UIKit.getView(layout, R.id.bsi_no_data);
         refreshView = UIKit.getView(layout, R.id.bsi_refresh);
         if (null == showData) showData = (View) refreshView;
+        if (refreshView instanceof RecyclerView){
+            final GridLayoutManager layoutmanager = new GridLayoutManager(UIKit.getContext(), 2);
+            ((RecyclerView) refreshView).setLayoutManager(layoutmanager);
+        }
+        refreshView.enableRefresh(true);
+        refreshView.enableLoad(true);
         mAdapter = operator.onSetAdapter();
         mAdapter.setDataObserver(this);
         mAdapter.setRefreshView(refreshView);
@@ -84,19 +97,19 @@ public class UIController<V, T> extends Controller<T> implements DataObserver {
      * @param isRefresh 是否刷新
      */
     @Override
-    public void onRefreshData(List<T> netData, boolean isRefresh) {
+    public void onRefreshData(List<ND> netData, boolean isRefresh) {
         //设置适配器前  数据处理
-        List preData = operator.onPreRefreshData(netData, isRefresh);
+        List<AD> preData = operator.onPreRefreshData(netData, isRefresh);
         if (isRefresh) {
             adapterList.clear();
         }
         if (null != preData) {
             adapterList.addAll(preData);
         }
-        List<T> temp = operator.onPreSetData(adapterList);
+        List<AD> temp = operator.onPreSetData(adapterList);
         if (null != temp && !temp.isEmpty()) {
             showViewType(ShowType.Data);
-            mAdapter.setData(temp,isRefresh);
+            mAdapter.setData(temp, isRefresh);
         } else {
             showViewType(ShowType.None);
         }
@@ -108,7 +121,7 @@ public class UIController<V, T> extends Controller<T> implements DataObserver {
      */
     @Override
     public void onObserve(int length) {
-        if (length == 0){
+        if (length == 0) {
             showViewType(ShowType.None);
         }
     }
@@ -126,10 +139,11 @@ public class UIController<V, T> extends Controller<T> implements DataObserver {
     /**
      * Model 处理抽象接口
      *
-     * @param <V> 适配器数据类型
-     * @param <T> 接口数据类型
+     * @param <ND> net data 接口数据类型
+     * @param <AD> adapter data 适配器数据类型 一般情况：和ND类型一致
+     * @param <VH> 适配器的view holder类型
      */
-    public interface IOperator<V, T> extends IOperate<T> {
+    public interface IOperator<ND, AD, VH extends IHolder> extends IOperate<ND> {
 
         /**
          * 刷新数据前回调
@@ -139,7 +153,7 @@ public class UIController<V, T> extends Controller<T> implements DataObserver {
          * @param isRefresh 刷新标识
          * @return
          */
-        List<V> onPreRefreshData(List<T> netData, boolean isRefresh);
+        List<AD> onPreRefreshData(List<ND> netData, boolean isRefresh);
 
         /**
          * 设置adapter数据前回调
@@ -148,9 +162,9 @@ public class UIController<V, T> extends Controller<T> implements DataObserver {
          * @param netData 设置给adapter的所有（包含所有页码）数据
          * @return 返回数据集合直接设置给adapter，会执行showViewType()修改ui
          */
-        List<V> onPreSetData(List<V> netData);
+        List<AD> onPreSetData(List<AD> netData);
 
-        RefreshAdapter<V> onSetAdapter();
+        IAdapte<AD, VH> onSetAdapter();
 
         @Override
         void onError(int status, String errMsg);

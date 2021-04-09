@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * 通用适配器接口
+ * @param <T> 数据类型
+ * @param <VH> viewholder类型
  */
 public interface IAdapte<T, VH extends IHolder> {
 

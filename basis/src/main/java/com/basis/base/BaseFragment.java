@@ -18,11 +18,11 @@ import com.kit.utils.Logger;
  * @date: 2018/8/17
  * @Description: Fragment 的基类
  */
-public abstract class BaseFragment extends Fragment implements IBase {
+public abstract class BaseFragment extends Fragment implements IBasis {
     protected final String TAG = this.getClass().getSimpleName();
     protected BaseActivity mActivity;
     private View layout;
-    private boolean init = false;
+    private boolean init = false;//init 和 onRefresh()的执行的先后问题
 
     @Override
     public final void onAttach(Context context) {
@@ -39,8 +39,9 @@ public abstract class BaseFragment extends Fragment implements IBase {
         Logger.e(TAG, "onDetach");
     }
 
+    @Deprecated
     @Override
-    public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         layout = inflater.inflate(setLayoutId(), null);
         Logger.e(TAG, "onCreateView");
         return layout;
@@ -53,6 +54,12 @@ public abstract class BaseFragment extends Fragment implements IBase {
         init();
         init = true;
     }
+
+    @Override
+    public abstract int setLayoutId();
+
+    @Override
+    public abstract void init();
 
     protected View getLayout() {
         return layout;

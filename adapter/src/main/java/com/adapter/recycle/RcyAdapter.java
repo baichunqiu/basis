@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.adapter.interfaces.DataObserver;
 import com.adapter.interfaces.IAdapte;
+import com.adapter.interfaces.IHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  *
  * @param <T>
  */
-public abstract class RcyAdapter<T> extends RecyclerView.Adapter<RcyHolder> implements IAdapte<T, RcyHolder> {
+public abstract class RcyAdapter<T, VH extends IHolder> extends RecyclerView.Adapter<RcyHolder> implements IAdapte<T, VH> {
     protected Context context;
     private LayoutInflater inflater;
     // 布局id和itemType的映射关系
@@ -108,7 +109,7 @@ public abstract class RcyAdapter<T> extends RecyclerView.Adapter<RcyHolder> impl
     public void onBindViewHolder(RcyHolder holder, int position) {
         T dt = getItem(position);
         int layout = getItemLayoutId(dt, position);
-        convert(holder, dt, position, layout);
+        convert((VH)holder, dt, position, layout);
     }
 
     /************************以上RecyclerView.Adapter的方法*********************/
@@ -165,5 +166,5 @@ public abstract class RcyAdapter<T> extends RecyclerView.Adapter<RcyHolder> impl
      * @param layoutId 布局id 多种布局时返回
      */
     @Override
-    public abstract void convert(RcyHolder holder, T t, int position, int layoutId);
+    public abstract void convert(VH holder, T t, int position, int layoutId);
 }

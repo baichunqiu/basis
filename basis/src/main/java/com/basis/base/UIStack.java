@@ -21,7 +21,7 @@ public class UIStack {
     private final static UIStack instance = new UIStack();
     //全局广播
     private BroadcastReceiver bdReceiver;
-    private LinkedList<IBase> iBases = new LinkedList<>();
+    private LinkedList<IBasis> iBases = new LinkedList<>();
 
     private String[] actions = new String[]{ConnectivityManager.CONNECTIVITY_ACTION};
 
@@ -32,16 +32,16 @@ public class UIStack {
         return instance;
     }
 
-    public void add(IBase iBase) {
-        iBases.add(iBase);
+    public void add(IBasis iBasis) {
+        iBases.add(iBasis);
         if (null == bdReceiver) {//说明释放啦
             bdReceiver = new UIReceiver();
             BroadcastUtil.registerReceiver(bdReceiver, actions);
         }
-        Logger.e(TAG, "add : size = " + iBases.size() + " ibase:" + iBase.getClass().getSimpleName());
+        Logger.e(TAG, "add : size = " + iBases.size() + " ibase:" + iBasis.getClass().getSimpleName());
     }
 
-    public void remove(IBase remove) {
+    public void remove(IBasis remove) {
         iBases.remove(remove);
         if (iBases.isEmpty()) {
             if (null != bdReceiver) {
@@ -55,7 +55,7 @@ public class UIStack {
     public BaseActivity getTopActivity() {
         int len = iBases.size();
         for (int i = len - 1; i >= 0; i--) {
-            IBase base = iBases.get(i);
+            IBasis base = iBases.get(i);
             if (base instanceof Activity) {
                 return (BaseActivity) base;
             }
@@ -67,7 +67,7 @@ public class UIStack {
         int len = iBases.size();
         BaseActivity baseActivity = null;
         for (int i = len - 1; i >= 0; i--) {
-            IBase base = iBases.get(i);
+            IBasis base = iBases.get(i);
             if (base instanceof Activity) {
                 baseActivity = (BaseActivity) base;
                 break;
@@ -85,7 +85,7 @@ public class UIStack {
         }
         int len = iBases.size();
         for (int i = len - 1; i >= 0; i--) {
-            IBase base = iBases.get(i);
+            IBasis base = iBases.get(i);
             if (base instanceof Activity) {
                 Activity act = (Activity) base;
                 if (!act.isFinishing()) {
@@ -106,7 +106,7 @@ public class UIStack {
     }
 
     private void setResultForAll() {
-        for (IBase a : iBases) {
+        for (IBasis a : iBases) {
             if (a instanceof Activity) {
                 a.onNetChange();
             }

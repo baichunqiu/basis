@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.IRefresh;
 import com.adapter.interfaces.IAdapte;
+import com.adapter.listview.LvHolder;
 import com.adapter.recycle.RcyHolder;
 import com.adapter.recycle.RcySAdapter;
 import com.basis.net.LoadTag;
@@ -24,6 +25,7 @@ public class RecycleActivity extends AppCompatActivity {
     private IRefresh refresh;
     private IAdapte mAdapter;
     private int mCurPage = 1;
+
     @Override
     @Deprecated
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +44,16 @@ public class RecycleActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 mCurPage = 1;
-                fetchGankMZ(true,false);
+                fetchGankMZ(true, false);
             }
 
             @Override
             public void onLoad() {
                 mCurPage++;
-                fetchGankMZ(false,false);
+                fetchGankMZ(false, false);
             }
         });
-        mAdapter = new RcySAdapter<Meizi>(this, R.layout.item_mz) {
+        mAdapter = new RcySAdapter<Meizi, RcyHolder>(this, R.layout.item_mz) {
 
             @Override
             public void convert(RcyHolder holder, Meizi gankMeizi, int position) {
@@ -60,15 +62,15 @@ public class RecycleActivity extends AppCompatActivity {
             }
         };
         mAdapter.setRefreshView(refresh);
-        fetchGankMZ(true,true);
+        fetchGankMZ(true, true);
     }
 
-    private void fetchGankMZ(final boolean isRefresh,boolean show) {
+    private void fetchGankMZ(final boolean isRefresh, boolean show) {
         String url = "https://gank.io/api/v2/data/category/Girl/type/Girl/page/" + mCurPage + "/count/20";
-        Request.request(show?new LoadTag(this):null, url, null, Method.get, new ListCallback<Meizi>(refresh){
+        Request.request(show ? new LoadTag(this) : null, url, null, Method.get, new ListCallback<Meizi>(refresh) {
             @Override
             public void onSuccess(List<Meizi> meizis, Boolean loadFull) {
-                super.onSuccess(meizis,loadFull);
+                super.onSuccess(meizis, loadFull);
                 int len = null == meizis ? 0 : meizis.size();
                 Logger.e("AdapterActivity", "fetchGankMZ len = " + len);
                 mAdapter.setData(meizis, isRefresh);

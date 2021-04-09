@@ -19,7 +19,6 @@ public class BroadcastUtil {
 
     /**
      * 注册全局广播
-     *
      * @param receiver
      * @param actions
      */

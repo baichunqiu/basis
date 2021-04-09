@@ -1,7 +1,5 @@
 package com.qunli.demo;
 
-import android.app.Application;
-
 import com.basis.BasisApplication;
 import com.business.OkHelper;
 import com.business.Wrapper;

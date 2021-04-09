@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.adapter.interfaces.DataObserver;
 import com.adapter.interfaces.IAdapte;
+import com.adapter.interfaces.IHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
  * @className: RefreshAdapter
  * @Description: 通用适配器:支持多类型viewType
  */
-public abstract class LvAdapter<T> extends BaseAdapter implements IAdapte<T, LvHolder> {
+public abstract class LvAdapter<T,VH extends IHolder> extends BaseAdapter implements IAdapte<T, VH> {
     protected Context mContext;
     private List<T> data;
     private LayoutInflater inflater;
@@ -131,7 +132,7 @@ public abstract class LvAdapter<T> extends BaseAdapter implements IAdapte<T, LvH
         } else {
             lvHolder = (LvHolder) convertView.getTag();
         }
-        convert(lvHolder, t, position, layoutId);
+        convert((VH) lvHolder, t, position, layoutId);
         return lvHolder.rootView();
     }
 
@@ -154,5 +155,5 @@ public abstract class LvAdapter<T> extends BaseAdapter implements IAdapte<T, LvH
      * @param layoutId 布局id 多种布局时返回
      */
     @Override
-    public abstract void convert(LvHolder lvHolder, T t, int position, int layoutId);
+    public abstract void convert(VH lvHolder, T t, int position, int layoutId);
 }

@@ -2,13 +2,15 @@ package com.adapter.listview;
 
 import android.content.Context;
 
+import com.adapter.interfaces.IHolder;
+
 /**
  * @author: BaiCQ
  * @createTime: 2017/2/28 10:09
  * @className: TopAdapter
  * @Description: position = 0 是特殊处理的 通用adapter
  */
-public abstract class LvTAdapter<T> extends LvAdapter<T> {
+public abstract class LvTAdapter<T,VH extends IHolder> extends LvAdapter<T,VH> {
     protected int topLayoutId;
     protected int layoutId;
 
@@ -39,7 +41,7 @@ public abstract class LvTAdapter<T> extends LvAdapter<T> {
     }
 
     @Override
-    public void convert(LvHolder holder, T t, int position, int layoutId) {
+    public void convert(VH holder, T t, int position, int layoutId) {
         convert(holder, t, position);
         if (layoutId == topLayoutId){
             convertTop(holder,t);
@@ -48,7 +50,7 @@ public abstract class LvTAdapter<T> extends LvAdapter<T> {
         }
     }
 
-    protected abstract int convertTop(LvHolder lvHolder, Object item);
+    protected abstract int convertTop(VH lvHolder, Object item);
 
-    public abstract void convert(LvHolder holder, T t, int position);
+    public abstract void convert(VH holder, T t, int position);
 }

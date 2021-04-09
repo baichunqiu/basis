@@ -2,12 +2,14 @@ package com.adapter.recycle;
 
 import android.content.Context;
 
+import com.adapter.interfaces.IHolder;
+
 /**
  * 通用适配器
  *
  * @param <T>
  */
-public abstract class RcySAdapter<T> extends RcyAdapter<T> {
+public abstract class RcySAdapter<T, VH extends IHolder> extends RcyAdapter<T, VH> {
 
     private int layoutId;
 
@@ -22,9 +24,9 @@ public abstract class RcySAdapter<T> extends RcyAdapter<T> {
     }
 
     @Override
-    public void convert(RcyHolder holder, T t, int position, int layoutId) {
+    public void convert(VH holder, T t, int position, int layoutId) {
         convert(holder, t, position);
     }
 
-    public abstract void convert(RcyHolder holder, T t, int position);
+    public abstract void convert(VH holder, T t, int position);
 }
