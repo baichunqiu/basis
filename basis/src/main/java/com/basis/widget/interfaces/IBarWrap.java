@@ -1,4 +1,4 @@
-package com.basis.widget;
+package com.basis.widget.interfaces;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,7 +40,7 @@ public interface IBarWrap<T extends IBarWrap> {
         private int icon;
         private int index = 0;
 
-        OpMenu(int icon, String title) {
+        public OpMenu(int icon, String title) {
             this.icon = icon;
             this.title = title;
         }

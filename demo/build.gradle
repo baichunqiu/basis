@@ -39,6 +39,6 @@ dependencies {
     implementation project(path: ':oklib')
     implementation project(path: ':refresh')
 //    implementation project(path: ':refresh')
-    implementation project(path: ':ukit')
+    implementation project(path: ':kit')
     implementation project(path: ':adapter')
 }

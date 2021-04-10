@@ -1,18 +1,15 @@
 package com.basis.base;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.basis.widget.ActionBarWapper;
-import com.basis.widget.IBarWrap;
+import com.basis.widget.interfaces.IBarWrap;
 import com.kit.UIKit;
 import com.kit.utils.Logger;
 

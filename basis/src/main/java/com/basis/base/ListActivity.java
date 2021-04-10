@@ -8,7 +8,6 @@ import android.widget.FrameLayout;
 import com.adapter.interfaces.IHolder;
 import com.basis.R;
 import com.basis.net.LoadTag;
-import com.basis.widget.TitleBar;
 import com.business.interfaces.IParse;
 import com.kit.utils.Logger;
 import com.kit.utils.ObjUtil;
@@ -20,19 +19,18 @@ import java.util.Map;
 
 
 /**
+ * @param <ND> 接口数据类型
+ * @param <AD> 适配器数据类型 一般情况：和ND类型一致
+ * @param <VH> 适配器的holder类型
  * @author: BaiCQ
  * @createTime: 2017/1/13 11:38
  * @className: AbsListActivity
  * @Description: 正常情况下 ND AD 的类型是一致的
- * @param <ND> 接口数据类型
- * @param <AD> 适配器数据类型 一般情况：和ND类型一致
- * @param <VH> 适配器的holder类型
  */
-public abstract class ListActivity<ND, AD, VH extends IHolder> extends BaseActivity implements UIController.IOperator<ND,AD,VH> {
+public abstract class ListActivity<ND, AD, VH extends IHolder> extends BaseActivity implements UIController.IOperator<ND, AD, VH> {
     private Class<ND> tClass;
-    private UIController<ND,AD,VH> mController;
+    private UIController<ND, AD, VH> mController;
     private View contentView;
-    private TitleBar titleBar;
 
     @Override
     public final int setLayoutId() {
@@ -48,7 +46,6 @@ public abstract class ListActivity<ND, AD, VH extends IHolder> extends BaseActiv
     }
 
     private void resetLayoutView() {
-        initTitleBar();
         FrameLayout ll_content = getView(R.id.ll_content);
         contentView = setContentView();
         ll_content.addView(contentView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
@@ -58,25 +55,6 @@ public abstract class ListActivity<ND, AD, VH extends IHolder> extends BaseActiv
         if (null == show_data) show_data = UIKit.getView(contentView, R.id.bsi_refresh);
         ViewGroup extraParent = null != show_data ? (ViewGroup) show_data.getParent() : ll_content;
         extraParent.addView(UIKit.inflate(R.layout.no_data), FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-    }
-
-    private void initTitleBar() {
-        titleBar = getView(R.id.bsi_titleBar);
-        if (titleBar == null) {
-            Logger.e(TAG, "init title_bar error for titleBar is null, " +
-                    "are you set id of the view is 'bsi_v_show_data' !");
-            return;
-        }
-        titleBar.setOnLeftListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackCode();
-            }
-        });
-    }
-
-    public void setQlTitle(String title) {
-        if (null != titleBar) titleBar.setTitle(title, R.color.white);
     }
 
     public void getNetData(boolean isRefresh, String mUrl, Map<String, Object> params, String mDialogMsg, Method method) {

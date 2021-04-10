@@ -1,6 +1,5 @@
 package com.basis.widget;
 
-import android.annotation.SuppressLint;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +10,7 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 
 import com.basis.base.BaseActivity;
+import com.basis.widget.interfaces.IBarWrap;
 import com.kit.utils.Logger;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class ActionBarWapper implements IBarWrap<ActionBarWapper> {
     @Override
     public ActionBarWapper setHide(boolean hide) {
         this.hide = hide;
-        if (hide){
+        if (hide) {
             actionBar.hide();
         }
         return this;
@@ -65,7 +65,7 @@ public class ActionBarWapper implements IBarWrap<ActionBarWapper> {
 
     @Override
     public ActionBarWapper addOptionMenu(String title, @DrawableRes int icon) {
-        if (hide)return this;
+        if (hide) return this;
         if (null == options) {
             options = new ArrayList<>(4);
         }
@@ -78,7 +78,7 @@ public class ActionBarWapper implements IBarWrap<ActionBarWapper> {
     @Override
     public ActionBarWapper inflate() {
         if (null != actionBar) {
-            if (title>0)actionBar.setTitle(title);
+            if (title > 0) actionBar.setTitle(title);
             actionBar.setDisplayHomeAsUpEnabled(!backHide);
         }
         return this;
