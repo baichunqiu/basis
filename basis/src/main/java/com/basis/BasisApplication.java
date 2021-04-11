@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.business.OkHelper;
 import com.kit.utils.Logger;
-import com.kit.UIKit;
 
 
 public class BasisApplication extends Application {

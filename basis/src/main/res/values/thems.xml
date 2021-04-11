@@ -1,19 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--    自定义action bar 属性-->
-    <!--    <color name="basis_color_bar_bg">#02299C</color>-->
-    <!--    <color name="basis_color_status_bg">#f002299C</color>-->
+<!--        <color name="basis_color_bar_bg">#02299C</color>-->
+<!--        <color name="basis_color_status_bg">#f002299C</color>-->
     <color name="basis_color_bar_bg">#008000</color>
     <color name="basis_color_status_bg">#bb008000</color>
     <!--    标题栏高度，默认 56dp-->
     <dimen name="basis_bar_size">@dimen/abc_action_bar_default_height_material</dimen>
     <!--    标题 text size 默认：17sp-->
     <dimen name="basis_bar_text_size">17sp</dimen>
-    <!--    标题栏文字颜色 默认：17sp-->
+    <!--    标题栏文字包括menu颜色 默认：白色-->
     <color name="basis_bar_text_color">@color/white</color>
     <!--    action text size 默认：14sp-->
     <dimen name="basis_menu_text_size">14sp</dimen>
 
+    <style name="BasisTheme_No" parent="BasisTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
     <!--    自定义Action Bar的主体-->
     <style name="BasisTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!--        status bar color-->

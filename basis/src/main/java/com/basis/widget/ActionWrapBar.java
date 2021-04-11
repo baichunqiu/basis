@@ -1,71 +1,87 @@
 package com.basis.widget;
 
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.basis.R;
 import com.basis.base.BaseActivity;
-import com.basis.widget.interfaces.IBarWrap;
+import com.basis.widget.interfaces.IWrapBar;
 import com.kit.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionBarWapper implements IBarWrap<ActionBarWapper> {
+public class ActionWrapBar implements IWrapBar<ActionWrapBar> {
     private ActionBar actionBar;
     private int title;
     private boolean backHide = false;//back 是否隐藏
-    private boolean hide = false;//action bar 是否隐藏
+    private boolean noneBar = false;//action bar 是否隐藏
     private List<OpMenu> options;
     private OnMenuSelectedListener onMenuSelectedListener;
 
-    public ActionBarWapper(BaseActivity activity) {
+    private ActionBar inflateDefaultActionBar(BaseActivity activity) {
+        ActionBar result = null;
+        View defaultBarView = LayoutInflater.from(activity).inflate(R.layout.basis_action_bar_default, null, false);
+        View content = (ViewGroup) activity.getLayout();
+        if (content instanceof ViewGroup) {
+            ((ViewGroup) content).addView(defaultBarView, 0);
+            activity.setSupportActionBar(defaultBarView.findViewById(R.id.basis_toolbar));
+            result = activity.getSupportActionBar();
+        }
+        return result;
+    }
+
+    public ActionWrapBar(AppCompatActivity activity) {
         actionBar = activity.getSupportActionBar();
+        if (null == actionBar) {
+            actionBar = inflateDefaultActionBar((BaseActivity) activity);
+        }
         if (null == actionBar) {
             throw new IllegalArgumentException("No Support ActionBarWrapper For ActionBar is null ! ");
         }
     }
 
     @Override
-    public ActionBarWapper setHide(boolean hide) {
-        this.hide = hide;
-        if (hide) {
-            actionBar.hide();
-        }
+    public ActionWrapBar setHide(boolean noneBar) {
+        this.noneBar = noneBar;
         return this;
     }
 
     @Override
-    public ActionBarWapper setBackHide(boolean hide) {
+    public ActionWrapBar setBackHide(boolean hide) {
         this.backHide = hide;
         return this;
     }
 
     @Override
-    public ActionBarWapper setTitle(@StringRes int title) {
+    public ActionWrapBar setTitle(@StringRes int title) {
         this.title = title;
         return this;
     }
 
     @Override
-    public ActionBarWapper setOnMenuSelectedListener(OnMenuSelectedListener onMenuSelectedListener) {
+    public ActionWrapBar setOnMenuSelectedListener(OnMenuSelectedListener onMenuSelectedListener) {
         this.onMenuSelectedListener = onMenuSelectedListener;
         return this;
     }
 
     @Override
-    public ActionBarWapper addOptionMenu(String title) {
+    public ActionWrapBar addOptionMenu(String title) {
         return addOptionMenu(title, -1);
     }
 
     @Override
-    public ActionBarWapper addOptionMenu(String title, @DrawableRes int icon) {
-        if (hide) return this;
+    public ActionWrapBar addOptionMenu(String title, @DrawableRes int icon) {
         if (null == options) {
             options = new ArrayList<>(4);
         }
@@ -76,10 +92,15 @@ public class ActionBarWapper implements IBarWrap<ActionBarWapper> {
     }
 
     @Override
-    public ActionBarWapper inflate() {
+    public ActionWrapBar work() {
         if (null != actionBar) {
             if (title > 0) actionBar.setTitle(title);
             actionBar.setDisplayHomeAsUpEnabled(!backHide);
+            if (noneBar) {
+                actionBar.hide();
+            } else {
+                actionBar.show();
+            }
         }
         return this;
     }

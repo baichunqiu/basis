@@ -8,8 +8,8 @@ import android.view.View;
 import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.basis.widget.ActionBarWapper;
-import com.basis.widget.interfaces.IBarWrap;
+import com.basis.widget.ActionWrapBar;
+import com.basis.widget.interfaces.IWrapBar;
 import com.kit.UIKit;
 import com.kit.utils.Logger;
 
@@ -23,7 +23,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBasis {
     protected final String TAG = this.getClass().getSimpleName();
     protected BaseActivity mActivity;
     private View layout;
-    private IBarWrap wrap;
+    private IWrapBar wrapBar;
 
     @Override
     protected void onDestroy() {
@@ -40,9 +40,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBasis {
         layout = UIKit.inflate(setLayoutId());
         setContentView(layout);
         //init wapp
-        wrap = new ActionBarWapper(mActivity);
-        onInitBarWrapper(wrap);
-        wrap.inflate();
+        wrapBar = new ActionWrapBar(mActivity).work();
         init();
     }
 
@@ -50,21 +48,22 @@ public abstract class BaseActivity extends AppCompatActivity implements IBasis {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return wrap.onCreateOptionsMenu(menu);
+        return wrapBar.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (android.R.id.home == item.getItemId()) {
-            Logger.e(TAG,"back !");
+            Logger.e(TAG, "back !");
             onBackCode();
             return true;
-        }else {
-            return wrap.onOptionsItemSelected(item);
+        } else {
+            return wrapBar.onOptionsItemSelected(item);
         }
     }
 
-    public void onInitBarWrapper(IBarWrap wrap){
+    protected IWrapBar getWrapBar() {
+        return wrapBar;
     }
 
     @Override

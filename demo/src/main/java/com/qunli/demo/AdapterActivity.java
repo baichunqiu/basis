@@ -25,7 +25,7 @@ import okhttp3.Response;
 
 public class AdapterActivity extends AppCompatActivity {
     private IRefresh iRefresh;
-    private RefreshAdapter<Meizi> mAdapter;
+    private RefreshAdapter<Meizi,IHolder> mAdapter;
     private int mCurPage = 1;
     private boolean listview = false;
 
@@ -65,7 +65,7 @@ public class AdapterActivity extends AppCompatActivity {
                 fetchGankMZ(false);
             }
         });
-        mAdapter = new RefreshAdapter<Meizi>(this, R.layout.item_mz, R.layout.item_info) {
+        mAdapter = new RefreshAdapter<Meizi,IHolder>(this, R.layout.item_mz, R.layout.item_info) {
             @Override
             public int getItemLayoutId(Meizi item, int position) {
                 return position % 2 == 0 ? R.layout.item_mz : R.layout.item_info;

@@ -16,6 +16,7 @@ import java.util.List;
 public class ViewActivity extends BaseActivity {
 
     RefreshAdapter adapter;
+
     @Override
     public int setLayoutId() {
         return R.layout.activity_view;
@@ -23,7 +24,7 @@ public class ViewActivity extends BaseActivity {
 
     @Override
     public void init() {
-       XRecyclerView refresh =  getView(R.id.refresh);
+        XRecyclerView refresh = getView(R.id.refresh);
         final GridLayoutManager layoutmanager = new GridLayoutManager(this, 4);
         refresh.setLayoutManager(layoutmanager);
         refresh.enableRefresh(false);
@@ -33,6 +34,7 @@ public class ViewActivity extends BaseActivity {
             public void convert(RcyHolder iHolder, Integer o, int position, int layoutId) {
                 IndicatorView view = (IndicatorView) iHolder.getView(R.id.indicator);
                 view.setStyle(Style.valueOf(o));
+                iHolder.setText(R.id.info, "index = " + o);
             }
         };
         adapter.setRefreshView(refresh);
@@ -40,7 +42,7 @@ public class ViewActivity extends BaseActivity {
         for (int i = 0; i < 30; i++) {
             list.add(i);
         }
-        adapter.setData(list,false);
+        adapter.setData(list, false);
     }
 
 }

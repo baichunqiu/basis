@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.IRefresh;
 import com.adapter.interfaces.IAdapte;
+import com.adapter.interfaces.IHolder;
 import com.adapter.listview.LvAdapter;
 import com.adapter.listview.LvHolder;
 import com.adapter.listview.LvSAdapter;
@@ -55,7 +56,7 @@ public class RefreshActivity extends AppCompatActivity {
             }
         });
         if (sample) {
-            mAdapter = new LvSAdapter<Meizi>(this, R.layout.item_mz) {
+            mAdapter = new LvSAdapter<Meizi, LvHolder>(this, R.layout.item_mz) {
                 @Override
                 public void convert(LvHolder holder, Meizi meizi, int position) {
                     ImageView imageView = holder.getView(R.id.img_content);
@@ -63,7 +64,7 @@ public class RefreshActivity extends AppCompatActivity {
                 }
             };
         }else {
-            mAdapter = new LvAdapter<Meizi>(this, R.layout.item_mz, R.layout.item_info) {
+            mAdapter = new LvAdapter<Meizi,LvHolder>(this, R.layout.item_mz, R.layout.item_info) {
                 @Override
                 public int getItemLayoutId(Meizi item, int position) {
                     return position % 2 == 0 ? R.layout.item_mz : R.layout.item_info;

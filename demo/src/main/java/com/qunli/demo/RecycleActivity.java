@@ -59,7 +59,7 @@ public class RecycleActivity extends AppCompatActivity {
             }
         });
         if (sample) {
-            mAdapter = new RcySAdapter<Meizi>(this, R.layout.item_mz) {
+            mAdapter = new RcySAdapter<Meizi,RcyHolder>(this, R.layout.item_mz) {
 
                 @Override
                 public void convert(RcyHolder holder, Meizi gankMeizi, int position) {
@@ -68,7 +68,7 @@ public class RecycleActivity extends AppCompatActivity {
                 }
             };
         }else {
-            mAdapter = new RcyAdapter<Meizi>(this, R.layout.item_mz, R.layout.item_info) {
+            mAdapter = new RcyAdapter<Meizi,RcyHolder>(this, R.layout.item_mz, R.layout.item_info) {
 
                 @Override
                 public int getItemLayoutId(Meizi item, int position) {

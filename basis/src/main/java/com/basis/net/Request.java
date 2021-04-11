@@ -33,45 +33,45 @@ public class Request {
                                   String url,
                                   Map<String, Object> params,
                                   Method method,
-                                  BsiCallback<Integer,String,Integer> iCallback) {
+                                  BsiCallback<Integer, String, Integer> iCallback) {
         return request(url,
                 params,
                 method,
-                checkOK(url,iCallback),
+                checkOK(url, iCallback),
                 new GeneralWrapperCallBack(tag, null, iCallback));
     }
 
     public static <R> ORequest request(ILoadTag tag,
-                                     String url,
-                                     Map<String, Object> params,
-                                     Method method,
-                                     BsiCallback<List<R>, Boolean,R> bsiCallback) {
+                                       String url,
+                                       Map<String, Object> params,
+                                       Method method,
+                                       BsiCallback<List<R>, Boolean, R> bsiCallback) {
         return request(url,
                 params,
                 method,
-                checkOK(url,bsiCallback),
+                checkOK(url, bsiCallback),
                 new GeneralWrapperCallBack(tag, null, bsiCallback));
     }
 
     /**
-     * @param tag           load视图
-     * @param url           地址
-     * @param params        参数
-     * @param parser        自定义解析器
-     * @param method        Method get/post
+     * @param tag         load视图
+     * @param url         地址
+     * @param params      参数
+     * @param parser      自定义解析器
+     * @param method      Method get/post
      * @param bsiCallback 数据集回调
      * @return 请求封装体
      */
     public static <R> ORequest request(ILoadTag tag,
-                                     String url,
-                                     Map<String, Object> params,
-                                     IParse parser,
-                                     Method method,
-                                     BsiCallback<List<R>, Boolean,R> bsiCallback) {
+                                       String url,
+                                       Map<String, Object> params,
+                                       IParse parser,
+                                       Method method,
+                                       BsiCallback<List<R>, Boolean, R> bsiCallback) {
         return request(url,
                 params,
                 method,
-                checkOK(url,bsiCallback),
+                checkOK(url, bsiCallback),
                 new GeneralWrapperCallBack(tag, parser, bsiCallback));
     }
 
@@ -85,42 +85,42 @@ public class Request {
      * @return 请求封装体
      */
     public static ORequest status(ILoadTag tag,
-                                   String url,
-                                   Map<String, Object> params,
-                                   IParse parser,
-                                   Method method,
-                                   BsiCallback<Integer,String,Integer> iCallback) {
+                                  String url,
+                                  Map<String, Object> params,
+                                  IParse parser,
+                                  Method method,
+                                  BsiCallback<Integer, String, Integer> iCallback) {
         return request(url,
                 params,
                 method,
-                checkOK(url,iCallback),
+                checkOK(url, iCallback),
                 new GeneralWrapperCallBack(tag, parser, iCallback));
     }
 
     private static <R, E, T> ORequest request(String url,
-                                               Map<String, Object> params,
-                                               Method method,
-                                               boolean qFlag,
-                                               GeneralWrapperCallBack<R, E, T> generalCallBack) {
+                                              Map<String, Object> params,
+                                              Method method,
+                                              boolean qFlag,
+                                              GeneralWrapperCallBack<R, E, T> generalCallBack) {
         ORequest req = ORequest.Builder.method(method)
                 .url(url)
                 .param(params)
                 .callback(generalCallBack)
                 .build();
-        return qFlag ? req.request(): req;
+        return qFlag ? req.request() : req;
     }
-
 
     /**
      * 检查网 并根据tag的类型 取消加载动画
      *
      * @return
      */
-    private static boolean checkOK(String url,BsiCallback bsiCallback) {
-        boolean checked = !TextUtils.isEmpty(url) && NetUtil.isNetworkAvailable();
+    private static boolean checkOK(String url, BsiCallback bsiCallback) {
+//        boolean checked = !TextUtils.isEmpty(url) && NetUtil.isNetworkAvailable();
+        boolean checked = !TextUtils.isEmpty(url);
         if (!checked && null != bsiCallback) {
-            Logger.e(TAG, "you net request url is null ，please check it ");
-            bsiCallback.onError(CODE_CHECK_ERROR,"设备未连接网络");
+            Logger.e(TAG, "check error you net request url is null or network unavailable ，please check it ");
+            bsiCallback.onError(CODE_CHECK_ERROR, "设备未连接网络");
         }
         return checked;
     }

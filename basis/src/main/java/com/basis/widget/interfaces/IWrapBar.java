@@ -10,7 +10,7 @@ import androidx.annotation.StringRes;
 /**
  * ActionBar 包装类
  */
-public interface IBarWrap<T extends IBarWrap> {
+public interface IWrapBar<T extends IWrapBar> {
 
     T setHide(boolean hide);
 
@@ -24,8 +24,7 @@ public interface IBarWrap<T extends IBarWrap> {
 
     T addOptionMenu(String title, @DrawableRes int icon);
 
-    @Deprecated
-    T inflate();
+    T work();
 
     boolean onCreateOptionsMenu(@NonNull Menu menu);
 

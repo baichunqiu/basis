@@ -23,7 +23,6 @@ import com.basis.widget.interfaces.IDialog;
 import com.kit.utils.ResUtil;
 import com.kit.utils.ScreenUtil;
 
-
 /**
  * @author: BaiCQ
  * @createTime: 2016/12/22 18:04
@@ -233,7 +232,6 @@ public class WXDialog implements IDialog<WXDialog> {
         }
         return this;
     }
-
 
     @Override
     public WXDialog hideCancelButton() {
