@@ -1,4 +1,4 @@
-package com.basis.photoview;
+package com.photoview;
 
 
 /**

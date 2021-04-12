@@ -37,4 +37,5 @@ dependencies {
     implementation project(':oklib')
     implementation project(':refresh')
     implementation project(':adapter')
+    api project(':photoview')
 }

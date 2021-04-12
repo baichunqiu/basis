@@ -43,4 +43,11 @@
         android:layout_marginLeft="@dimen/dimens_60px"
         android:layout_marginRight="@dimen/dimens_60px"
         android:text="Wrap Bar" />
+    <Button
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimens_60px"
+        android:layout_marginRight="@dimen/dimens_60px"
+        android:text="Pre View" />
 </LinearLayout>

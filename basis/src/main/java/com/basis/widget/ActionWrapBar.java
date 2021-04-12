@@ -1,5 +1,6 @@
 package com.basis.widget;
 
+import android.annotation.SuppressLint;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.basis.R;
 import com.basis.base.BaseActivity;
@@ -35,7 +37,15 @@ public class ActionWrapBar implements IWrapBar<ActionWrapBar> {
         View content = (ViewGroup) activity.getLayout();
         if (content instanceof ViewGroup) {
             ((ViewGroup) content).addView(defaultBarView, 0);
-            activity.setSupportActionBar(defaultBarView.findViewById(R.id.basis_toolbar));
+            Toolbar toolbar = defaultBarView.findViewById(R.id.basis_toolbar);
+            toolbar.setNavigationIcon(R.drawable.svg_back);
+            activity.setSupportActionBar(toolbar);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (null != activity)activity.onBackCode();
+                }
+            });
             result = activity.getSupportActionBar();
         }
         return result;
@@ -91,6 +101,7 @@ public class ActionWrapBar implements IWrapBar<ActionWrapBar> {
         return this;
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public ActionWrapBar work() {
         if (null != actionBar) {

@@ -1,20 +1,13 @@
 <resources>
     <!--刷新-->
     <string name="no_data">暂无数据</string>
-<!--    <string name="load_fail">加载失败！</string>-->
-<!--    <string name="more">加载中...</string>-->
-
-<!--    <string name="pull_down_refresh">下拉刷新</string>-->
-<!--    <string name="last_update">上次更新</string>-->
-<!--    <string name="str_loading">加载中...</string>-->
-<!--    <string name="str_refresh_in">正在刷新...</string>-->
-<!--    <string name="str_losen_to_refresh">松开立即刷新</string>-->
-
     <string name="cancle">取消</string>
     <string name="ok">确定</string>
     <string name="delete">删除</string>
     <string name="tip">提示</string>
     <string name="search_hint">请输入搜索内容</string>
     <string name="search">搜索</string>
+
+    <string name="basis_preview">预览</string>
 
 </resources>

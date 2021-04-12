@@ -1,7 +1,9 @@
 package com.qunli.demo;
 
+import android.net.Uri;
 import android.view.View;
 
+import com.basis.PreviewActivity;
 import com.basis.base.BaseActivity;
 import com.basis.widget.ActionWrapBar;
 import com.basis.widget.WXDialog;
@@ -22,6 +24,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         getView(R.id.recycle).setOnClickListener(this);
         getView(R.id.listui).setOnClickListener(this);
         getView(R.id.wrap_bar).setOnClickListener(this);
+        getView(R.id.preview).setOnClickListener(this);
         StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < 600; i++) {
             buffer.append("#123456789");
@@ -83,6 +86,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.wrap_bar:
                 hide = !hide;
                 getWrapBar().setHide(hide).work();
+                break;
+                case R.id.preview:
+//                Intent intent = new Intent(getApplicationInfo().packageName + ".preview");
+//                intent.addCategory("android.intent.category.DEFAULT");
+//                startActivity(intent);
+                    Uri uri = Uri.parse("https://images.unsplash.com/photo-1577643816920-65b43ba99fba?ixlib=rb-1.2.1&auto=format&fit=crop&w=3300&q=80");
+//                    PreviewActivity.preview(this, uri);
+                    PreviewActivity.preview(this, uri);
                 break;
         }
     }

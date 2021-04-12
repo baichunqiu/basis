@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--    自定义action bar 属性-->
-<!--        <color name="basis_color_bar_bg">#02299C</color>-->
-<!--        <color name="basis_color_status_bg">#f002299C</color>-->
+    <!--        <color name="basis_color_bar_bg">#02299C</color>-->
+    <!--        <color name="basis_color_status_bg">#f002299C</color>-->
     <color name="basis_color_bar_bg">#008000</color>
     <color name="basis_color_status_bg">#bb008000</color>
     <!--    标题栏高度，默认 56dp-->
@@ -32,6 +32,8 @@
         <item name="android:actionMenuTextColor">@color/basis_bar_text_color</item>
         <!--        menu text size-->
         <item name="android:textSize">@dimen/basis_menu_text_size</item>
+        <!--        自定义返回监听-->
+        <item name="android:homeAsUpIndicator">@drawable/svg_back</item>
     </style>
 
     <style name="Basis_ActionBar_Style" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">

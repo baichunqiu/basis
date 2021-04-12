@@ -123,12 +123,11 @@ public class ImageLoader {
      * @param maxHeight
      * @return
      */
-    public static Bitmap zoomImg(Bitmap bm, int maxWidth, int maxHeight) {
+    public static Bitmap transform(Bitmap bm, int maxWidth, int maxHeight) {
         // 获得图片的宽高
         int width = bm.getWidth();
         int height = bm.getHeight();
-        Logger.e(TAG, "bitmap：width = " + width + " height= " + height);
-        Logger.e(TAG, "view  ：newWidth = " + maxWidth + " newHeight= " + maxHeight);
+        Logger.e(TAG, "原图：width = " + width + " height= " + height);
         // 计算缩放比例
         float scaleWidth = ((float) maxWidth) / width;
         float scaleHeight = ((float) maxHeight) / height;
@@ -136,12 +135,15 @@ public class ImageLoader {
         float scale = scaleHeight > scaleWidth ? scaleWidth : scaleHeight;
         Logger.e(TAG, "scale = " + scale + " scaleWidth= " + scaleWidth + " scaleHeight = " + scaleHeight);
         if (scale > 1) {
+            Logger.e("使用原图");
             return bm;
         }
         Matrix matrix = new Matrix();
         matrix.postScale(scale, scale);
         // 得到新的图片
-        Bitmap newbm = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true);
-        return newbm;
+        Bitmap result = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true);
+        Logger.e("PreviewActivity", "缩略：w = " + result.getWidth() + " h= " + result.getHeight());
+        bm.recycle();
+        return result;
     }
 }

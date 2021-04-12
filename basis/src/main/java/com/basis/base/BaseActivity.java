@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toolbar;
 
 import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.basis.R;
 import com.basis.widget.ActionWrapBar;
 import com.basis.widget.interfaces.IWrapBar;
 import com.kit.UIKit;
@@ -53,6 +55,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBasis {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Logger.e(TAG, "title = "+item.getTitle());
         if (android.R.id.home == item.getItemId()) {
             Logger.e(TAG, "back !");
             onBackCode();
