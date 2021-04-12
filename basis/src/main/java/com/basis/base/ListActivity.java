@@ -17,15 +17,10 @@ import com.oklib.Method;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * @param <ND> 接口数据类型
  * @param <AD> 适配器数据类型 一般情况：和ND类型一致
- * @param <VH> 适配器的holder类型
- * @author: BaiCQ
- * @createTime: 2017/1/13 11:38
- * @className: AbsListActivity
- * @Description: 正常情况下 ND AD 的类型是一致的
+ * @param <VH> 适配器的holder类型 IRefresh的类型是Listview VH是LvHolder，若是RecylerView VH是RcyHolder
  */
 public abstract class ListActivity<ND, AD, VH extends IHolder> extends BaseActivity implements UIController.IOperator<ND, AD, VH> {
     private Class<ND> tClass;
@@ -41,7 +36,7 @@ public abstract class ListActivity<ND, AD, VH extends IHolder> extends BaseActiv
     public final void init() {
         tClass = (Class<ND>) ObjUtil.getTType(getClass())[0];
         resetLayoutView();
-        mController = new UIController(getLayout(), tClass, this);
+        mController = new UIController<>(getLayout(), tClass, this);
         initView(contentView);
     }
 

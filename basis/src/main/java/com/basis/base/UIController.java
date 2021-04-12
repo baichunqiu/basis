@@ -14,6 +14,8 @@ import com.basis.net.LoadTag;
 import com.basis.net.controller.Controller;
 import com.business.interfaces.IParse;
 import com.kit.UIKit;
+import com.kit.utils.Logger;
+import com.kit.utils.ObjUtil;
 import com.oklib.Method;
 
 import java.util.ArrayList;
@@ -50,6 +52,8 @@ public class UIController<ND, AD, VH extends IHolder> extends Controller<ND> imp
         this.layout = parent;
         this.operator = operator;
         initialize();
+        Class[] tClass = ObjUtil.getTType(getClass());
+        Logger.e(TAG,"tClass len = "+(null ==tClass?0:tClass.length));
     }
 
     private void initialize() {

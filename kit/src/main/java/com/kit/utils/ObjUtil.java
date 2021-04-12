@@ -69,6 +69,7 @@ public class ObjUtil {
             //获得泛型类型的泛型参数（实际类型参数)
             Type[] tArr = pt.getActualTypeArguments();
             int len = null == tArr ? 0 : tArr.length;
+            Logger.e("ObjUtil", "len :" + len);
             classes = new Class[len];
             for (int i = 0; i < len; i++) {
                 Type t = tArr[i];
