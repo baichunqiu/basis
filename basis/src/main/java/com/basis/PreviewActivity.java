@@ -93,7 +93,7 @@ public class PreviewActivity extends BaseActivity {
             Logger.e("PreviewActivity", "原图：w = " + w + " h= " + h);
             float sc_x = 1.0f * ScreenUtil.getScreemWidth() / w;
             float sc_y = 1.0f * ScreenUtil.getScreemHeight() / h;
-            float scale = Math.min(sc_x,sc_y);//较小者
+            float scale = Math.min(sc_x, sc_y);//较小者
             Logger.e("PreviewActivity", "scale = " + scale + " scaleWidth= " + sc_x + " scaleHeight = " + sc_y);
             if (scale > 1) {
                 Logger.e("使用原图");
