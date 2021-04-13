@@ -1,6 +1,7 @@
 package com.net;
 
 import com.business.BsiCallback;
+import com.business.interfaces.IResult;
 
 import java.util.List;
 
@@ -9,14 +10,14 @@ import java.util.List;
  * @ClassName: ListCallback
  * @Description: 有body网络请求的回调
  */
-public class ListCallback<R> implements BsiCallback<List<R>, Boolean, R> {
+public class ListCallback<R> implements BsiCallback<List<R>, Boolean, R, IResult.ObjResult<List<R>>> {
     private Class<R> rClass;
 
     public ListCallback(Class<R> rClass) {
         this.rClass = rClass;
     }
 
-    public void onSuccess(List<R> rs, Boolean loadFull) {
+    public void onSuccess(IResult.ObjResult<List<R>> result) {
     }
 
     public void onError(int code, String errMsg) {

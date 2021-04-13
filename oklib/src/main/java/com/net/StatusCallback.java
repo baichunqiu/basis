@@ -1,22 +1,24 @@
 package com.net;
 
 import com.business.BsiCallback;
+import com.business.interfaces.IResult;
 
 /**
  * @author: BaiCQ
  * @ClassName: StatusCallback
  * @Description: 没有body请求回调
  */
-public class StatusCallback implements BsiCallback<Integer, String, Integer> {
+public class StatusCallback implements BsiCallback<Integer, String, Void, IResult.StatusResult> {
 
     public StatusCallback() {
     }
 
     /**
-     * @param status
+     * @param result
      */
     @Override
-    public void onSuccess(Integer status, String sysMsg) {
+    public void onSuccess(IResult.StatusResult result) {
+
     }
 
     /**
@@ -31,7 +33,7 @@ public class StatusCallback implements BsiCallback<Integer, String, Integer> {
     }
 
     @Override
-    public Class<Integer> onGetType() {
+    public Class<Void> onGetType() {
         return null;
     }
 }

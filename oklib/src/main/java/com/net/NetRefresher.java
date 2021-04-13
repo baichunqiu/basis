@@ -2,6 +2,7 @@ package com.net;
 
 import com.business.BsiCallback;
 import com.business.ILoadTag;
+import com.business.interfaces.IResult;
 import com.business.OkUtil;
 import com.business.interfaces.IParse;
 import com.oklib.Method;
@@ -17,7 +18,7 @@ import java.util.Map;
  * @className: NetRefresher
  * @Description: 网络数据处理刷新器
  */
-public abstract class NetRefresher<T> implements BsiCallback<List<T>, Boolean, T> {
+public abstract class NetRefresher<T> implements BsiCallback<List<T>, Boolean, T, IResult.ObjResult<List<T>>> {
     public final static String TAG = "NetRefresher";
     private Class<T> tClass;
     private ORequest<List<T>> ORequest;
@@ -88,11 +89,11 @@ public abstract class NetRefresher<T> implements BsiCallback<List<T>, Boolean, T
 
     /************ BsiCallBack ***********/
     @Override
-    public void onSuccess(List<T> tList, Boolean loadFull) {
+    public void onSuccess(IResult.ObjResult<List<T>> result) {
         if (null != operator) {
-            onRefreshData(tList, refresh);//注意 此处不是使用的isRefresh
+            onRefreshData(result.getResult(), refresh);//注意 此处不是使用的isRefresh
         }
-        if (!loadFull) current++;
+        if (!result.getExtra()) current++;
     }
 
     @Override

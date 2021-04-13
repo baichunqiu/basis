@@ -11,6 +11,7 @@ import com.adapter.interfaces.IAdapte;
 import com.adapter.recycle.RcyHolder;
 import com.basis.base.BaseActivity;
 import com.basis.net.LoadTag;
+import com.business.interfaces.IResult;
 import com.kit.utils.ImageLoader;
 import com.kit.utils.Logger;
 import com.net.ListCallback;
@@ -61,18 +62,20 @@ public class RecycleActivity extends BaseActivity {
         };
         mAdapter.setRefreshView(refresh);
         fetchGankMZ(true, true);
+        IResult.ListResult result;
     }
 
     private void fetchGankMZ(final boolean isRefresh, boolean show) {
         String url = "https://gank.io/api/v2/data/category/Girl/type/Girl/page/" + mCurPage + "/count/20";
         Request.request(show ? new LoadTag(this) : null, url, null, Method.get, new ListCallback<Meizi>(Meizi.class) {
             @Override
-            public void onSuccess(List<Meizi> meizis, Boolean loadFull) {
-                super.onSuccess(meizis, loadFull);
-                int len = null == meizis ? 0 : meizis.size();
+            public void onSuccess(IResult.ObjResult<List<Meizi>> result) {
+                super.onSuccess(result);
+                List<Meizi> meizis = result.getResult();
+                int len = null == result.getResult() ? 0 : meizis.size();
                 Logger.e("AdapterActivity", "fetchGankMZ len = " + len);
                 mAdapter.setData(meizis, isRefresh);
-                if (loadFull) {
+                if (result.getExtra()) {
                     mCurPage--;
                 }
             }
@@ -80,6 +83,14 @@ public class RecycleActivity extends BaseActivity {
             @Override
             public void onError(int code, String errMsg) {
                 super.onError(code, errMsg);
+            }
+
+            @Override
+            public void onAfter(int code, String msg) {
+                if (null != refresh) {
+                    refresh.loadComplete();
+                    refresh.refreshComplete();
+                }
             }
         });
     }

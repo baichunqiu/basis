@@ -3,6 +3,7 @@ package com.business;
 import com.business.interfaces.IHeader;
 import com.business.interfaces.IParse;
 import com.business.interfaces.IProcess;
+import com.business.interfaces.IResult;
 
 public class OkHelper {
     private final static OkHelper instance = new OkHelper();
@@ -42,7 +43,7 @@ public class OkHelper {
         this.defaultProcessor = defaultProcessor;
     }
 
-    protected <R,E,T> IProcess<R,E,T> getProcessor() {
+    protected <R,E,T,RE extends IResult<R,E>> IProcess<R,E,T, RE> getProcessor() {
         if (null == defaultProcessor) {
             defaultProcessor = new BaseProcessor();
         }

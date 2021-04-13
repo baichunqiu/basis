@@ -1,6 +1,7 @@
 package com.business;
 
 import com.business.interfaces.IParse;
+import com.business.interfaces.IResult;
 import com.business.interfaces.IWrap;
 import com.business.interfaces.IProcess;
 import com.oklib.OCallBack;
@@ -11,16 +12,17 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * @author: BaiCQ
- * @ClassName: GeneralProcessCallBack
- * @Description: 实现基本数据处理回调
- * IBusiCallback与CallBack的转换器
+ * @param <R>  Integer 或 List<T>
+ * @param <E>  String  或 Boolen
+ * @param <T>  Void    或 实体
+ * @param <RE> IResult<R,E>的类型
+ *             注意：BaseProcessor 仅支持 StatueResult的类型 和 ObjResult<List<T>>的结果
  */
-public class GeneralWrapperCallBack<R, E, T> extends OCallBack<Object[]> {
+public class GeneralWrapperCallBack<R, E, T, RE extends IResult<R, E>> extends OCallBack<RE> {
     protected final String TAG = this.getClass().getSimpleName();
     private IParse parser;
-    private IProcess<R, E, T> processor;
-    public BsiCallback<R, E, T> bsiCallback;
+    private IProcess<R, E, T, RE> processor;
+    public BsiCallback<R, E, T, RE> bsiCallback;
     private IWrap wrapper;
     private ILoadTag iLoadTag;
 
@@ -39,7 +41,7 @@ public class GeneralWrapperCallBack<R, E, T> extends OCallBack<Object[]> {
     /**
      * requestAgain修改callback使用
      */
-    public void setBsiCallback(BsiCallback<R, E, T> bsiCallback) {
+    public void setBsiCallback(BsiCallback<R, E, T, RE> bsiCallback) {
         this.bsiCallback = bsiCallback;
     }
 
@@ -57,7 +59,7 @@ public class GeneralWrapperCallBack<R, E, T> extends OCallBack<Object[]> {
     }
 
     @Override
-    public final Object[] onParse(Response response) throws Exception {
+    public final RE onParse(Response response) throws Exception {
         if (null != OkHelper.get().getHeadCacher()) {//缓存header
             OkHelper.get().getHeadCacher().onCacheHeader(response.headers());
         }
@@ -81,14 +83,13 @@ public class GeneralWrapperCallBack<R, E, T> extends OCallBack<Object[]> {
             if (null != processor) processor.process(wrapper.getCode(), get());
             return null;
         }
-        return new Object[]{processor.parseResult(wrapper, bsiCallback.onGetType()),
-                processor.parseExtra(wrapper)};
+        return processor.processResult(wrapper, bsiCallback.onGetType());
     }
 
     @Override
-    public void onResult(Object[] result) {
-        if (null != result && 2 == result.length) {
-            if (null != bsiCallback) bsiCallback.onSuccess((R) result[0], (E) result[1]);
+    public void onResult(RE result) {
+        if (null != result) {
+            if (null != bsiCallback) bsiCallback.onSuccess(result);
         } else {
             if (null != bsiCallback) bsiCallback.onError(-1, "No Result！");
         }

@@ -14,6 +14,7 @@ import com.business.GeneralWrapperCallBack;
 import com.business.ILoadTag;
 import com.business.OkUtil;
 import com.business.interfaces.IParse;
+import com.business.interfaces.IResult;
 import com.oklib.Method;
 import com.oklib.ORequest;
 
@@ -39,7 +40,7 @@ public class Request {
                                   String url,
                                   Map<String, Object> params,
                                   Method method,
-                                  BsiCallback<Integer, String, Integer> iCallback) {
+                                  BsiCallback<Integer, String, Integer, IResult.StatusResult> iCallback) {
         return request(url,
                 params,
                 method,
@@ -51,7 +52,7 @@ public class Request {
                                        String url,
                                        Map<String, Object> params,
                                        Method method,
-                                       BsiCallback<List<R>, Boolean, R> bsiCallback) {
+                                       BsiCallback<List<R>, Boolean, R, IResult.ObjResult<List<R>>> bsiCallback) {
         return request(url,
                 params,
                 method,
@@ -73,7 +74,7 @@ public class Request {
                                        Map<String, Object> params,
                                        IParse parser,
                                        Method method,
-                                       BsiCallback<List<R>, Boolean, R> bsiCallback) {
+                                       BsiCallback<List<R>, Boolean, R, IResult.ObjResult<List<R>>> bsiCallback) {
         return request(url,
                 params,
                 method,
@@ -95,7 +96,7 @@ public class Request {
                                   Map<String, Object> params,
                                   IParse parser,
                                   Method method,
-                                  BsiCallback<Integer, String, Integer> iCallback) {
+                                  BsiCallback<Integer, String, Integer, IResult.StatusResult> iCallback) {
         return request(url,
                 params,
                 method,
@@ -104,18 +105,18 @@ public class Request {
     }
 
     public static <R> ORequest requestAgain(ORequest<R> request,
-                                                  BsiCallback<List<R>, Boolean, R> bsiCallback) {
+                                            BsiCallback<List<R>, Boolean, R, IResult.ObjResult<List<R>>> bsiCallback) {
         if (request.callBack instanceof GeneralWrapperCallBack) {
-            ((GeneralWrapperCallBack)request.callBack).setBsiCallback(bsiCallback);
+            ((GeneralWrapperCallBack) request.callBack).setBsiCallback(bsiCallback);
         }
         return request.request();
     }
 
-    private static <R, E, T> ORequest request(String url,
-                                              Map<String, Object> params,
-                                              Method method,
-                                              boolean qFlag,
-                                              GeneralWrapperCallBack<R, E, T> generalCallBack) {
+    private static <R, E, T, RE extends IResult<R, E>> ORequest request(String url,
+                                                                        Map<String, Object> params,
+                                                                        Method method,
+                                                                        boolean qFlag,
+                                                                        GeneralWrapperCallBack<R, E, T, RE> generalCallBack) {
         ORequest req = ORequest.Builder.method(method)
                 .url(url)
                 .param(params)

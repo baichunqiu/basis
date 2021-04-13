@@ -1,5 +1,7 @@
 package com.business;
 
+import com.business.interfaces.IResult;
+
 /**
  * 业务接口回调
  *
@@ -7,13 +9,12 @@ package com.business;
  * @param <E> extra信息 泛型
  * @param <T> result中的实体类型
  */
-public interface BsiCallback<R, E, T> {
+public interface BsiCallback<R, E, T, RE extends IResult<R, E>> {
 
     /**
      * @param result
-     * @param extra  额外信息
      */
-    void onSuccess(R result, E extra);
+    void onSuccess(RE result);
 
     /**
      * @param code   状态码
