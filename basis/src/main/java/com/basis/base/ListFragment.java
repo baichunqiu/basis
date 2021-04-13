@@ -5,11 +5,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.adapter.interfaces.IHolder;
 import com.basis.R;
 import com.basis.net.Controller;
 import com.basis.net.IOperator;
 import com.basis.net.LoadTag;
+import com.business.ILoadTag;
 import com.business.interfaces.IParse;
 import com.kit.utils.Logger;
 import com.kit.utils.ObjUtil;
@@ -27,7 +31,7 @@ import java.util.Map;
  */
 public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragment implements IOperator<ND, AD,VH> {
     private Class<ND> tClass;
-    private Controller<ND,AD, VH> mController;
+    private Controller<ND,AD, VH> controller;
     private View contentView;
 
     @Override
@@ -35,10 +39,19 @@ public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragme
         return R.layout.fragment_abs_list;
     }
 
+    protected RecyclerView.LayoutManager onSetLayoutManager() {
+        return new LinearLayoutManager(activity);
+    }
+
     public final void init() {
         resetLayoutView();
         tClass = (Class<ND>) ObjUtil.getTType(getClass())[0];
-        mController = new Controller(getLayout(), tClass, this);
+        controller = new Controller(getLayout(), tClass, this){
+            @Override
+            protected RecyclerView.LayoutManager onSetLayoutManager() {
+                return ListFragment.this.onSetLayoutManager();
+            }
+        };
         initView(contentView);
     }
 
@@ -55,30 +68,32 @@ public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragme
         extraParent.addView(nodata, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
     }
 
-    public void getNetData(boolean isRefresh, String mUrl, Map<String, Object> params, String mDialogMsg, Method method) {
-        getNetData(isRefresh, mUrl, params, null, mDialogMsg, method);
+    public void getNetData(String tag, String mUrl, Map<String, Object> params, Method method, boolean isRefresh) {
+        getNetData(tag, mUrl, params, null, method, isRefresh);
     }
 
     /**
-     * @param isRefresh  是否刷新
-     * @param mUrl       mUrl
-     * @param params     参数 注意：不包含page
-     * @param parser     解析器
-     * @param mDialogMsg 进度条显示msg
-     * @param method     Post/get
+     * @param tag       进度条显示msg
+     * @param isRefresh 是否刷新
+     * @param mUrl      mUrl
+     * @param params    参数 注意：不包含page
+     * @param method    Post/get
+     * @param parser    解析器
      */
-    public void getNetData(boolean isRefresh, String mUrl, Map<String, Object> params, IParse parser, String mDialogMsg, Method method) {
-        if (null != mController)
-            mController.request(isRefresh, mUrl, params, parser, TextUtils.isEmpty(mDialogMsg) ? null : new LoadTag(mActivity, mDialogMsg), method);
+    public void getNetData(String tag, String mUrl, Map<String, Object> params, IParse parser, Method method, boolean isRefresh) {
+        if (null != controller) {
+            ILoadTag itag = TextUtils.isEmpty(tag) ? null : new LoadTag(activity, tag);
+            controller.request(itag, mUrl, params, parser, method, isRefresh);
+        }
     }
 
     public void refreshData(List<ND> netData, boolean isRefresh) {
-        if (null != mController) mController.onRefreshData(netData, isRefresh);
+        if (null != controller) controller.onRefreshData(netData, isRefresh);
     }
 
     @Override
     public void onCustomerRequestAgain(boolean refresh) {
-
+        Logger.e(TAG, "onCustomerRequestAgain:refresh = " + refresh);
     }
 
     @Override
@@ -92,10 +107,9 @@ public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragme
     }
 
     @Override
-    public void onError(int status, String errMsg) {
-        Logger.e(TAG, "errMsg :" + errMsg);
+    public void onError(int code, String msg) {
+        Logger.e(TAG, "onAfter: [" + code + "] " + msg);
     }
-
 
     public abstract View setContentView();
 

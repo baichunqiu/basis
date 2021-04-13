@@ -61,17 +61,19 @@ public abstract class NetRefresher<T> implements BsiCallback<List<T>, Boolean, T
     /**
      * 请求数据
      *
-     * @param isRefresh 刷新标识
+     * @param dialog    ILoadTag load视图
      * @param url       地址
      * @param params    参数
      * @param parser    自定义数据解析器
-     * @param dialog    ILoadTag load视图
      * @param method    get/post
+     * @param isRefresh 刷新标识
      */
-    protected final void request(boolean isRefresh, String url, Map<String, Object> params,
-                                 IParse parser,
-                                 ILoadTag dialog,
-                                 Method method) {
+    public final void request(ILoadTag dialog,
+                              String url,
+                              Map<String, Object> params,
+                              IParse parser,
+                              Method method,
+                              boolean isRefresh) {
         if (null != operator && null != page) {//operator 不为空 需要分页处理
             if (isRefresh) current = page.getFirstIndex();
             if (null == params) params = new HashMap<>(2);
@@ -103,7 +105,7 @@ public abstract class NetRefresher<T> implements BsiCallback<List<T>, Boolean, T
 
     @Override
     public void onAfter(int code, String msg) {
-        OkUtil.e(TAG,"onAfter: ["+code+"] "+msg);
+        OkUtil.e(TAG, "onAfter: [" + code + "] " + msg);
     }
 
     @Override

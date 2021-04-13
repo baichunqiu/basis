@@ -20,14 +20,14 @@ import com.kit.utils.Logger;
  */
 public abstract class BaseFragment extends Fragment implements IBasis {
     protected final String TAG = this.getClass().getSimpleName();
-    protected BaseActivity mActivity;
+    protected BaseActivity activity;
     private View layout;
     private boolean init = false;//init 和 onRefresh()的执行的先后问题
 
     @Override
     public final void onAttach(Context context) {
         super.onAttach(context);
-        mActivity = (BaseActivity) context;
+        activity = (BaseActivity) context;
         UIStack.getInstance().add(this);
     }
 

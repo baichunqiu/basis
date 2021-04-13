@@ -23,6 +23,7 @@
         <activity android:name=".ViewActivity"/>
         <activity android:name=".RecycleActivity"/>
         <activity android:name=".LvListActivity"/>
+        <activity android:name=".RcyListActivity"/>
     </application>
 
 </manifest>

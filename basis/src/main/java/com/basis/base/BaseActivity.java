@@ -4,12 +4,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toolbar;
 
 import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.basis.R;
 import com.basis.widget.ActionWrapBar;
 import com.basis.widget.interfaces.IWrapBar;
 import com.kit.UIKit;
@@ -23,13 +21,13 @@ import com.kit.utils.Logger;
  */
 public abstract class BaseActivity extends AppCompatActivity implements IBasis {
     protected final String TAG = this.getClass().getSimpleName();
-    protected BaseActivity mActivity;
+    protected BaseActivity activity;
     private View layout;
     private IWrapBar wrapBar;
 
     @Override
     protected void onDestroy() {
-        UIStack.getInstance().remove(mActivity);
+        UIStack.getInstance().remove(activity);
         super.onDestroy();
     }
 
@@ -37,12 +35,12 @@ public abstract class BaseActivity extends AppCompatActivity implements IBasis {
     @Deprecated
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActivity = this;
-        UIStack.getInstance().add(mActivity);
+        activity = this;
+        UIStack.getInstance().add(activity);
         layout = UIKit.inflate(setLayoutId());
         setContentView(layout);
         //init wapp
-        wrapBar = new ActionWrapBar(mActivity).work();
+        wrapBar = new ActionWrapBar(activity).work();
         init();
     }
 

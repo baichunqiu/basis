@@ -3,6 +3,7 @@ package com.basis.net;
 import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.IRefresh;
@@ -10,18 +11,13 @@ import com.adapter.interfaces.DataObserver;
 import com.adapter.interfaces.IAdapte;
 import com.adapter.interfaces.IHolder;
 import com.basis.R;
-import com.basis.net.DefauPage;
-import com.basis.net.IOperator;
-import com.basis.net.LoadTag;
-import com.business.interfaces.IParse;
 import com.kit.UIKit;
+import com.kit.utils.Logger;
 import com.net.NetRefresher;
 import com.net.Page;
-import com.oklib.Method;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @param <ND> 适配器数据类型
@@ -33,7 +29,7 @@ import java.util.Map;
  * @Description: 供列表显示页面使用的控制器
  */
 public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> implements DataObserver {
-    private final String TAG = "UIController";
+    private final String TAG = "Controller";
     //全局分页信息
     private final static Page page = new DefauPage();
     private IOperator<ND, AD, VH> operator;
@@ -50,6 +46,10 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
         None
     }
 
+    protected RecyclerView.LayoutManager onSetLayoutManager() {
+        return new LinearLayoutManager(UIKit.getContext());
+    }
+
     public Controller(View parent, Class<ND> tclazz, IOperator<ND, AD, VH> operator) {
         super(tclazz, page, operator);
         this.layout = parent;
@@ -63,8 +63,7 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
         refreshView = UIKit.getView(layout, R.id.bsi_refresh);
         if (null == showData) showData = (View) refreshView;
         if (refreshView instanceof RecyclerView) {
-            final GridLayoutManager layoutmanager = new GridLayoutManager(UIKit.getContext(), 2);
-            ((RecyclerView) refreshView).setLayoutManager(layoutmanager);
+            ((RecyclerView) refreshView).setLayoutManager(onSetLayoutManager());
         }
         refreshView.enableRefresh(true);
         refreshView.enableLoad(true);
@@ -88,11 +87,6 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
                 requestAgain(true, operator);
             }
         });
-    }
-
-
-    public void request(final boolean isRefresh, String url, Map<String, Object> params, IParse parser, LoadTag loadBar, Method method) {
-        super.request(isRefresh, url, params, parser, loadBar, method);
     }
 
     @Override
@@ -132,12 +126,14 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
      */
     @Override
     public void onObserve(int length) {
+        Logger.e(TAG, "onObserve: len = " + length);
         if (length == 0) {
             showViewType(ShowType.None);
         }
     }
 
     public final void showViewType(ShowType showType) {
+        Logger.e(TAG, "showViewType: type = " + showType);
         if (ShowType.Data == showType) {
             showData.setVisibility(View.VISIBLE);
             noData.setVisibility(View.GONE);

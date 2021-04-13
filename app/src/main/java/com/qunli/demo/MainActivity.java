@@ -53,7 +53,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         int id = v.getId();
         switch (id) {
             case R.id.widgetActivity:
-                UIKit.startActivity(mActivity, ViewActivity.class);
+                UIKit.startActivity(activity, ViewActivity.class);
                 break;
             case R.id.load:
 //                ILoadTag loadTag = new LoadTag(this);
@@ -64,24 +64,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //
 //                    }
 //                });
-                new WXDialog(mActivity)
+                new WXDialog(activity)
                         .setMessage("默认风格！")
                         .defalutStyle(true, null).show();
-                new WXDialog(mActivity)
+                new WXDialog(activity)
                         .setMessage("取消风格！")
                         .cancelStyle(true).show();
-                new WXDialog(mActivity)
+                new WXDialog(activity)
                         .setMessage("确定风格！")
                         .sureStyle(true, null).show();
-                new WXDialog(mActivity)
+                new WXDialog(activity)
                         .setMessage("删除风格！")
                         .deleteStyle(true, null).show();
                 break;
             case R.id.recycle:
-                UIKit.startActivity(mActivity, RecycleActivity.class);
+                UIKit.startActivity(activity, RecycleActivity.class);
                 break;
             case R.id.listui:
-                UIKit.startActivity(mActivity, LvListActivity.class);
+//                UIKit.startActivity(mActivity, LvListActivity.class);
+                UIKit.startActivity(activity, RcyListActivity.class);
                 break;
             case R.id.wrap_bar:
                 hide = !hide;
