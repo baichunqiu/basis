@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 
 import com.adapter.interfaces.IHolder;
 import com.basis.R;
+import com.basis.net.IOperator;
 import com.basis.net.LoadTag;
 import com.business.interfaces.IParse;
 import com.kit.utils.Logger;
@@ -23,9 +24,9 @@ import java.util.Map;
  * @className: AbsListFragment
  * @Description: 正常情况下 ND, AD 的类型是一致的
  */
-public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragment implements UIController.IOperator<ND, AD,VH> {
+public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragment implements IOperator<ND, AD,VH> {
     private Class<ND> tClass;
-    private UIController<ND,AD, VH> mController;
+    private Controller<ND,AD, VH> mController;
     private View contentView;
 
     @Override
@@ -36,7 +37,7 @@ public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragme
     public final void init() {
         resetLayoutView();
         tClass = (Class<ND>) ObjUtil.getTType(getClass())[0];
-        mController = new UIController(getLayout(), tClass, this);
+        mController = new Controller(getLayout(), tClass, this);
         initView(contentView);
     }
 
@@ -74,13 +75,13 @@ public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragme
         if (null != mController) mController.onRefreshData(netData, isRefresh);
     }
 
-    /**
-     * 适配器设置数据前 处理数据 有可能类型转换
-     *
-     * @param netData
-     */
     @Override
-    public List<AD> onPreRefreshData(List<ND> netData, boolean isRefresh) {
+    public void onCustomerRequestAgain(boolean refresh) {
+
+    }
+
+    @Override
+    public List<AD> onTransform(List<ND> netData) {
         return (List<AD>) netData;
     }
 

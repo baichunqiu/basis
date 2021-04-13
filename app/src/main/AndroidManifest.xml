@@ -22,7 +22,7 @@
         </activity>
         <activity android:name=".ViewActivity"/>
         <activity android:name=".RecycleActivity"/>
-        <activity android:name=".ListActivity"/>
+        <activity android:name=".LvListActivity"/>
     </application>
 
 </manifest>

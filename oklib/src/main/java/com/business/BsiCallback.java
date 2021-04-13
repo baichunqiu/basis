@@ -7,7 +7,7 @@ package com.business;
  * @param <E> extra信息 泛型
  * @param <T> result中的实体类型
  */
-public interface BsiCallback<R,E,T> {
+public interface BsiCallback<R, E, T> {
 
     /**
      * @param result
@@ -16,19 +16,20 @@ public interface BsiCallback<R,E,T> {
     void onSuccess(R result, E extra);
 
     /**
-     * @param code   状态
+     * @param code   状态码
      * @param errMsg 错误信息
      */
     void onError(int code, String errMsg);
 
     /**
-     * @param code 状态
+     * @param code 状态码
      * @param msg  错误信息
      */
     void onAfter(int code, String msg);
 
     /**
      * 解析实体的类型
+     *
      * @return
      */
     Class<T> onGetType();

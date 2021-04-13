@@ -19,14 +19,14 @@ import okhttp3.Response;
 public class GeneralWrapperCallBack<R, E, T> extends OCallBack<Object[]> {
     protected final String TAG = this.getClass().getSimpleName();
     private IParse parser;
-    private IProcess<R, E,T> processor;
-    public BsiCallback<R, E,T> bsiCallback;
+    private IProcess<R, E, T> processor;
+    public BsiCallback<R, E, T> bsiCallback;
     private IWrap wrapper;
     private ILoadTag iLoadTag;
 
     /**
-     * @param iLoadTag      loadTag
-     * @param parser        解析器
+     * @param iLoadTag    loadTag
+     * @param parser      解析器
      * @param bsiCallback 业务回调
      */
     public GeneralWrapperCallBack(ILoadTag iLoadTag, IParse parser, BsiCallback bsiCallback) {
@@ -34,6 +34,13 @@ public class GeneralWrapperCallBack<R, E, T> extends OCallBack<Object[]> {
         this.iLoadTag = iLoadTag;
         this.processor = OkHelper.get().getProcessor();
         this.parser = null == parser ? OkHelper.get().getParser() : parser;
+    }
+
+    /**
+     * requestAgain修改callback使用
+     */
+    public void setBsiCallback(BsiCallback<R, E, T> bsiCallback) {
+        this.bsiCallback = bsiCallback;
     }
 
     @Override
@@ -56,7 +63,7 @@ public class GeneralWrapperCallBack<R, E, T> extends OCallBack<Object[]> {
         }
         String res = response.body().string();
         int httpCode = response.code();
-        OkUtil.e(TAG, "url = " + get().url+"\nhttpCode = " + httpCode + " res = " + res);
+        OkUtil.e(TAG, "url = " + get().url + "\nhttpCode = " + httpCode + " res = " + res);
         if (null == res || "".equals(res)) {
             OkUtil.e(TAG, "未知错误：Response No Body ！");
             return null;

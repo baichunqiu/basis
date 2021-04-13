@@ -1,4 +1,4 @@
-package com.basis.net.callback;
+package com.net;
 
 import com.business.BsiCallback;
 
@@ -8,6 +8,9 @@ import com.business.BsiCallback;
  * @Description: 没有body请求回调
  */
 public class StatusCallback implements BsiCallback<Integer, String, Integer> {
+
+    public StatusCallback() {
+    }
 
     /**
      * @param status

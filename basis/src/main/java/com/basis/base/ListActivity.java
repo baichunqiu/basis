@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 
 import com.adapter.interfaces.IHolder;
 import com.basis.R;
+import com.basis.net.IOperator;
 import com.basis.net.LoadTag;
 import com.business.interfaces.IParse;
 import com.kit.utils.Logger;
@@ -22,9 +23,9 @@ import java.util.Map;
  * @param <AD> 适配器数据类型 一般情况：和ND类型一致
  * @param <VH> 适配器的holder类型 IRefresh的类型是Listview VH是LvHolder，若是RecylerView VH是RcyHolder
  */
-public abstract class ListActivity<ND, AD, VH extends IHolder> extends BaseActivity implements UIController.IOperator<ND, AD, VH> {
+public abstract class ListActivity<ND, AD, VH extends IHolder> extends BaseActivity implements IOperator<ND, AD, VH> {
     private Class<ND> tClass;
-    private UIController<ND, AD, VH> mController;
+    private Controller<ND, AD, VH> mController;
     private View contentView;
 
     @Override
@@ -36,7 +37,7 @@ public abstract class ListActivity<ND, AD, VH extends IHolder> extends BaseActiv
     public final void init() {
         tClass = (Class<ND>) ObjUtil.getTType(getClass())[0];
         resetLayoutView();
-        mController = new UIController<>(getLayout(), tClass, this);
+        mController = new Controller(getLayout(), tClass, this);
         initView(contentView);
     }
 
@@ -79,11 +80,16 @@ public abstract class ListActivity<ND, AD, VH extends IHolder> extends BaseActiv
         if (null != mController) mController.onRefreshData(netData, isRefresh);
     }
 
+    @Override
+    public void onCustomerRequestAgain(boolean refresh) {
+
+    }
+
     /**
      * @param netData 此次请求的数据
      */
     @Override
-    public List<AD> onPreRefreshData(List<ND> netData, boolean isRefresh) {
+    public List<AD> onTransform(List<ND> netData) {
         return (List<AD>) netData;
     }
 

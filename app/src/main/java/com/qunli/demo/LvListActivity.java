@@ -7,11 +7,12 @@ import com.adapter.SampleAdapter;
 import com.adapter.interfaces.IAdapte;
 import com.adapter.listview.LvHolder;
 import com.basis.PreviewActivity;
+import com.basis.base.ListActivity;
 import com.kit.UIKit;
 import com.kit.utils.ImageLoader;
 import com.oklib.Method;
 
-public class ListActivity extends com.basis.base.ListActivity<Meizi, Meizi, LvHolder> {
+public class LvListActivity extends ListActivity<Meizi, Meizi, LvHolder> {
     private IAdapte mAdapter;
     private int mCurPage = 1;
 

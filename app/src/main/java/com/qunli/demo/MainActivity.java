@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 UIKit.startActivity(mActivity, RecycleActivity.class);
                 break;
             case R.id.listui:
-                UIKit.startActivity(mActivity, ListActivity.class);
+                UIKit.startActivity(mActivity, LvListActivity.class);
                 break;
             case R.id.wrap_bar:
                 hide = !hide;

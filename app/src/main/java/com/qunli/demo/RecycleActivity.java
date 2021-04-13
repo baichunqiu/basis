@@ -9,13 +9,12 @@ import com.IRefresh;
 import com.adapter.SampleAdapter;
 import com.adapter.interfaces.IAdapte;
 import com.adapter.recycle.RcyHolder;
-import com.adapter.recycle.RcySAdapter;
 import com.basis.base.BaseActivity;
 import com.basis.net.LoadTag;
-import com.basis.net.Request;
-import com.basis.net.callback.ListCallback;
 import com.kit.utils.ImageLoader;
 import com.kit.utils.Logger;
+import com.net.ListCallback;
+import com.net.Request;
 import com.oklib.Method;
 
 import java.util.List;
@@ -66,7 +65,7 @@ public class RecycleActivity extends BaseActivity {
 
     private void fetchGankMZ(final boolean isRefresh, boolean show) {
         String url = "https://gank.io/api/v2/data/category/Girl/type/Girl/page/" + mCurPage + "/count/20";
-        Request.request(show ? new LoadTag(this) : null, url, null, Method.get, new ListCallback<Meizi>(refresh) {
+        Request.request(show ? new LoadTag(this) : null, url, null, Method.get, new ListCallback<Meizi>(Meizi.class) {
             @Override
             public void onSuccess(List<Meizi> meizis, Boolean loadFull) {
                 super.onSuccess(meizis, loadFull);

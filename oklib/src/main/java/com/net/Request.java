@@ -1,13 +1,19 @@
-package com.basis.net;
+package com.net;
 
+import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.text.TextUtils;
 
-import com.business.GeneralWrapperCallBack;
 import com.business.BsiCallback;
+import com.business.GeneralWrapperCallBack;
 import com.business.ILoadTag;
+import com.business.OkUtil;
 import com.business.interfaces.IParse;
-import com.kit.utils.Logger;
-import com.kit.utils.NetUtil;
 import com.oklib.Method;
 import com.oklib.ORequest;
 
@@ -97,6 +103,14 @@ public class Request {
                 new GeneralWrapperCallBack(tag, parser, iCallback));
     }
 
+    public static <R> ORequest requestAgain(ORequest<R> request,
+                                                  BsiCallback<List<R>, Boolean, R> bsiCallback) {
+        if (request.callBack instanceof GeneralWrapperCallBack) {
+            ((GeneralWrapperCallBack)request.callBack).setBsiCallback(bsiCallback);
+        }
+        return request.request();
+    }
+
     private static <R, E, T> ORequest request(String url,
                                               Map<String, Object> params,
                                               Method method,
@@ -116,12 +130,54 @@ public class Request {
      * @return
      */
     private static boolean checkOK(String url, BsiCallback bsiCallback) {
-//        boolean checked = !TextUtils.isEmpty(url) && NetUtil.isNetworkAvailable();
-        boolean checked = !TextUtils.isEmpty(url);
+        boolean checked = !TextUtils.isEmpty(url) && isNetworkAvailable();
         if (!checked && null != bsiCallback) {
-            Logger.e(TAG, "check error you net request url is null or network unavailable ，please check it ");
+            OkUtil.e(TAG, "check error you net request url is null or network unavailable ，please check it ");
             bsiCallback.onError(CODE_CHECK_ERROR, "设备未连接网络");
         }
         return checked;
+    }
+
+    public static boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager) getBaseContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (null == manager) return false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Network[] networks = manager.getAllNetworks();
+            for (Network network : networks) {
+                NetworkCapabilities capabilities = manager.getNetworkCapabilities(network);
+                if (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) {
+                    return true;
+                }
+            }
+        } else {
+            NetworkInfo info = manager.getActiveNetworkInfo();
+            if (info != null && info.isAvailable()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static Application mBaseContext;
+
+
+    private static Application getBaseContext() {
+        if (null != mBaseContext) {
+            return mBaseContext;
+        }
+        try {
+            mBaseContext = (Application) Class.forName("android.app.AppGlobals").getMethod("getInitialApplication").invoke(null);
+            if (null == mBaseContext) {
+                throw new IllegalStateException("Static initialization of Applications must be on main thread.");
+            }
+        } catch (final Exception e) {
+            try {
+                mBaseContext = (Application) Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
+            } catch (final Exception ex) {
+                e.printStackTrace();
+            }
+        }
+        return mBaseContext;
     }
 }
