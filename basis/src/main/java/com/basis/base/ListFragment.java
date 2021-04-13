@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 
 import com.adapter.interfaces.IHolder;
 import com.basis.R;
+import com.basis.net.Controller;
 import com.basis.net.IOperator;
 import com.basis.net.LoadTag;
 import com.business.interfaces.IParse;
