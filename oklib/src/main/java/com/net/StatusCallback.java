@@ -8,7 +8,7 @@ import com.business.interfaces.IResult;
  * @ClassName: StatusCallback
  * @Description: 没有body请求回调
  */
-public class StatusCallback implements BsiCallback<Integer, String, Void, IResult.StatusResult> {
+public class StatusCallback implements BsiCallback<IResult.StatusResult,Integer, String,Void> {
 
     public StatusCallback() {
     }
@@ -17,7 +17,7 @@ public class StatusCallback implements BsiCallback<Integer, String, Void, IResul
      * @param result
      */
     @Override
-    public void onSuccess(IResult.StatusResult result) {
+    public void onResult(IResult.StatusResult result) {
 
     }
 

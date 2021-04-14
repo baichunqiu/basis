@@ -12,7 +12,7 @@ import com.oklib.ORequest;
  * @date: 2018/6/27
  * @Description: 处理器接口 封装有错误处理和数据处理
  */
-public interface IProcess<R, E, T,RE extends IResult<R,E>> {
+public interface IProcess<IR extends IResult<R, E>, R, E, T> {
     /**
      * 错误处理
      *
@@ -28,5 +28,5 @@ public interface IProcess<R, E, T,RE extends IResult<R,E>> {
      * @param wrap
      * @return
      */
-    RE processResult(IWrap wrap, Class<T> clazz);
+    IR processResult(IWrap wrap, Class<T> clazz);
 }

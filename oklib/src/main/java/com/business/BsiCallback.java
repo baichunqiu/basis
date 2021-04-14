@@ -5,16 +5,17 @@ import com.business.interfaces.IResult;
 /**
  * 业务接口回调
  *
- * @param <R> result 泛型
- * @param <E> extra信息 泛型
- * @param <T> result中的实体类型
+ * @param <IR> result类型
+ * @param <R>  IResult<R, E> 中R类型
+ * @param <E>  IResult<R, E> 中E类型
+ * @param <T>  Type Class 类型
  */
-public interface BsiCallback<R, E, T, RE extends IResult<R, E>> {
+public interface BsiCallback<IR extends IResult<R, E>, R, E, T> {
 
     /**
      * @param result
      */
-    void onSuccess(RE result);
+    void onResult(IR result);
 
     /**
      * @param code   状态码

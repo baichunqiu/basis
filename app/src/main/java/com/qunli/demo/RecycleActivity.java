@@ -69,8 +69,8 @@ public class RecycleActivity extends BaseActivity {
         String url = "https://gank.io/api/v2/data/category/Girl/type/Girl/page/" + mCurPage + "/count/20";
         Request.request(show ? new LoadTag(this) : null, url, null, Method.get, new ListCallback<Meizi>(Meizi.class) {
             @Override
-            public void onSuccess(IResult.ObjResult<List<Meizi>> result) {
-                super.onSuccess(result);
+            public void onResult(IResult.ObjResult<List<Meizi>> result) {
+                super.onResult(result);
                 List<Meizi> meizis = result.getResult();
                 int len = null == result.getResult() ? 0 : meizis.size();
                 Logger.e("AdapterActivity", "fetchGankMZ len = " + len);

@@ -43,7 +43,7 @@ public class OkHelper {
         this.defaultProcessor = defaultProcessor;
     }
 
-    protected <R,E,T,RE extends IResult<R,E>> IProcess<R,E,T, RE> getProcessor() {
+    protected <IR extends IResult<R, E>, R, E, T> IProcess<IR, R, E, T> getProcessor() {
         if (null == defaultProcessor) {
             defaultProcessor = new BaseProcessor();
         }

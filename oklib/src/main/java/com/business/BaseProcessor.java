@@ -6,8 +6,10 @@ import com.business.interfaces.IResult;
 import com.business.interfaces.IWrap;
 import com.google.gson.JsonElement;
 import com.oklib.ORequest;
+import com.oklib.OkApi;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @Author: BaiCQ
@@ -16,7 +18,7 @@ import java.util.List;
  * @Description: 数据处理封装
  * 注意：仅支持 StatueResult的类型 和 ObjResult<List<T>>的结果
  */
-public class BaseProcessor<R, E, T, RE extends IResult<R, E>> implements IProcess<R, E, T, RE> {
+public class BaseProcessor<IR extends IResult<R, E>, R, E, T> implements IProcess<IR, R, E, T> {
     private final static String TAG = "BaseProcessor";
     //最大重复请求次数
     private final static int MAX_REPEAT = 1;
@@ -58,10 +60,11 @@ public class BaseProcessor<R, E, T, RE extends IResult<R, E>> implements IProces
     }
 
     @Override
-    public RE processResult(IWrap wrap, Class<T> clazz) {
+    public IR processResult(IWrap wrap, Class<T> clazz) {
         if (null == clazz) {
-            return (RE) new IResult.StatusResult(wrap.getCode(), wrap.getMessage());
+            return (IR) new IResult.StatusResult(wrap.getCode(), wrap.getMessage());
         } else {
+            OkUtil.e("processResult", "clazz:" + clazz.getSimpleName());
             IPage page = wrap.getPage();
             boolean extra = null == page ? false : (page.getPage() >= page.getTotal());
             R result = null;
@@ -69,7 +72,7 @@ public class BaseProcessor<R, E, T, RE extends IResult<R, E>> implements IProces
             if (null != element) {
                 result = (R) OkUtil.json2List(wrap.getBody(), clazz);
             }
-            return (RE) new IResult.ObjResult(result, extra);
+            return (IR) new IResult.ObjResult(result, extra);
         }
     }
 }

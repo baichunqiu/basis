@@ -10,14 +10,17 @@ import java.util.List;
  * @ClassName: ListCallback
  * @Description: 有body网络请求的回调
  */
-public class ListCallback<R> implements BsiCallback<List<R>, Boolean, R, IResult.ObjResult<List<R>>> {
+public class ListCallback<R> implements BsiCallback<IResult.ObjResult<List<R>>, List<R>, Boolean, R> {
     private Class<R> rClass;
 
     public ListCallback(Class<R> rClass) {
         this.rClass = rClass;
+        if (null == rClass) {
+            throw new IllegalArgumentException("The R Class<R> Can Not Null !");
+        }
     }
 
-    public void onSuccess(IResult.ObjResult<List<R>> result) {
+    public void onResult(IResult.ObjResult<List<R>> result) {
     }
 
     public void onError(int code, String errMsg) {

@@ -24,6 +24,7 @@
         <activity android:name=".RecycleActivity"/>
         <activity android:name=".LvListActivity"/>
         <activity android:name=".RcyListActivity"/>
+        <activity android:name=".NetTestActvivty"/>
     </application>
 
 </manifest>

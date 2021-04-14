@@ -40,7 +40,7 @@ public class Request {
                                   String url,
                                   Map<String, Object> params,
                                   Method method,
-                                  BsiCallback<Integer, String, Integer, IResult.StatusResult> iCallback) {
+                                  BsiCallback<IResult.StatusResult, Integer, String, Void> iCallback) {
         return request(url,
                 params,
                 method,
@@ -52,7 +52,7 @@ public class Request {
                                        String url,
                                        Map<String, Object> params,
                                        Method method,
-                                       BsiCallback<List<R>, Boolean, R, IResult.ObjResult<List<R>>> bsiCallback) {
+                                       BsiCallback<IResult.ObjResult<List<R>>, List<R>, Boolean, R> bsiCallback) {
         return request(url,
                 params,
                 method,
@@ -74,7 +74,7 @@ public class Request {
                                        Map<String, Object> params,
                                        IParse parser,
                                        Method method,
-                                       BsiCallback<List<R>, Boolean, R, IResult.ObjResult<List<R>>> bsiCallback) {
+                                       BsiCallback<IResult.ObjResult<List<R>>, List<R>, Boolean, R> bsiCallback) {
         return request(url,
                 params,
                 method,
@@ -96,7 +96,7 @@ public class Request {
                                   Map<String, Object> params,
                                   IParse parser,
                                   Method method,
-                                  BsiCallback<Integer, String, Integer, IResult.StatusResult> iCallback) {
+                                  BsiCallback<IResult.StatusResult, Integer, String, Void> iCallback) {
         return request(url,
                 params,
                 method,
@@ -105,18 +105,18 @@ public class Request {
     }
 
     public static <R> ORequest requestAgain(ORequest<R> request,
-                                            BsiCallback<List<R>, Boolean, R, IResult.ObjResult<List<R>>> bsiCallback) {
+                                            BsiCallback<IResult.ObjResult<List<R>>, List<R>, Boolean, R> bsiCallback) {
         if (request.callBack instanceof GeneralWrapperCallBack) {
             ((GeneralWrapperCallBack) request.callBack).setBsiCallback(bsiCallback);
         }
         return request.request();
     }
 
-    private static <R, E, T, RE extends IResult<R, E>> ORequest request(String url,
+    private static <IR extends IResult<R, E>, R, E, T> ORequest request(String url,
                                                                         Map<String, Object> params,
                                                                         Method method,
                                                                         boolean qFlag,
-                                                                        GeneralWrapperCallBack<R, E, T, RE> generalCallBack) {
+                                                                        GeneralWrapperCallBack<IR, R, E, T> generalCallBack) {
         ORequest req = ORequest.Builder.method(method)
                 .url(url)
                 .param(params)
