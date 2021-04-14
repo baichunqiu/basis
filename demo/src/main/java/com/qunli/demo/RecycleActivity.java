@@ -7,19 +7,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.IRefresh;
-import com.adapter.interfaces.IAdapte;
-import com.adapter.recycle.RcyAdapter;
-import com.adapter.recycle.RcyHolder;
-import com.adapter.recycle.RcySAdapter;
-import com.business.OkUtil;
-import com.business.Wrapper;
+import com.bcq.refresh.IRefresh;
+import com.bcq.adapter.interfaces.IAdapte;
+import com.bcq.adapter.recycle.RcyAdapter;
+import com.bcq.adapter.recycle.RcyHolder;
+import com.bcq.adapter.recycle.RcySAdapter;
+import com.bcq.net.wrapper.OkUtil;
+import com.bcq.net.wrapper.Wrapper;
 import com.kit.UIKit;
-import com.kit.cache.GsonUtil;
 import com.kit.utils.ImageLoader;
 import com.kit.utils.Logger;
-import com.oklib.OCallBack;
-import com.oklib.OkApi;
+import com.bcq.net.api.OCallBack;
+import com.bcq.net.OkApi;
 
 import java.util.List;
 

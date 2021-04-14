@@ -1,28 +1,29 @@
 package com.qunli.demo;
 
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.IRefresh;
-import com.adapter.SampleAdapter;
-import com.adapter.interfaces.IAdapte;
-import com.adapter.recycle.RcyHolder;
 import com.basis.base.BaseActivity;
 import com.basis.net.LoadTag;
-import com.business.interfaces.IResult;
+import com.bcq.adapter.SampleAdapter;
+import com.bcq.adapter.interfaces.IAdapte;
+import com.bcq.adapter.recycle.RcyHolder;
+import com.bcq.net.Request;
+import com.bcq.net.api.Method;
+import com.bcq.net.net.ListCallback;
+import com.bcq.net.wrapper.interfaces.IResult;
+import com.bcq.refresh.IRefresh;
 import com.kit.utils.ImageLoader;
 import com.kit.utils.Logger;
-import com.net.ListCallback;
-import com.net.Request;
-import com.oklib.Method;
 
 import java.util.List;
 
 public class RecycleActivity extends BaseActivity {
     private IRefresh refresh;
-    private IAdapte mAdapter;
+    private IAdapte<Meizi, RcyHolder> mAdapter;
     private int mCurPage = 1;
 
     @Override
@@ -33,7 +34,7 @@ public class RecycleActivity extends BaseActivity {
     public void init() {
         getWrapBar().setTitle(R.string.str_list_mv).work();
         refresh = findViewById(R.id.rv);
-        if (refresh instanceof RecyclerView){
+        if (refresh instanceof RecyclerView) {
             final GridLayoutManager layoutmanager = new GridLayoutManager(this, 2);
             ((RecyclerView) refresh).setLayoutManager(layoutmanager);
         }
@@ -60,9 +61,8 @@ public class RecycleActivity extends BaseActivity {
                 ImageLoader.loadUrl(imageView, meizi.getUrl(), R.mipmap.ic_launcher, ImageLoader.Size.SZ_250);
             }
         };
-        mAdapter.setRefreshView(refresh);
+        mAdapter.setRefreshView((View) refresh);
         fetchGankMZ(true, true);
-        IResult.ListResult result;
     }
 
     private void fetchGankMZ(final boolean isRefresh, boolean show) {

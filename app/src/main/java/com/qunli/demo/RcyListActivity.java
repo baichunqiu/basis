@@ -4,17 +4,16 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.adapter.SampleAdapter;
-import com.adapter.interfaces.IAdapte;
-import com.adapter.recycle.RcyHolder;
+import com.bcq.adapter.SampleAdapter;
+import com.bcq.adapter.interfaces.IAdapte;
+import com.bcq.adapter.recycle.RcyHolder;
 import com.basis.PreviewActivity;
 import com.basis.base.ListActivity;
 import com.kit.UIKit;
 import com.kit.utils.ImageLoader;
-import com.oklib.Method;
+import com.bcq.net.api.Method;
 
 public class RcyListActivity extends ListActivity<Meizi, Meizi, RcyHolder> {
     private IAdapte<Meizi, RcyHolder> mAdapter;

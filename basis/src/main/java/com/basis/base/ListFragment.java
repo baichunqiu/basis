@@ -8,17 +8,17 @@ import android.widget.FrameLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.adapter.interfaces.IHolder;
+import com.bcq.adapter.interfaces.IHolder;
 import com.basis.R;
 import com.basis.net.Controller;
 import com.basis.net.IOperator;
 import com.basis.net.LoadTag;
-import com.business.ILoadTag;
-import com.business.interfaces.IParse;
+import com.bcq.net.wrapper.ILoadTag;
+import com.bcq.net.wrapper.interfaces.IParse;
 import com.kit.utils.Logger;
 import com.kit.utils.ObjUtil;
 import com.kit.UIKit;
-import com.oklib.Method;
+import com.bcq.net.api.Method;
 
 import java.util.List;
 import java.util.Map;
@@ -60,9 +60,9 @@ public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragme
         contentView = setContentView();
         ll_content.addView(contentView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         //添加no_data到show_data同级
-        View show_data = UIKit.getView(contentView, R.id.bsi_show_data);
+        View show_data = UIKit.getView(contentView, R.id.basis_show_data);
         //未设置show_data布局 使用lv替代
-        if (null == show_data) show_data = UIKit.getView(contentView, R.id.bsi_refresh);
+        if (null == show_data) show_data = UIKit.getView(contentView, R.id.basis_refresh);
         ViewGroup extraParent = null != show_data ? (ViewGroup) show_data.getParent() : ll_content;
         View nodata = UIKit.inflate(R.layout.no_data);
         extraParent.addView(nodata, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);

@@ -7,7 +7,7 @@
     android:padding="@dimen/dimens_10px"
     android:orientation="vertical">
 
-    <com.progress.IndicatorView
+    <com.bcq.refresh.progress.IndicatorView
         android:id="@+id/indicator"
         android:layout_width="60dp"
         android:layout_height="60dp"

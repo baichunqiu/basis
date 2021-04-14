@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.basis.R;
-import com.business.ILoadTag;
-import com.progress.IndicatorView;
-import com.progress.Style;
+import com.bcq.net.wrapper.ILoadTag;
+import com.bcq.refresh.progress.IndicatorView;
+import com.bcq.refresh.progress.Style;
 
 
 /**

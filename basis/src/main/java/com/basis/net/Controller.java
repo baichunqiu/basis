@@ -2,19 +2,18 @@ package com.basis.net;
 
 import android.view.View;
 
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.IRefresh;
-import com.adapter.interfaces.DataObserver;
-import com.adapter.interfaces.IAdapte;
-import com.adapter.interfaces.IHolder;
+import com.bcq.refresh.IRefresh;
+import com.bcq.adapter.interfaces.DataObserver;
+import com.bcq.adapter.interfaces.IAdapte;
+import com.bcq.adapter.interfaces.IHolder;
 import com.basis.R;
 import com.kit.UIKit;
 import com.kit.utils.Logger;
-import com.net.NetRefresher;
-import com.net.Page;
+import com.bcq.net.net.NetRefresher;
+import com.bcq.net.net.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,9 +57,9 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
     }
 
     private void initialize() {
-        showData = UIKit.getView(layout, R.id.bsi_show_data);
-        noData = UIKit.getView(layout, R.id.bsi_no_data);
-        refreshView = UIKit.getView(layout, R.id.bsi_refresh);
+        showData = UIKit.getView(layout, R.id.basis_show_data);
+        noData = UIKit.getView(layout, R.id.basis_no_data);
+        refreshView = UIKit.getView(layout, R.id.basis_refresh);
         if (null == showData) showData = (View) refreshView;
         if (refreshView instanceof RecyclerView) {
             ((RecyclerView) refreshView).setLayoutManager(onSetLayoutManager());
@@ -69,7 +68,7 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
         refreshView.enableLoad(true);
         mAdapter = operator.onSetAdapter();
         mAdapter.setDataObserver(this);
-        mAdapter.setRefreshView(refreshView);
+        mAdapter.setRefreshView((View) refreshView);
         refreshView.setLoadListener(new IRefresh.LoadListener() {
             @Override
             public void onRefresh() {

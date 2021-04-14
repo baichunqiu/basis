@@ -5,20 +5,18 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.IRefresh;
-import com.adapter.interfaces.IAdapte;
-import com.adapter.interfaces.IHolder;
-import com.adapter.listview.LvAdapter;
-import com.adapter.listview.LvHolder;
-import com.adapter.listview.LvSAdapter;
-import com.business.OkUtil;
-import com.business.Wrapper;
+import com.bcq.refresh.IRefresh;
+import com.bcq.adapter.interfaces.IAdapte;
+import com.bcq.adapter.listview.LvAdapter;
+import com.bcq.adapter.listview.LvHolder;
+import com.bcq.adapter.listview.LvSAdapter;
+import com.bcq.net.wrapper.OkUtil;
+import com.bcq.net.wrapper.Wrapper;
 import com.kit.UIKit;
-import com.kit.cache.GsonUtil;
 import com.kit.utils.ImageLoader;
 import com.kit.utils.Logger;
-import com.oklib.OCallBack;
-import com.oklib.OkApi;
+import com.bcq.net.api.OCallBack;
+import com.bcq.net.OkApi;
 
 import java.util.List;
 

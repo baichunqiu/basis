@@ -1,8 +1,8 @@
 package com.basis.net;
 
-import com.adapter.interfaces.IAdapte;
-import com.adapter.interfaces.IHolder;
-import com.net.IOpe;
+import com.bcq.adapter.interfaces.IAdapte;
+import com.bcq.adapter.interfaces.IHolder;
+import com.bcq.net.net.IOpe;
 
 import java.util.List;
 

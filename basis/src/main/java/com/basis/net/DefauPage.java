@@ -1,6 +1,6 @@
 package com.basis.net;
 
-import com.net.Page;
+import com.bcq.net.net.Page;
 
 /**
  * 网络请求分页设置的参数

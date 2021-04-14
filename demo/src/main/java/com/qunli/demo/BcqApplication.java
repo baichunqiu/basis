@@ -2,9 +2,9 @@ package com.qunli.demo;
 
 import android.app.Application;
 
-import com.business.OkHelper;
-import com.business.Wrapper;
-import com.business.interfaces.IParse;
+import com.bcq.net.wrapper.OkHelper;
+import com.bcq.net.wrapper.Wrapper;
+import com.bcq.net.wrapper.interfaces.IParse;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

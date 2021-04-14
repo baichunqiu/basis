@@ -2,13 +2,13 @@ package com.qunli.demo;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.adapter.RefreshAdapter;
-import com.adapter.SampleAdapter;
-import com.adapter.recycle.RcyHolder;
+import com.bcq.adapter.RefreshAdapter;
+import com.bcq.adapter.SampleAdapter;
+import com.bcq.adapter.recycle.RcyHolder;
 import com.basis.base.BaseActivity;
-import com.progress.IndicatorView;
-import com.progress.Style;
-import com.xrecycle.XRecyclerView;
+import com.bcq.refresh.progress.IndicatorView;
+import com.bcq.refresh.progress.Style;
+import com.bcq.refresh.XRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;

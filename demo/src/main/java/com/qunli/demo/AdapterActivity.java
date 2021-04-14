@@ -6,18 +6,17 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.IRefresh;
-import com.adapter.RefreshAdapter;
-import com.adapter.interfaces.IHolder;
-import com.business.OkUtil;
-import com.business.Wrapper;
+import com.bcq.refresh.IRefresh;
+import com.bcq.adapter.RefreshAdapter;
+import com.bcq.adapter.interfaces.IHolder;
+import com.bcq.net.wrapper.OkUtil;
+import com.bcq.net.wrapper.Wrapper;
 import com.kit.UIKit;
-import com.kit.cache.GsonUtil;
 import com.kit.utils.ImageLoader;
 import com.kit.utils.Logger;
-import com.oklib.OCallBack;
-import com.oklib.OkApi;
-import com.xrecycle.XRecyclerView;
+import com.bcq.net.api.OCallBack;
+import com.bcq.net.OkApi;
+import com.bcq.refresh.XRecyclerView;
 
 import java.util.List;
 
