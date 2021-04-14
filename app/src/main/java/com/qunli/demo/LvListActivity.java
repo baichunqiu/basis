@@ -14,7 +14,7 @@ import com.oklib.Method;
 
 public class LvListActivity extends ListActivity<Meizi, Meizi, LvHolder> {
     private IAdapte mAdapter;
-    private int mCurPage = 1;
+    private final int mCurPage = 1;
 
     @Override
     public View setContentView() {

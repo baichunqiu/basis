@@ -18,7 +18,7 @@ import com.oklib.Method;
 
 public class RcyListActivity extends ListActivity<Meizi, Meizi, RcyHolder> {
     private IAdapte<Meizi, RcyHolder> mAdapter;
-    private int mCurPage = 1;
+    private final int mCurPage = 1;
 
     @Override
     public View setContentView() {

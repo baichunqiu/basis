@@ -4,11 +4,5 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
-    <color name="indicator_1">#55B3C2</color>
-    <color name="indicator_2">#64A4A4</color>
-    <color name="indicator_3">#66D7B9</color>
-    <color name="indicator_4">#FDBC7D</color>
-
     <!--    覆盖refresh的默认颜色-->
-    <color name="re_color_default">#E91E63</color>
 </resources>
