@@ -17,15 +17,16 @@ public class LvListActivity extends ListActivity<Meizi, Meizi, LvHolder> {
     private final int mCurPage = 1;
 
     @Override
-    public View setContentView() {
-        return UIKit.inflate(R.layout.activity_list_demo);
+    public int setLayoutId() {
+        return R.layout.activity_list_demo;
     }
 
     String url = "https://gank.io/api/v2/data/category/Girl/type/Girl/page/" + mCurPage + "/count/20";
 
-    public void initView(View view) {
+    @Override
+    public void initView() {
         getWrapBar().setTitle(R.string.str_list_mv).work();
-        getNetData( "",url, null , Method.get,true);
+        request("", url, null, Method.get, true);
     }
 
     @Override

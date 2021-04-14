@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.basis.net.VHolder;
 import com.bcq.adapter.interfaces.IHolder;
 import com.basis.R;
 import com.basis.net.Controller;
@@ -29,10 +30,9 @@ import java.util.Map;
  * @className: AbsListFragment
  * @Description: 正常情况下 ND, AD 的类型是一致的
  */
-public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragment implements IOperator<ND, AD,VH> {
+public abstract class ListFragment<ND, AD, VH extends IHolder> extends BaseFragment implements IOperator<ND, AD, VH>, IListRefresh<ND> {
     private Class<ND> tClass;
-    private Controller<ND,AD, VH> controller;
-    private View contentView;
+    private Controller<ND, AD, VH> controller;
 
     @Override
     public final int setLayoutId() {
@@ -43,33 +43,30 @@ public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragme
         return new LinearLayoutManager(activity);
     }
 
+
+    @Override
     public final void init() {
-        resetLayoutView();
         tClass = (Class<ND>) ObjUtil.getTType(getClass())[0];
-        controller = new Controller(getLayout(), tClass, this){
+        VHolder holder = new VHolder(getLayout());
+        controller = new Controller(holder, tClass, this) {
             @Override
             protected RecyclerView.LayoutManager onSetLayoutManager() {
                 return ListFragment.this.onSetLayoutManager();
             }
         };
-        initView(contentView);
+        initView();
     }
 
-    private void resetLayoutView() {
-        FrameLayout ll_content = getView(R.id.ll_content);
-        contentView = setContentView();
-        ll_content.addView(contentView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        //添加no_data到show_data同级
-        View show_data = UIKit.getView(contentView, R.id.basis_show_data);
-        //未设置show_data布局 使用lv替代
-        if (null == show_data) show_data = UIKit.getView(contentView, R.id.basis_refresh);
-        ViewGroup extraParent = null != show_data ? (ViewGroup) show_data.getParent() : ll_content;
-        View nodata = UIKit.inflate(R.layout.no_data);
-        extraParent.addView(nodata, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-    }
+    /*************** IListRefresh 主动调用***************/
+    @Override
+    public abstract void initView();
 
-    public void getNetData(String tag, String mUrl, Map<String, Object> params, Method method, boolean isRefresh) {
-        getNetData(tag, mUrl, params, null, method, isRefresh);
+    @Override
+    public void request(String tag, String mUrl, Map<String, Object> params, Method method, boolean isRefresh) {
+        if (null != controller) {
+            ILoadTag itag = TextUtils.isEmpty(tag) ? null : new LoadTag(activity, tag);
+            controller.request(itag, mUrl, params, null, method, isRefresh);
+        }
     }
 
     /**
@@ -80,27 +77,41 @@ public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragme
      * @param method    Post/get
      * @param parser    解析器
      */
-    public void getNetData(String tag, String mUrl, Map<String, Object> params, IParse parser, Method method, boolean isRefresh) {
+    @Override
+    public void request(String tag, String mUrl, Map<String, Object> params, IParse parser, Method method, boolean isRefresh) {
         if (null != controller) {
             ILoadTag itag = TextUtils.isEmpty(tag) ? null : new LoadTag(activity, tag);
             controller.request(itag, mUrl, params, parser, method, isRefresh);
         }
     }
 
-    public void refreshData(List<ND> netData, boolean isRefresh) {
+    /**
+     * 刷新适配器数据
+     *
+     * @param netData   接口放回数据
+     * @param isRefresh 是否刷新
+     */
+    public void refresh(List<ND> netData, boolean isRefresh) {
         if (null != controller) controller.onRefreshData(netData, isRefresh);
     }
 
+    /*************** IOperator 被动回调***************/
     @Override
     public void onCustomerRequestAgain(boolean refresh) {
         Logger.e(TAG, "onCustomerRequestAgain:refresh = " + refresh);
     }
 
+    /**
+     * @param netData 此次请求的数据
+     */
     @Override
     public List<AD> onTransform(List<ND> netData) {
         return (List<AD>) netData;
     }
 
+    /**
+     * @param netData 设置给适配器的数据
+     */
     @Override
     public List<AD> onPreSetData(List<AD> netData) {
         return netData;
@@ -108,10 +119,6 @@ public abstract class ListFragment<ND, AD,VH extends IHolder> extends BaseFragme
 
     @Override
     public void onError(int code, String msg) {
-        Logger.e(TAG, "onAfter: [" + code + "] " + msg);
+        Logger.e(TAG, "onError: [" + code + "] " + msg);
     }
-
-    public abstract View setContentView();
-
-    public abstract void initView(View view);
 }

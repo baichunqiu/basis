@@ -1,13 +1,15 @@
 package com.bcq.net.api;
 
-import com.bcq.net.wrapper.OkUtil;
+import android.text.TextUtils;
+
 import com.bcq.net.api.core.Core;
 import com.bcq.net.api.core.IOCallBack;
+import com.bcq.net.wrapper.OkUtil;
 
 import java.util.Map;
 
 public class ORequest<T> {
-    private final static String TAG = "ReQuest";
+    private final static String TAG = "ORequest";
     public Object tag;
     public String url;
     public Map<String, Object> param;
@@ -26,9 +28,15 @@ public class ORequest<T> {
     }
 
     public ORequest<T> request() {
+        if (TextUtils.isEmpty(url)) {
+            throw new IllegalArgumentException("Request Fail For Request Url is Null !");
+        }
+        if (null == callBack){
+            OkUtil.e(TAG,"The Request No Callback， Are You Set It ?");
+        }
         logParams(url, method.name(), param);
         //设置request
-        callBack.set(this);
+        if (null != callBack)callBack.set(this);
         if (Method.post == method) {
             Core.core().post(tag, url, param, callBack);
         } else if (Method.get == method) {

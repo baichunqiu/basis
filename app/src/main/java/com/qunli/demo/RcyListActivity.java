@@ -19,22 +19,24 @@ public class RcyListActivity extends ListActivity<Meizi, Meizi, RcyHolder> {
     private IAdapte<Meizi, RcyHolder> mAdapter;
     private final int mCurPage = 1;
 
+
     @Override
-    public View setContentView() {
-        return UIKit.inflate(R.layout.activity_rcyle_demo);
+    public int setLayoutId() {
+        return R.layout.activity_rcyle_demo;
     }
 
     String url = "https://gank.io/api/v2/data/category/Girl/type/Girl/page/" + mCurPage + "/count/20";
 
-    public void initView(View view) {
+    @Override
+    public void initView() {
         getWrapBar().setTitle(R.string.str_list_mv).work();
-        getNetData( "",url, null , Method.get,true);
+        request("", url, null, Method.get, true);
     }
 
     @Override
     protected RecyclerView.LayoutManager onSetLayoutManager() {
 //        return new LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false);
-        return new GridLayoutManager(activity,3);
+        return new GridLayoutManager(activity, 3);
     }
 
     @Override

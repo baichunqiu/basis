@@ -39,10 +39,8 @@ interface IOBack<T> {
 
     /**
      * UI Thread
-     *
-     * @param e
      */
-    void onError(Exception e);
+    void onError(int code,String msg);
 
     /**
      * UI Thread

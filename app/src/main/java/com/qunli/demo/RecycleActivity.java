@@ -86,7 +86,7 @@ public class RecycleActivity extends BaseActivity {
             }
 
             @Override
-            public void onAfter(int code, String msg) {
+            public void onAfter() {
                 if (null != refresh) {
                     refresh.loadComplete();
                     refresh.refreshComplete();

@@ -9,7 +9,9 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.text.TextUtils;
 
+import com.bcq.net.api.core.Utils;
 import com.bcq.net.wrapper.BsiCallback;
+import com.bcq.net.wrapper.Error;
 import com.bcq.net.wrapper.GeneralWrapperCallBack;
 import com.bcq.net.wrapper.ILoadTag;
 import com.bcq.net.wrapper.OkUtil;
@@ -32,9 +34,7 @@ import java.util.Map;
  * 提交操作相关api 返回状态
  */
 public class Request {
-    public final static String TAG = "NetApi";
-    private final static int CODE_CHECK_ERROR = -1;
-
+    public final static String TAG = "Request";
 
     public static ORequest status(ILoadTag tag,
                                   String url,
@@ -44,7 +44,6 @@ public class Request {
         return request(url,
                 params,
                 method,
-                checkOK(url, iCallback),
                 new GeneralWrapperCallBack(tag, null, iCallback));
     }
 
@@ -56,7 +55,6 @@ public class Request {
         return request(url,
                 params,
                 method,
-                checkOK(url, bsiCallback),
                 new GeneralWrapperCallBack(tag, null, bsiCallback));
     }
 
@@ -78,7 +76,6 @@ public class Request {
         return request(url,
                 params,
                 method,
-                checkOK(url, bsiCallback),
                 new GeneralWrapperCallBack(tag, parser, bsiCallback));
     }
 
@@ -100,7 +97,6 @@ public class Request {
         return request(url,
                 params,
                 method,
-                checkOK(url, iCallback),
                 new GeneralWrapperCallBack(tag, parser, iCallback));
     }
 
@@ -115,70 +111,12 @@ public class Request {
     private static <IR extends IResult<R, E>, R, E, T> ORequest request(String url,
                                                                         Map<String, Object> params,
                                                                         Method method,
-                                                                        boolean qFlag,
                                                                         GeneralWrapperCallBack<IR, R, E, T> generalCallBack) {
-        ORequest req = ORequest.Builder.method(method)
+        return ORequest.Builder.method(method)
                 .url(url)
                 .param(params)
                 .callback(generalCallBack)
-                .build();
-        return qFlag ? req.request() : req;
-    }
-
-    /**
-     * 检查网 并根据tag的类型 取消加载动画
-     *
-     * @return
-     */
-    private static boolean checkOK(String url, BsiCallback bsiCallback) {
-        boolean checked = !TextUtils.isEmpty(url) && isNetworkAvailable();
-        if (!checked && null != bsiCallback) {
-            OkUtil.e(TAG, "check error you net request url is null or network unavailable ，please check it ");
-            bsiCallback.onError(CODE_CHECK_ERROR, "设备未连接网络");
-        }
-        return checked;
-    }
-
-    public static boolean isNetworkAvailable() {
-        ConnectivityManager manager = (ConnectivityManager) getBaseContext()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (null == manager) return false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Network[] networks = manager.getAllNetworks();
-            for (Network network : networks) {
-                NetworkCapabilities capabilities = manager.getNetworkCapabilities(network);
-                if (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) {
-                    return true;
-                }
-            }
-        } else {
-            NetworkInfo info = manager.getActiveNetworkInfo();
-            if (info != null && info.isAvailable()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static Application mBaseContext;
-
-
-    private static Application getBaseContext() {
-        if (null != mBaseContext) {
-            return mBaseContext;
-        }
-        try {
-            mBaseContext = (Application) Class.forName("android.app.AppGlobals").getMethod("getInitialApplication").invoke(null);
-            if (null == mBaseContext) {
-                throw new IllegalStateException("Static initialization of Applications must be on main thread.");
-            }
-        } catch (final Exception e) {
-            try {
-                mBaseContext = (Application) Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
-            } catch (final Exception ex) {
-                e.printStackTrace();
-            }
-        }
-        return mBaseContext;
+                .build()
+                .request();
     }
 }

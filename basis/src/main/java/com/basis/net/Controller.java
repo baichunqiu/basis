@@ -5,15 +5,14 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bcq.refresh.IRefresh;
 import com.bcq.adapter.interfaces.DataObserver;
 import com.bcq.adapter.interfaces.IAdapte;
 import com.bcq.adapter.interfaces.IHolder;
-import com.basis.R;
-import com.kit.UIKit;
-import com.kit.utils.Logger;
 import com.bcq.net.net.NetRefresher;
 import com.bcq.net.net.Page;
+import com.bcq.refresh.IRefresh;
+import com.kit.UIKit;
+import com.kit.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,41 +34,29 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
     //适配器使用功能集合 泛型不能使用 T 接口返回类型有可能和适配器使用的不一致
     private List<AD> adapterList = new ArrayList<>();
     private IAdapte<AD, VH> mAdapter;
-    private IRefresh refreshView;
-    private View showData;
-    private View noData;
-    private View layout;
-
-    public enum ShowType {
-        Data,
-        None
-    }
+    private VHolder holder;
 
     protected RecyclerView.LayoutManager onSetLayoutManager() {
         return new LinearLayoutManager(UIKit.getContext());
     }
 
-    public Controller(View parent, Class<ND> tclazz, IOperator<ND, AD, VH> operator) {
+    public Controller(VHolder holder, Class<ND> tclazz, IOperator<ND, AD, VH> operator) {
         super(tclazz, page, operator);
-        this.layout = parent;
+        this.holder = holder;
         this.operator = operator;
         initialize();
     }
 
     private void initialize() {
-        showData = UIKit.getView(layout, R.id.basis_show_data);
-        noData = UIKit.getView(layout, R.id.basis_no_data);
-        refreshView = UIKit.getView(layout, R.id.basis_refresh);
-        if (null == showData) showData = (View) refreshView;
-        if (refreshView instanceof RecyclerView) {
-            ((RecyclerView) refreshView).setLayoutManager(onSetLayoutManager());
+        holder.refresh.enableRefresh(true);
+        holder.refresh.enableLoad(true);
+        if (holder.refresh instanceof RecyclerView) {
+            ((RecyclerView) holder.refresh).setLayoutManager(onSetLayoutManager());
         }
-        refreshView.enableRefresh(true);
-        refreshView.enableLoad(true);
         mAdapter = operator.onSetAdapter();
         mAdapter.setDataObserver(this);
-        mAdapter.setRefreshView((View) refreshView);
-        refreshView.setLoadListener(new IRefresh.LoadListener() {
+        mAdapter.setRefreshView((View) holder.refresh);
+        holder.refresh.setLoadListener(new IRefresh.LoadListener() {
             @Override
             public void onRefresh() {
                 requestAgain(true, operator);
@@ -80,7 +67,7 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
                 requestAgain(false, operator);
             }
         });
-        noData.setOnClickListener(new View.OnClickListener() {
+        holder.none.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 requestAgain(true, operator);
@@ -89,11 +76,11 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
     }
 
     @Override
-    public void onAfter(int code, String msg) {
-        super.onAfter(code, msg);
-        if (null != refreshView) {
-            refreshView.refreshComplete();
-            refreshView.loadComplete();
+    public void onAfter() {
+        super.onAfter();
+        if (null != holder && null != holder.refresh) {
+            holder.refresh.refreshComplete();
+            holder.refresh.loadComplete();
         }
     }
 
@@ -112,10 +99,10 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
         /* 设置适配器前 */
         List<AD> temp = operator.onPreSetData(adapterList);
         if (null != temp && !temp.isEmpty()) {
-            showViewType(ShowType.Data);
+            if (null != holder) holder.showType(VHolder.Type.show);
             mAdapter.setData(temp, isRefresh);
         } else {
-            showViewType(ShowType.None);
+            if (null != holder) holder.showType(VHolder.Type.none);
         }
     }
 
@@ -127,18 +114,7 @@ public class Controller<ND, AD, VH extends IHolder> extends NetRefresher<ND> imp
     public void onObserve(int length) {
         Logger.e(TAG, "onObserve: len = " + length);
         if (length == 0) {
-            showViewType(ShowType.None);
-        }
-    }
-
-    public final void showViewType(ShowType showType) {
-        Logger.e(TAG, "showViewType: type = " + showType);
-        if (ShowType.Data == showType) {
-            showData.setVisibility(View.VISIBLE);
-            noData.setVisibility(View.GONE);
-        } else {
-            showData.setVisibility(View.GONE);
-            noData.setVisibility(View.VISIBLE);
+            if (null != holder) holder.showType(VHolder.Type.none);
         }
     }
 }

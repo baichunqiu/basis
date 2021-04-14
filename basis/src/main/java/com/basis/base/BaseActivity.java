@@ -53,7 +53,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IBasis {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Logger.e(TAG, "title = "+item.getTitle());
         if (android.R.id.home == item.getItemId()) {
             Logger.e(TAG, "back !");
             onBackCode();

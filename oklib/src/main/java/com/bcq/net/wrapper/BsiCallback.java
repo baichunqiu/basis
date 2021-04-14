@@ -23,11 +23,7 @@ public interface BsiCallback<IR extends IResult<R, E>, R, E, T> {
      */
     void onError(int code, String errMsg);
 
-    /**
-     * @param code 状态码
-     * @param msg  错误信息
-     */
-    void onAfter(int code, String msg);
+    void onAfter();
 
     /**
      * 解析实体的类型

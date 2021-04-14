@@ -100,8 +100,8 @@ public class GeneralWrapperCallBack<IR extends IResult<R, E>, R, E, T> extends O
     }
 
     @Override
-    public void onError(Exception e) {
-        if (null != bsiCallback) bsiCallback.onError(-1, e.getLocalizedMessage());
+    public void onError(int code, String msg) {
+        if (null != bsiCallback) bsiCallback.onError(code, msg);
     }
 
     @Override
@@ -111,11 +111,7 @@ public class GeneralWrapperCallBack<IR extends IResult<R, E>, R, E, T> extends O
             iLoadTag = null;
         }
         if (null != bsiCallback) {
-            if (null == wrapper) {
-                bsiCallback.onAfter(-1, "");
-            } else {
-                bsiCallback.onAfter(wrapper.getCode(), wrapper.getMessage());
-            }
+            bsiCallback.onAfter();
         }
     }
 }

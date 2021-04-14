@@ -99,6 +99,7 @@ public abstract class NetRefresher<T> implements BsiCallback<IResult.ObjResult<L
 
     @Override
     public void onError(int code, String errMsg) {
+        OkUtil.e(TAG, "onError: [" + code + "] " + errMsg);
         if (null != operator) {
             onRefreshData(null, refresh);
             operator.onError(code, errMsg);
@@ -106,8 +107,8 @@ public abstract class NetRefresher<T> implements BsiCallback<IResult.ObjResult<L
     }
 
     @Override
-    public void onAfter(int code, String msg) {
-        OkUtil.e(TAG, "onAfter: [" + code + "] " + msg);
+    public void onAfter() {
+        OkUtil.e(TAG, "onAfter");
     }
 
     @Override

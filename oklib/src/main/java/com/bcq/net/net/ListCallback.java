@@ -27,7 +27,7 @@ public class ListCallback<R> implements BsiCallback<IResult.ObjResult<List<R>>, 
     }
 
     @Override
-    public void onAfter(int code, String msg) {
+    public void onAfter() {
     }
 
     @Override

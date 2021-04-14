@@ -27,7 +27,8 @@ public class OCallBack<R> implements IOCallBack<R, ORequest<R>> {
     }
 
     @Override
-    public void onError(Exception e) {
+    public void onError(int code, String msg) {
+
     }
 
     @Override

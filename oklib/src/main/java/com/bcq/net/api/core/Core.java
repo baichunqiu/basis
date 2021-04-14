@@ -1,5 +1,8 @@
 package com.bcq.net.api.core;
 
+import com.bcq.net.wrapper.Error;
+import com.bcq.net.wrapper.OkUtil;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -129,24 +132,32 @@ public class Core {
      * @param callback 回调
      */
     private final <T> void request(Request request, final IOBack<T> callback) {
+//        if (!Utils.isNetworkAvailable()) {
+//            dispatchFail(Error.NO_CONNECTED, "No Connected !", callback);
+//            return;
+//        }
         client().newCall(request)
                 .enqueue(new okhttp3.Callback() {
                     @Override
                     public void onFailure(Call call, final IOException e) {
-                        dispatchFail(e, callback);
+                        dispatchFail(Error.REQUEST_IO, e.getLocalizedMessage(), callback);
                     }
 
                     @Override
                     public void onResponse(final Call call, final Response response) {
                         try {
                             if (call.isCanceled()) {
-                                dispatchFail(new IOException("Canceled!"), callback);
+                                dispatchFail(Error.REQUEST_CANCEL, "Request Cancel ！", callback);
+                                return;
+                            }
+                            if (null == callback) {
+                                OkUtil.e("Core#request", "The Request No Set Callback !");
                                 return;
                             }
                             T o = callback.onParse(response);
                             dispatchSuccess(o, callback);
                         } catch (Exception e) {
-                            dispatchFail(e, callback);
+                            dispatchFail(Error.REQUEST_ERR, e.getLocalizedMessage(), callback);
                         } finally {
                             if (response.body() != null) {
                                 response.body().close();
@@ -157,12 +168,14 @@ public class Core {
                 });
     }
 
-    private void dispatchFail(final Exception e, final IOBack callback) {
+    private void dispatchFail(final int code, final String msg, final IOBack callback) {
         Dispatcher.get().dispatch(new Runnable() {
             @Override
             public void run() {
-                callback.onError(e);
-                callback.onAfter();
+                if (null != callback) {
+                    callback.onError(code, msg);
+                    callback.onAfter();
+                }
             }
         });
     }
@@ -171,8 +184,10 @@ public class Core {
         Dispatcher.get().dispatch(new Runnable() {
             @Override
             public void run() {
-                callback.onResult(obj);
-                callback.onAfter();
+                if (null != callback) {
+                    callback.onResult(obj);
+                    callback.onAfter();
+                }
             }
         });
     }

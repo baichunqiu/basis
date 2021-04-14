@@ -29,7 +29,7 @@ public class StatusCallback implements BsiCallback<IResult.StatusResult,Integer,
     }
 
     @Override
-    public void onAfter(int code, String sysMsg) {
+    public void onAfter() {
     }
 
     @Override
