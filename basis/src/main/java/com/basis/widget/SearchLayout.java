@@ -26,7 +26,7 @@ public class SearchLayout extends LinearLayout {
     //搜索控件
     private ImageView iv_delete;
     private SearchEditText et_search;
-    private View fl_search;
+    private View tv_search;
     private SearchEditText.OnSearchListener osl;
     //是否监听文字变化，默认不监听
     private boolean textWatcher = false;
@@ -51,7 +51,7 @@ public class SearchLayout extends LinearLayout {
         et_search = UIKit.getView(rootView, R.id.et_search);
         iv_delete = UIKit.getView(rootView, R.id.iv_search_delete);
         iv_delete.setVisibility(GONE);
-        fl_search = UIKit.getView(rootView, R.id.fl_search);
+        tv_search = UIKit.getView(rootView, R.id.tv_search);
     }
 
     /**
@@ -62,7 +62,6 @@ public class SearchLayout extends LinearLayout {
         iv_delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.e("SearchLayout", "iv_delete");
                 et_search.setText("");
                 if (null != osl) osl.onSearch("");
             }
@@ -92,10 +91,10 @@ public class SearchLayout extends LinearLayout {
             }
         });
         //搜索按钮点击事件
-        fl_search.setOnClickListener(new OnClickListener() {
+        tv_search.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-//                hintInput();
+                hintInput();
                 if (null != osl) {
                     osl.onSearch(et_search.getText().toString().trim());
                 }
@@ -107,9 +106,6 @@ public class SearchLayout extends LinearLayout {
      * 隐藏软键盘
      */
     private void hintInput() {
-//        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-//        // 隐藏键盘
-//        inputMethodManager.hideSoftInputFromWindow(getWindowToken(), 0); //强制隐藏键盘
         InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         // 隐藏键盘
         if (inputMethodManager.isActive()) {

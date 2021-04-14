@@ -59,6 +59,7 @@ public class PreviewActivity extends BaseActivity {
         Picasso.get()
                 .load(previewUri)
                 .transform(new CropSquareTransformation())
+                .error(R.drawable.svg_default_img)
                 .into(photoView);
     }
 

@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         getWrapBar().setTitle(R.string.no_data)
                 .setBackHide(true)
                 .addOptionMenu("分享")
-                .addOptionMenu("搜索", R.mipmap.ic_search)
+                .addOptionMenu("搜索", R.drawable.svg_search)
                 .setOnMenuSelectedListener(new ActionWrapBar.OnMenuSelectedListener() {
                     @Override
                     public void onItemSelected(int position) {

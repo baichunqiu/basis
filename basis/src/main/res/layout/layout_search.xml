@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.basis.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
+    android:layout_height="@dimen/basis_bar_size"
     android:layout_gravity="center"
-    android:orientation="horizontal">
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/dimens_20px"
+    android:paddingRight="@dimen/dimens_20px"
+    tools:background="@color/gray"
+    tools:ignore="ResourceName">
 
-    <com.basis.percent.PercentLinearLayout
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dimens_15px"
+        android:layout_marginBottom="@dimen/dimens_15px"
         android:layout_weight="1"
         android:background="@drawable/shape_wx_dialog_bg"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/dimens_20px"
-        android:paddingRight="@dimen/dimens_10px">
+        android:gravity="center_vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dimens_20px"
-            android:src="@mipmap/ic_search" />
+            android:layout_width="@dimen/dimens_60px"
+            android:layout_height="@dimen/dimens_60px"
+            android:layout_marginLeft="@dimen/dimens_8px"
+            android:layout_marginRight="@dimen/dimens_8px"
+            android:src="@drawable/svg_search" />
 
         <com.basis.widget.SearchEditText
             android:id="@+id/et_search"
@@ -37,31 +43,20 @@
 
         <ImageView
             android:id="@+id/iv_search_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimens_10px"
-            android:paddingLeft="@dimen/dimens_12px"
-            android:paddingTop="@dimen/dimens_12px"
-            android:paddingRight="@dimen/dimens_5px"
-            android:paddingBottom="@dimen/dimens_12px"
-            android:src="@mipmap/ic_search_delete" />
-    </com.basis.percent.PercentLinearLayout>
+            android:layout_width="@dimen/dimens_60px"
+            android:layout_height="@dimen/dimens_60px"
+            android:padding="@dimen/dimens_8px"
+            android:src="@drawable/svg_delete" />
+    </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/fl_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens_12px"
-        app:layout_heightPercent="7.5%w"
-        app:layout_widthPercent="12.5%w">
+    <TextView
+        android:id="@+id/tv_search"
+        style="@style/main_text_white_13"
+        android:layout_width="@dimen/basis_bar_size"
+        android:layout_height="@dimen/dimens_60px"
+        android:layout_marginLeft="@dimen/dimens_20px"
+        android:background="@drawable/selector_mainblue_solid"
+        android:gravity="center"
+        android:text="@string/search" />
 
-        <TextView
-            style="@style/main_text_white_13"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/selector_mainblue_solid"
-            android:gravity="center"
-            android:text="@string/search" />
-    </FrameLayout>
-
-</com.basis.percent.PercentLinearLayout>
+</LinearLayout>
