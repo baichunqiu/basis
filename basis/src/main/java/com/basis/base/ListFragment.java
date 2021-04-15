@@ -34,15 +34,14 @@ public abstract class ListFragment<ND, AD, VH extends IHolder> extends BaseFragm
     private Class<ND> tClass;
     private Controller<ND, AD, VH> controller;
 
-    @Override
-    public final int setLayoutId() {
-        return R.layout.fragment_abs_list;
-    }
+//    @Override
+//    public final int setLayoutId() {
+//        return R.layout.fragment_abs_list;
+//    }
 
     protected RecyclerView.LayoutManager onSetLayoutManager() {
         return new LinearLayoutManager(activity);
     }
-
 
     @Override
     public final void init() {

@@ -3,12 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <com.basis.widget.SearchLayout
-        android:layout_width="match_parent"
-        android:background="@color/color_bg"
-        android:layout_height="wrap_content" />
-
     <com.bcq.refresh.XRecyclerView
         android:id="@+id/refresh"
         android:layout_width="match_parent"

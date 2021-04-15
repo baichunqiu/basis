@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">UI</string>
+    <string name="app_name">UI组件</string>
+    <string name="str_home">首页</string>
     <string name="str_list_mv">列表妹子</string>
+    <string name="str_fragment">Fragment展示</string>
+    <string name="str_widget">自定义组件</string>
     <string name="str_api">OK库调试</string>
 
 </resources>

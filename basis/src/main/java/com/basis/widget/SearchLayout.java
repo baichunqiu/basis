@@ -2,9 +2,11 @@ package com.basis.widget;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -47,6 +49,8 @@ public class SearchLayout extends LinearLayout {
     }
 
     private void inflateWidget() {
+        setOrientation(HORIZONTAL);//横向 默认
+        setGravity(Gravity.CENTER_VERTICAL);//居中
         rootView = LayoutInflater.from(context).inflate(R.layout.layout_search, this);
         et_search = UIKit.getView(rootView, R.id.et_search);
         iv_delete = UIKit.getView(rootView, R.id.iv_search_delete);
@@ -131,15 +135,28 @@ public class SearchLayout extends LinearLayout {
         this.osl = osl;
     }
 
-    public SearchLayout setHint(int stringId) {
+    public SearchLayout setSearchHint(int stringId) {
         if (null != et_search)
             et_search.setHint(stringId);
         return this;
     }
 
+    public SearchLayout setInputType(int inputType) {
+        if (null != et_search)
+            et_search.setInputType(inputType);
+        return this;
+    }
     public SearchLayout clear() {
         if (null != et_search) {
             et_search.setText("");
+            hintInput();
+        }
+        return this;
+    }
+
+    public SearchLayout hideSearchButton(boolean hide) {
+        if (null != tv_search) {
+            tv_search.setVisibility(hide ? GONE : VISIBLE);
             hintInput();
         }
         return this;

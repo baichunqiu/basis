@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:visibility="gone"
     android:gravity="center">
 
     <ImageView
@@ -12,16 +13,17 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/tv_no_data"
         android:layout_centerInParent="true"
-        android:src="@drawable/svg_nodata"
+        android:src="@drawable/svg_nodata_text"
         android:contentDescription="@null" />
-    <TextView
-        android:id="@+id/tv_no_data"
-        style="@style/main_text_gray_14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_no"
-        android:layout_marginTop="@dimen/dimens_25px"
-        android:text="@string/no_data" />
+<!--    <TextView-->
+<!--        android:id="@+id/tv_no_data"-->
+<!--        android:textSize="@dimen/font_15sp"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textColor="#8A96A3"-->
+<!--        android:layout_below="@+id/iv_no"-->
+<!--        android:layout_marginTop="@dimen/dimens_25px"-->
+<!--        android:text="@string/no_data" />-->
 
 </LinearLayout>
 

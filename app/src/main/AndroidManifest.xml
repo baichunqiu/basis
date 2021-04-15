@@ -20,11 +20,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewActivity"/>
-        <activity android:name=".RecycleActivity"/>
-        <activity android:name=".LvListActivity"/>
-        <activity android:name=".RcyListActivity"/>
-        <activity android:name=".NetTestActvivty"/>
+        <activity android:name=".IndicatorActivity" />
+        <activity android:name=".RcyActivity" />
+        <activity android:name=".LvActivity" />
+        <activity android:name=".LvListActivity" />
+        <activity android:name=".RcyListActivity" />
+        <activity android:name=".NetTestActvivty" />
+        <activity android:name=".SamepleFragmentActivity" />
+        <activity android:name=".WidgetActivity" />
+        <activity android:name=".SearchActivity" />
     </application>
 
 </manifest>

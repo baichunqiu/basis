@@ -1,60 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <Button
-        android:id="@+id/load"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens_60px"
-        android:layout_marginRight="@dimen/dimens_60px"
-        android:text="加载等待框展示" />
+
 
     <Button
-        android:id="@+id/widgetActivity"
+        android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimens_60px"
         android:layout_marginRight="@dimen/dimens_60px"
-        android:text="指示器展示" />
+        android:text="指示器展示"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UnknownId" />
 
     <Button
         android:id="@+id/recycle"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimens_60px"
+        android:layout_marginTop="@dimen/dimens_20px"
+        android:text="Recy刷新"
+        android:textAllCaps="false"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/listview"
+        app:layout_constraintTop_toBottomOf="@+id/indicator" />
+
+    <Button
+        android:id="@+id/listview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_20px"
         android:layout_marginRight="@dimen/dimens_60px"
-        android:text="Recycle" />
+        android:text="lv刷新"
+        android:textAllCaps="false"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@+id/recycle"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/indicator" />
+
+    <Button
+        android:id="@+id/recy_ui"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimens_60px"
+        android:layout_marginTop="@dimen/dimens_20px"
+        android:text="Recy列表展示"
+        android:textAllCaps="false"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/listui"
+        app:layout_constraintTop_toBottomOf="@+id/recycle" />
 
     <Button
         android:id="@+id/listui"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens_60px"
+        android:layout_marginTop="@dimen/dimens_20px"
         android:layout_marginRight="@dimen/dimens_60px"
-        android:text="列表界面展示" />
+        android:text="lv列表展示"
+        android:textAllCaps="false"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@+id/recy_ui"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycle" />
 
-    <Button
-        android:id="@+id/wrap_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens_60px"
-        android:layout_marginRight="@dimen/dimens_60px"
-        android:text="WrapActionBar" />
     <Button
         android:id="@+id/preview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimens_60px"
+        android:layout_marginTop="@dimen/dimens_20px"
         android:layout_marginRight="@dimen/dimens_60px"
-        android:text="图片预览" />
+        android:text="图片预览"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@+id/listui" />
+
     <Button
         android:id="@+id/net_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimens_60px"
+        android:layout_marginTop="@dimen/dimens_20px"
         android:layout_marginRight="@dimen/dimens_60px"
-        android:text="网络接口封装调试" />
-</LinearLayout>
+        android:text="网络接口封装调试"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@+id/preview" />
+
+    <Button
+        android:id="@+id/recy_frag"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimens_60px"
+        android:layout_marginTop="@dimen/dimens_20px"
+        android:text="Recy Fragment展示"
+        android:textAllCaps="false"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/list_frag"
+        app:layout_constraintTop_toBottomOf="@+id/net_test" />
+
+    <Button
+        android:id="@+id/list_frag"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_20px"
+        android:layout_marginRight="@dimen/dimens_60px"
+        android:text="Lv Fragment展示"
+        android:textAllCaps="false"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@+id/recy_frag"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/net_test" />
+
+
+    <Button
+        android:id="@+id/widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimens_60px"
+        android:layout_marginTop="@dimen/dimens_20px"
+        android:layout_marginRight="@dimen/dimens_60px"
+        android:text="Material 组件"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@+id/recy_frag" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dimens_20px"
+        android:layout_marginBottom="@dimen/dimens_20px"
+        android:src="@mipmap/ic_launcher"
+        android:theme="@style/BasisTheme"
+        android:tooltipText="隐藏"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

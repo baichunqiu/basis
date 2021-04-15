@@ -10,6 +10,7 @@ import com.basis.base.BaseActivity;
 import com.basis.net.LoadTag;
 import com.bcq.adapter.SampleAdapter;
 import com.bcq.adapter.interfaces.IAdapte;
+import com.bcq.adapter.listview.LvHolder;
 import com.bcq.adapter.recycle.RcyHolder;
 import com.bcq.net.Request;
 import com.bcq.net.api.Method;
@@ -21,14 +22,14 @@ import com.kit.utils.Logger;
 
 import java.util.List;
 
-public class RecycleActivity extends BaseActivity {
+public class LvActivity extends BaseActivity {
     private IRefresh refresh;
-    private IAdapte<Meizi, RcyHolder> mAdapter;
+    private IAdapte<Meizi, LvHolder> mAdapter;
     private int mCurPage = 1;
 
     @Override
     public int setLayoutId() {
-        return R.layout.activity_xrecycle;
+        return R.layout.activity_lv;
     }
 
     public void init() {
@@ -53,10 +54,10 @@ public class RecycleActivity extends BaseActivity {
                 fetchGankMZ(false, false);
             }
         });
-        mAdapter = new SampleAdapter<Meizi, RcyHolder>(this, R.layout.item_mz) {
+        mAdapter = new SampleAdapter<Meizi, LvHolder>(this, R.layout.item_mz) {
 
             @Override
-            public void convert(RcyHolder holder, Meizi meizi, int position, int layoutId) {
+            public void convert(LvHolder holder, Meizi meizi, int position, int layoutId) {
                 ImageView imageView = holder.getView(R.id.img_content);
                 ImageLoader.loadUrl(imageView, meizi.getUrl(), R.mipmap.ic_launcher, ImageLoader.Size.SZ_250);
             }

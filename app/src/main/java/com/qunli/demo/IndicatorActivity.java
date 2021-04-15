@@ -13,7 +13,7 @@ import com.bcq.refresh.XRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewActivity extends BaseActivity {
+public class IndicatorActivity extends BaseActivity {
 
     RefreshAdapter adapter;
 

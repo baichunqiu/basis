@@ -6,18 +6,16 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.basis.PreviewActivity;
+import com.basis.base.ListActivity;
+import com.basis.base.ListFragment;
 import com.bcq.adapter.SampleAdapter;
 import com.bcq.adapter.interfaces.IAdapte;
 import com.bcq.adapter.recycle.RcyHolder;
-import com.basis.PreviewActivity;
-import com.basis.base.ListActivity;
-import com.kit.UIKit;
-import com.kit.utils.ImageLoader;
 import com.bcq.net.api.Method;
+import com.kit.utils.ImageLoader;
 
-import java.util.List;
-
-public class RcyListActivity extends ListActivity<Meizi, Meizi, RcyHolder> {
+public class RcyListFragment extends ListFragment<Meizi, Meizi, RcyHolder> {
     private IAdapte<Meizi, RcyHolder> mAdapter;
     private final int mCurPage = 1;
 
@@ -31,25 +29,18 @@ public class RcyListActivity extends ListActivity<Meizi, Meizi, RcyHolder> {
 
     @Override
     public void initView() {
-        getWrapBar().setTitle(R.string.str_list_mv).work();
         request("", url, null, Method.get, true);
     }
 
     @Override
     protected RecyclerView.LayoutManager onSetLayoutManager() {
-//        return new LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false);
         return new GridLayoutManager(activity, 3);
     }
-
-//    @Override
-//    public List<Meizi> onPreSetData(List<Meizi> netData) {
-//        return null;
-//    }
 
     @Override
     public IAdapte<Meizi, RcyHolder> onSetAdapter() {
         if (null == mAdapter) {
-            mAdapter = new SampleAdapter<Meizi, RcyHolder>(this, R.layout.item_mz) {
+            mAdapter = new SampleAdapter<Meizi, RcyHolder>(activity, R.layout.item_mz) {
                 @Override
                 public void convert(RcyHolder holder, Meizi meizi, int position, int layoutId) {
                     ImageView imageView = holder.getView(R.id.img_content);

@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/basis_bar_size"
-    android:layout_gravity="center"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:paddingLeft="@dimen/dimens_20px"
-    android:paddingRight="@dimen/dimens_20px"
-    tools:background="@color/gray"
     tools:ignore="ResourceName">
-
+    <!--以默认ActionBar 高度 56dp为基准 设置参数-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dimens_15px"
-        android:layout_marginBottom="@dimen/dimens_15px"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/shape_wx_dialog_bg"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/shape_search"
         android:gravity="center_vertical">
 
         <ImageView
-            android:layout_width="@dimen/dimens_60px"
-            android:layout_height="@dimen/dimens_60px"
-            android:layout_marginLeft="@dimen/dimens_8px"
-            android:layout_marginRight="@dimen/dimens_8px"
+            android:layout_width="25.2dp"
+            android:layout_height="25.2dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="8.4dp"
+            android:layout_marginRight="8.4dp"
             android:src="@drawable/svg_search" />
 
         <com.basis.widget.SearchEditText
@@ -43,20 +35,21 @@
 
         <ImageView
             android:id="@+id/iv_search_delete"
-            android:layout_width="@dimen/dimens_60px"
-            android:layout_height="@dimen/dimens_60px"
-            android:padding="@dimen/dimens_8px"
-            android:src="@drawable/svg_delete" />
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:padding="5.6dp"
+            android:src="@drawable/svg_search_clear" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_search"
         style="@style/main_text_white_13"
         android:layout_width="@dimen/basis_bar_size"
-        android:layout_height="@dimen/dimens_60px"
-        android:layout_marginLeft="@dimen/dimens_20px"
+        android:layout_height="28dp"
+        android:layout_marginLeft="11.2dp"
         android:background="@drawable/selector_mainblue_solid"
+        android:layout_gravity="center_vertical"
         android:gravity="center"
         android:text="@string/search" />
 
-</LinearLayout>
+</merge>

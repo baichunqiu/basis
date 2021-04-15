@@ -30,7 +30,7 @@ public class VHolder {
         //未设置basis_refresh，以layout为跟节点，向下遍历两层视图树查找， 一般RefreshView的位置不会太深
         if (null == refresh) {
             if (layout instanceof IRefresh) {
-                Logger.e("根视图 IRefresh");
+                Logger.e(TAG,"根视图 IRefresh");
                 refresh = (IRefresh) layout;
             } else if (layout instanceof ViewGroup) {
                 refresh = CommUtil.findChildByTypeCalss((ViewGroup) layout, IRefresh.class,1, -1);
@@ -42,6 +42,7 @@ public class VHolder {
         //添加no_data到show_data同级, 如未设置show_data布局 默认使用使用RefreshView
         if (null == show) show = (View) refresh;
         ViewGroup extraParent = null != show ? (ViewGroup) show.getParent() : (ViewGroup) layout;
+        Logger.e(TAG,"extraParent:"+extraParent.getClass().getSimpleName());
         extraParent.addView(none, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
     }
 

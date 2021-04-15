@@ -1,11 +1,13 @@
 package com.bcq.adapter.recycle;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bcq.adapter.interfaces.DataObserver;
@@ -20,7 +22,7 @@ import java.util.List;
  *
  * @param <T>
  */
-public abstract class RcyAdapter<T, VH extends IHolder> extends RecyclerView.Adapter<RcyHolder> implements IAdapte<T, VH> {
+public abstract class RcyAdapter<T, VH extends IHolder> extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IAdapte<T, VH> {
     protected Context context;
     private LayoutInflater inflater;
     // 布局id和itemType的映射关系
@@ -105,7 +107,12 @@ public abstract class RcyAdapter<T, VH extends IHolder> extends RecyclerView.Ada
     }
 
     @Override
-    public void onBindViewHolder(RcyHolder holder, int position) {
+    public void onViewRecycled( RecyclerView.ViewHolder holder) {
+        Log.e("RcyAdapter","onViewRecycled");
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         T dt = getItem(position);
         int layout = getItemLayoutId(dt, position);
         convert((VH)holder, dt, position, layout);
