@@ -9,8 +9,12 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.ViewGroup;
+
+import com.kit.utils.Logger;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author: BaiCQ
@@ -99,4 +103,77 @@ public class UIKit {
         return application;
     }
 
+    /**
+     * 只能获取第一个指定类型子组件
+     *
+     * @param layout
+     * @param clazz
+     * @param maxLevel
+     * @param <T>
+     * @return
+     */
+    public static <T extends View> T getFirstViewByClass(View layout, Class clazz, int maxLevel) {
+        if (clazz.isInstance(layout)) {
+            Logger.e(clazz.getSimpleName() + " 在根级视图查到");
+            return (T) layout;
+        } else if (layout instanceof ViewGroup) {
+            return findChildFromTreeByTypeCalss((ViewGroup) layout, clazz, 1, maxLevel);
+        }
+        return null;
+    }
+
+    /**
+     * 递归查找指定类型的视图组件
+     * 注意只能获取第一个
+     *
+     * @param layout   视图树的根节点
+     * @param level    起始层级
+     * @param maxLevel 最大层级 小于0 则不现在层级
+     */
+    @Deprecated
+    public static <T extends View> T findChildFromTreeByTypeCalss(ViewGroup layout, Class clazz, int level, int maxLevel) {
+        if (level < 1) {
+            level = 1;
+        }
+        if (maxLevel > 0 && level > maxLevel) {
+            return null;
+        }
+        int count = layout.getChildCount();
+        for (int i = 0; i < count; i++) {//遍历第一层视图树
+            View ch1 = layout.getChildAt(i);
+            if (clazz.isInstance(ch1)) {
+                Logger.e(clazz.getSimpleName() + " 在" + level + "级视图查到");
+                return (T) ch1;
+            } else if (ch1 instanceof ViewGroup) {
+                ViewGroup chg = (ViewGroup) ch1;
+                T t = findChildFromTreeByTypeCalss(chg, clazz, level + 1, maxLevel);
+                if (null != t) {
+                    return t;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 更加视图的字节码查找所有child
+     *
+     * @param children 查找结果存储位置
+     * @param layout   根布局
+     * @param clazz    指定child的字节码
+     * @param <T>
+     */
+    public static <T extends View> void findChildrenFromTreeByTypeCalss(List<T> children, ViewGroup layout, Class clazz) {
+        if (null == children) return;
+        int count = layout.getChildCount();
+        for (int i = 0; i < count; i++) {//遍历第一层视图树
+            View ch1 = layout.getChildAt(i);
+            if (clazz.isInstance(ch1)) {
+                children.add((T) ch1);
+            } else if (ch1 instanceof ViewGroup) {
+                ViewGroup chg = (ViewGroup) ch1;
+                findChildrenFromTreeByTypeCalss(children, chg, clazz);
+            }
+        }
+    }
 }

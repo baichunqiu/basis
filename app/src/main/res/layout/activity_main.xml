@@ -7,25 +7,51 @@
     android:orientation="vertical">
 
 
-    <Button
+    <!--    app:backgroundTint	背景着色-->
+    <!--    app:backgroundTintMode	着色模式-->
+    <!--    app:strokeColor	描边颜色-->
+    <!--    app:strokeWidth	描边宽度-->
+    <!--    app:cornerRadius	圆角大小-->
+    <!--    app:rippleColor	按压水波纹颜色-->
+    <!--    app:icon	图标icon-->
+    <!--    app:iconSize	图标大小-->
+    <!--    app:iconGravity	图标重心-->
+    <!--    app:iconTint	图标着色-->
+    <!--    app:iconTintMode	图标着色模式-->
+    <!--    app:iconPadding	图标和文本之间的间距-->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimens_60px"
         android:layout_marginRight="@dimen/dimens_60px"
+        android:backgroundTint="@color/white"
         android:text="指示器展示"
         android:textAllCaps="false"
+        android:theme="@style/Theme.MaterialComponents"
+        android:textColor="@color/green"
+        app:cornerRadius="10dp"
+        app:icon="@drawable/svg_delete"
+        app:iconGravity="end"
+        app:iconSize="@dimen/dimens_50px"
+        app:iconTint="@color/green"
         app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="@color/gray"
+        app:strokeColor="@color/green"
+        app:strokeWidth="@dimen/dimens_3px"
         tools:ignore="UnknownId" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/recycle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimens_60px"
         android:layout_marginTop="@dimen/dimens_20px"
+        android:theme="@style/Theme.MaterialComponents"
+        android:background="@drawable/selector_green_solid"
         android:text="Recy刷新"
         android:textAllCaps="false"
+        app:backgroundTint="@null"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintLeft_toLeftOf="parent"

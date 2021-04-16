@@ -1,0 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="@dimen/icon_size_small"
+    android:height="@dimen/icon_size_small"
+    android:autoMirrored="true"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+    <path
+        android:fillColor="@color/icon_color_default"
+        android:pathData="M512,64l156,284 316.8,60.8L764,646.4l40,321.6L512,830.4 220,968l40,-321.6L40,409.6l316.8,-60.8L512,64M411.2,424l-205.6,40 143.2,153.6 -25.6,208.8 189.6,-89.6 189.6,89.6 -25.6,-208.8L819.2,464l-205.6,-40L512.8,239.2 411.2,424" />
+</vector>

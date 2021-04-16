@@ -20,6 +20,7 @@ public class WidgetActivity extends BaseActivity implements View.OnClickListener
         getWrapBar().setTitle(R.string.str_widget).work();
         getView(R.id.search).setOnClickListener(this);
         getView(R.id.snack).setOnClickListener(this);
+        getView(R.id.icons).setOnClickListener(this);
     }
 
     @Override
@@ -60,6 +61,8 @@ public class WidgetActivity extends BaseActivity implements View.OnClickListener
                             Logger.i(TAG, "onShown");
                         }
                     }).show();
+        }else if (R.id.icons == id) {
+            UIKit.startActivity(activity, IconActivity.class);
         }
     }
 }

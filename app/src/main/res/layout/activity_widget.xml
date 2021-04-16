@@ -25,16 +25,16 @@
         android:textAllCaps="false"
         android:text="Snack组件"
         app:layout_constraintLeft_toRightOf="@+id/search"
-        app:layout_constraintRight_toLeftOf="@+id/snack1"
+        app:layout_constraintRight_toLeftOf="@+id/icons"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/snack1"
+        android:id="@+id/icons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textAllCaps="false"
-        android:text="Snack组件"
+        android:text="Icon"
         app:layout_constraintLeft_toRightOf="@+id/search"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

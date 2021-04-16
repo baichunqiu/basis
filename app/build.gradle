@@ -42,4 +42,5 @@ dependencies {
     implementation project(':refresh')
     implementation project(':adapter')
     implementation project(':photoview')
+    implementation project(':icon')
 }

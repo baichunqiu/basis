@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="icon_color_default">#BB4A4F64</color>
+    <dimen name="icon_size">144px</dimen>
+    <dimen name="icon_size_middle">72px</dimen>
+    <dimen name="icon_size_small">48px</dimen>
+</resources>

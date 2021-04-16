@@ -29,12 +29,13 @@ public class VHolder {
         this.none = UIKit.inflate(R.layout.basis_none);
         //未设置basis_refresh，以layout为跟节点，向下遍历两层视图树查找， 一般RefreshView的位置不会太深
         if (null == refresh) {
-            if (layout instanceof IRefresh) {
-                Logger.e(TAG,"根视图 IRefresh");
-                refresh = (IRefresh) layout;
-            } else if (layout instanceof ViewGroup) {
-                refresh = CommUtil.findChildByTypeCalss((ViewGroup) layout, IRefresh.class,1, -1);
-            }
+//            if (layout instanceof IRefresh) {
+//                Logger.e(TAG,"根视图 IRefresh");
+//                refresh = (IRefresh) layout;
+//            } else if (layout instanceof ViewGroup) {
+//                refresh = CommUtil.findChildByTypeCalss((ViewGroup) layout, IRefresh.class,1, -1);
+//            }
+            refresh = UIKit.getFirstViewByClass(layout, IRefresh.class,-1);
         }
         if (null == refresh) {
             throw new IllegalArgumentException("Can Not Find Refresh View, Maybe The Id You Set is Not 'basis_refresh',");
